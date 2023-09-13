@@ -1,0 +1,238 @@
+\documentclass{report}
+\usepackage{vntex}
+\usepackage[utf8]{inputenc}
+\usepackage[unicode]{hyperref}
+\usepackage{setspace}
+\usepackage[a4paper,width=150mm,top=20mm,bottom=20mm,left=30mm,right=20mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{graphicx}
+\usepackage{color}
+\graphicspath{ {figures/} }
+\usepackage{array}
+\usepackage{float}
+\usepackage{indentfirst}
+\usepackage{enumerate}
+\usepackage{makecell}
+\usepackage[table]{xcolor}% http://ctan.org/pkg/xcolor
+\usepackage{ifthen}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{pdfpages}
+\usepackage{minitoc}
+\usepackage[toc,page,header]{appendix}
+\usepackage{etoolbox}
+\usepackage{longtable}
+
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+\usepackage{titlesec}
+\titleformat*{\subsubsection}{\fontsize{11.5pt}{12pt}\selectfont\bfseries}
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}}     % remove chapter number on header
+\fancyhf{}                  % clear all header, footer
+\fancyhead[L]{\leftmark}    % set header
+\fancyfoot[C]{\thepage}     % set footer
+
+
+\newcommand{\stoptocwriting}{%
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{-5}}}
+\newcommand{\resumetocwriting}{%
+  \addtocontents{toc}{\protect\setcounter{tocdepth}{\arabic{tocdepth}}}}
+
+
+
+
+\appto\appendix{\addtocontents{toc}{\protect\setcounter{tocdepth}{0}}}
+% reinstate the correct level for list of tables and figures
+\appto\listoffigures{\addtocontents{lof}{\protect\setcounter{tocdepth}{1}}}
+\appto\listoftables{\addtocontents{lot}{\protect\setcounter{tocdepth}{1}}}
+
+
+
+% \renewcommand{\appendixtocname}{<Appendixx>}
+% \addto\captionsitalian{%
+%    \renewcommand{\appendixtocname}{Appendici}%
+%    \renewcommand{\appendixpagename}{Appendici}%
+% }
+
+
+
+\usepackage{listings}
+% \usepackage{color}
+\usepackage{listingsutf8}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+% \lstdefinelanguage{JavaScript}{
+%   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+%   keywordstyle=\color{blue}\bfseries,
+%   ndkeywords={class, export, boolean, throw, implements, import, this},
+%   ndkeywordstyle=\color{darkgray}\bfseries,
+%   identifierstyle=\color{black},
+%   sensitive=false,
+%   comment=[l]{//},
+%   morecomment=[s]{/*}{*/},
+%   commentstyle=\color{purple}\ttfamily,
+%   stringstyle=\color{red}\ttfamily,
+%   morestring=[b]',
+%   morestring=[b]"
+% }
+
+% \lstset{
+%    language=JavaScript,
+%    backgroundcolor=\color{lightgray},
+%    extendedchars=true,
+%    basicstyle=\footnotesize\ttfamily,
+%    showstringspaces=false,
+%    showspaces=false,
+%    numbers=left,
+%    numberstyle=\footnotesize,
+%    numbersep=9pt,
+%    tabsize=2,
+%    breaklines=true,
+%    showtabs=false,
+%    captionpos=b
+% }
+
+
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+% \renewcommand{\lstlistingname}{Mã nguồn}
+% \renewcommand{\lstlistlistingname}{Danh sách mã nguồn}
+% \lstdefinelanguage{docker}{
+%   keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
+%   keywordstyle=\color{blue}\bfseries,
+%   identifierstyle=\color{black},
+%   sensitive=false,
+%   comment=[l]{\#},
+%   commentstyle=\color{purple}\ttfamily,
+%   stringstyle=\color{red}\ttfamily,
+%   morestring=[b]',
+%   morestring=[b]"
+% }
+
+% \lstdefinelanguage{docker-compose}{
+%   keywords={image, environment, ports, container_name, ports, volumes, links},
+%   keywordstyle=\color{blue}\bfseries,
+%   identifierstyle=\color{black},
+%   sensitive=false,
+%   comment=[l]{\#},
+%   commentstyle=\color{purple}\ttfamily,
+%   stringstyle=\color{red}\ttfamily,
+%   morestring=[b]',
+%   morestring=[b]"
+% }
+% \lstdefinelanguage{docker-compose-2}{
+%   % keywords={version, volumes, services},
+%   keywords={image, environment, ports, container_name, ports, volumes, links, working_dir, command, networks, services, restart, build, context, dockerfile, depends_on},
+%   keywordstyle=\color{blue}\bfseries,
+%   % keywords=[10]{sfu:, controller:, mongodb:, message-broker-server, event-simulator, node-api-server, node-api-gateway, redis},
+%   % keywordstyle=[10]\color{olive}\bfseries,
+%   identifierstyle=\color{black},
+%   sensitive=false,
+%   comment=[l]{\#},
+%   commentstyle=\color{purple}\ttfamily,
+%   stringstyle=\color{red}\ttfamily,
+%   morestring=[b]',
+%   morestring=[b]"
+% }
+
+
+\onehalfspacing
+\begin{document}
+
+\begingroup
+\fontsize{12pt}{12pt}\selectfont
+
+%%%%%%%%%%%%%%%%%%%%% LVTN %%%%%%%%%%%%%%%%%%%%%
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu nhiệm vụ
+% \includepdf[pages={1}]{pdf/phieunhiemvu.pdf}
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu chấm hướng dẫn
+% \includepdf[pages=-]{pdf/phieuchamhuongdan.pdf}
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu phản biện
+% \includepdf[pages=-]{pdf/phieuchamphanbien.pdf}
+
+% \newpage
+% % \includepdf[pages=-]{pdf/cover.pdf}
+% \includepdf[pages=-]{pdf/cover_GD2 - final - Copy.pdf}
+
+
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu nhiệm vụ
+% \includepdf[pages={1}]{pdf/phieunhiemvu.pdf}
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu chấm hướng dẫn
+% \includepdf[pages=-]{pdf/phieuchamhuongdan.pdf}
+% \newpage
+% \thispagestyle{empty}
+% % Phiếu phản biện
+% \includepdf[pages=-]{pdf/phieuchamphanbien.pdf}
+
+% \newpage
+% \thispagestyle{empty}
+% \input{sections/signatures}
+
+\pagenumbering{roman}
+\newpage
+\input{sections/first-phase-cover}
+
+\newpage
+\tableofcontents
+
+\newpage
+\thispagestyle{empty}
+\listoftables
+\listoffigures
+% \lstlistoflistings
+
+\newpage
+
+\pagestyle{fancy}
+
+
+
+\pagenumbering{arabic}
+\input{sections/chap-1-overview}
+% \input{sections/chapter2}
+% \input{sections/chapter3}
+% \input{sections/chapter5}
+% \input{sections/chapter6}
+% \input{sections/conclusion}
+% \input{sections/references.tex}
+% \input{sections/appendixes}
+% \input{sections/task_division}
+
+\endgroup
+
+
+
+\end{document}
