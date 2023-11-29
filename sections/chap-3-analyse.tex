@@ -165,8 +165,24 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
             \end{center}
             \end{table}
             \item Xem thống kê doanh thu
+            \begin{table}[h]
+                \begin{tabular}{|l|l|}
+                \hline
+                \textbf{Use-case name}    & \textbf{Xem thống kê doanh thu - View Statistic}                                                                                                                                                                                                                                                                                                                                 \\ \hline
+                \textbf{Actor}            & Manager                                                                                                                                                                                                                                                                                                                                                                          \\ \hline
+                \textbf{Description}      & Người quản lý có thể xem doanh thu của cửa hàng                                                                                                                                                                                                                                                                                                                                  \\ \hline
+                \textbf{Pre-condition}    & Người dùng đăng nhập vào hệ thống với vai trò là quản lý                                                                                                                                                                                                                                                                                                                         \\ \hline
+                \textbf{Post-condition}   & Manager xem doanh thu thành công                                                                                                                                                                                                                                                                                                                                                 \\ \hline
+                \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Hệ thống chuyển sang trang quản lý.\\ 2.Manager chọn nút "THỐNG KÊ"\\ 3.Hệ thống chuyển sang trang thống kê\\ 4.Tại trang thống kê, người quản lý chọn khoảng thời gian và chọn sản phẩm \\ \\ (có thể xem thống kê của một hoặc nhiều loại sản phẩm)\\ 5.Hệ thống hiển thi thống kê dưới dạng các biểu đồ.\\ 6.Hoàn tất xem thống kê.\end{tabular} \\ \hline
+                \textbf{Alternative-flow} & Không có                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
+                \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
+                \end{tabular}
+                \begin{center}
+                    Bảng 3.8: Đặc tả use case xem thống kê doanh thu
+                \end{center}
+                \end{table}
     \end{itemize}
-
+\newpage
 \subsection{Activity diagram}
 \subsection{Sequence diagram}
 \subsection{Class diagram}
