@@ -226,7 +226,44 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
     \caption{Activity diagram cho chức năng mua sắm}
 \end{figure}
 \newpage
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{images/chap-3/Statistic-activity-diagram.png}
+    \caption{Activity diagram cho chức năng xem thống kê}
+\end{figure}
+\newpage
 \subsection{Sequence diagram}
+\subsubsection{Sequence diagram cho chức năng đăng nhập - đăng ký}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{images/chap-3/login-signup-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng đăng nhập - đăng ký}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item User: người dùng (khách hàng, quản lý, nhân viên) đăng ký tài khoản và đăng nhập vào hệ thống.
+    \item UserInterface: giao diện trang đăng nhập và trang đăng ký tương tác với người dùng.
+    \item RigisterController: khối xử lý chức năng đăng ký tài khoản của người dùng.
+    \item LoginController: khối xử lý chức năng đăng nhập của người dùng.
+    \item AccountDatabase: cơ sở dữ liệu lưu thông tin tài khoản của người dùng.
+\end{itemize}
+\newpage
+\subsubsection{Sequence diagram cho chức năng mua sắm}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/chap-3/shopping-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng mua sắm}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item UserInterface: giao diện trang chủ, trang chi tiết sản phẩm, trang giỏ hàng và trang thanh toán tương tác với người dùng.
+    \item Product Database: cơ sở dữ liệu lưu thông tin sản phẩm của cửa hàng.
+    \item Cart Controller: khối xử lý chức năng quản lý giỏ hàng của người dùng.
+    \item Payment Controller: khối xử lý chức năng thanh toán của người dùng.
+    \item Payment Serice: dịch vụ thanh toán bên thứ 3.
+    \item Order Database: cơ sở dữ liệu lưu thông tin đơn hàng của cửa hàng.
+\end{itemize}
+\newpage
 \subsection{Class diagram}
 \subsection{Database diagram}
 
