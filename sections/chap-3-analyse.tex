@@ -16,4 +16,53 @@
 \subsection{Phân tích các kiểu kiến trúc hệ thống}
 \subsubsection{Kiến trúc monolith}
 \noindent \textbf{Định nghĩa} \\[0.3cm]
-\noindent Kiến trúc monolith là kiến trúc trong đó tất cả các thành phần của một ứng dụng được đặt trong một đơn vị duy nhất. Đơn vị này thường bị hạn chế trong một phiên bản thời gian chạy duy nhất của ứng dụng. Các ứng dụng truyền thống thường bao gồm giao diện web, lớp dịch vụ và lớp dữ liệu. Trong kiến trúc nguyên khối, các lớp này được kết hợp trên một phiên bản của ứng dụng.\footnote{Website: https://learn.microsoft.com/en-us/training/modules/microservices-architecture/}
+\noindent Kiến trúc monolith là kiến trúc trong đó tất cả các thành phần của một ứng dụng được đặt trong một đơn vị duy nhất. Đơn vị này thường bị hạn chế trong một phiên bản thời gian chạy duy nhất của ứng dụng. Các ứng dụng truyền thống thường bao gồm giao diện web, lớp dịch vụ và lớp dữ liệu. Trong kiến trúc monolith, các lớp này được kết hợp trên một phiên bản của ứng dụng.\footnote{Website: https://learn.microsoft.com/en-us/training/modules/microservices-architecture/}\\[0.5cm]
+\textbf{Lý do sử dụng}\\[0.5cm]
+Kiến trúc monolith thường là giải pháp phù hợp cho các ứng dụng nhỏ, nhưng chúng có thể trở nên khó sử dụng khi ứng dụng phát triển. Ban đầu, một ứng dụng nhỏ có thể nhanh chóng trở thành một hệ thống phức tạp, khó mở rộng quy mô, khó triển khai và khó đổi mới.\\[0.5cm]
+\textbf{Thách thức}\\[0.5cm]
+Tất cả các dịch vụ được chứa trong một đơn vị duy nhất. Sự sắp xếp này mang lại những thách thức khi hoạt động kinh doanh của họ và tải hệ thống tiếp theo phát triển. Một số thách thức này là:
+\begin{itemize}
+    \item Khó mở rộng quy mô dịch vụ một cách độc lập.
+    \item Phức tạp để phát triển và quản lý việc triển khai khi cơ sở mã phát triển, điều này làm chậm quá trình phát hành và triển khai tính năng mới.
+    \item Kiến trúc được gắn với một ngăn xếp công nghệ duy nhất, điều này hạn chế sự đổi mới trong các nền tảng và SDK mới.
+    \item Cập nhật lược đồ dữ liệu có thể ngày càng khó khăn.
+\end{itemize}
+Những thách thức này có thể được giải quyết bằng cách xem xét các kiến trúc thay thế, chẳng hạn như kiến trúc microservices.
+\subsubsection{Kiến trúc microservices}
+\noindent \textbf{Định nghĩa}\\[0.5cm]
+Kiến trúc microservice bao gồm các dịch vụ nhỏ, độc lập và được liên kết lỏng lẻo. Mỗi dịch vụ có thể được triển khai và mở rộng quy mô một cách độc lập.\\[0.5cm]
+Một microservice đủ nhỏ để một nhóm nhỏ các nhà phát triển có thể viết và duy trì nó. Vì các dịch vụ có thể được triển khai độc lập nên một nhóm có thể cập nhật dịch vụ hiện có mà không cần xây dựng lại và triển khai lại toàn bộ ứng dụng.\\[0.5cm]
+Mỗi dịch vụ thường chịu trách nhiệm về dữ liệu riêng của mình. Cấu trúc dữ liệu của nó được tách biệt nên việc nâng cấp hoặc thay đổi lược đồ không phụ thuộc vào các dịch vụ khác. Các yêu cầu về dữ liệu thường được xử lý thông qua API và cung cấp mô hình truy cập nhất quán và được xác định rõ ràng. Chi tiết triển khai nội bộ được ẩn khỏi người tiêu dùng dịch vụ.\\[0.5cm]
+Vì mỗi dịch vụ đều độc lập nên chúng có thể sử dụng các nhóm công nghệ, khung và SDK khác nhau. Người ta thường thấy các dịch vụ dựa vào các lệnh gọi REST để liên lạc giữa các dịch vụ bằng cách sử dụng các API được xác định rõ ràng thay vì các lệnh gọi thủ tục từ xa (RPC) hoặc các phương thức liên lạc tùy chỉnh khác.\\[0.5cm]
+Kiến trúc vi dịch vụ không phụ thuộc vào công nghệ, nhưng bạn thường thấy các bộ chứa hoặc công nghệ serverless được sử dụng để triển khai chúng. Triển khai liên tục và tích hợp liên tục (CI/CD) thường được sử dụng để tăng tốc độ và chất lượng của các hoạt động phát triển.\\[0.5cm]
+\textbf{Lý do sử dụng}\\[0.5cm]
+Có một số lợi ích chính đối với kiến trúc microservices:
+\begin{itemize}
+    \item Nhanh nhẹn
+    \item Mã nhỏ, nhóm nhỏ
+    \item Sự kết hợp của công nghệ
+    \item khả năng phục hồi
+    \item Khả năng mở rộng (Scalability)
+    \item Cách ly dữ liệu
+\end{itemize}
+\textbf{Những thách thức}\\[0.5cm]
+Có rất nhiều lợi ích đối với kiến trúc microservices, nhưng đó không phải là tất cả. Kiến trúc microservice có những thách thức riêng:
+\begin{itemize}
+    \item Độ phức tạp
+    \item Phát triển và thử nghiệm
+    \item Thiếu quản trị
+    \item Tắc nghẽn mạng và độ trễ
+    \item Toàn vẹn dữ liệu
+    \item Sự quản lý
+    \item Phiên bản
+    \item Bộ kỹ năng    
+\end{itemize}
+\textbf{Khi nào nên chọn kiến trúc microservices?}\\[0.5cm]
+Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp trong những tình huống sau
+\begin{itemize}
+    \item Các ứng dụng lớn đòi hỏi tốc độ phát hành cao.
+    \item Các ứng dụng phức tạp cần có khả năng mở rộng cao.
+    \item Ứng dụng có miền phong phú hoặc nhiều miền phụ.
+    \item Một tổ chức bao gồm các nhóm phát triển nhỏ.    
+\end{itemize}
+\subsection{Đề xuất giải pháp}
