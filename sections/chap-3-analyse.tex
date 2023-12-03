@@ -264,7 +264,141 @@ Trong đó:
     \item Order Database: cơ sở dữ liệu lưu thông tin đơn hàng của cửa hàng.
 \end{itemize}
 \newpage
-\subsection{Class diagram}
+\subsubsection{Sequence diagram cho chức năng quản lý sản phẩm}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/chap-3/manage-product-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng quản lý sản phẩm}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
+    \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
+    \item Authorization: khối xử lý chức năng xác thực người dùng có phải là người quản lý hay không.
+    \item Manager Interface: giao diện trang quản lý sản phẩm tương tác với người dùng.
+    \item Product Controller: khối xử lý chức năng quản lý sản phẩm của người dùng.
+    \item Product Database: cơ sở dữ liệu lưu thông tin sản phẩm của cửa hàng.
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+\end{itemize}
+\newpage
+\subsubsection{Sequence diagram cho chức năng quản lý tài khoản}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/chap-3/manage-account-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng quản lý tài khoản}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
+    \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
+    \item Authorization: khối xử lý chức năng xác thực người dùng có phải là người quản lý hay không.
+    \item Manager Interface: giao diện trang quản lý tài khoản tương tác với người dùng.
+    \item Account Controller: khối xử lý chức năng quản lý tài khoản của người dùng.
+    \item Account Database: cơ sở dữ liệu lưu thông tin tài khoản của cửa hàng.
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+\end{itemize}
+\newpage
+\subsubsection{Sequence diagram cho chức năng quản lý bài viết}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/chap-3/manage-blog-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng quản lý bài viết}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
+    \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
+    \item Authorization: khối xử lý chức năng xác thực người dùng có phải là người quản lý hay không.
+    \item Manager Interface: giao diện trang quản lý bài viết tương tác với người dùng.
+    \item Blog Controller: khối xử lý chức năng quản lý bài viết của người dùng.
+    \item Blog Database: cơ sở dữ liệu lưu thông tin bài viết của cửa hàng.
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+\end{itemize}
+\newpage
+\subsubsection{Sequence diagram cho chức năng xem thống kê doanh thu}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.5]{images/chap-3/statistic-sequence-diagram.png}
+    \caption{Sequence diagram cho chức năng xem thống kê doanh thu}
+\end{figure}
+Trong đó:
+\begin{itemize}
+    \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
+    \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
+    \item Authorization: khối xử lý chức năng xác thực người dùng có phải là người quản lý hay không.
+    \item Manager Interface: giao diện trang quản lý doanh thu tương tác với người dùng.
+    \item Statistic Controller: khối xử lý chức năng xem thống kê doanh thu của người dùng.
+    \item Order Database: cơ sở dữ liệu lưu thông tin đơn hàng của cửa hàng.
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+\end{itemize}
+\newpage
 \subsection{Database diagram}
-
+\subsubsection {Entity Relationship Diagram - ERD}
+Sơ đồ ERD đá tinh giản hoá các thuộc tính của các thực thể
+\newline
+\textbf{Ghi chú:} Đây chỉ là sơ đồ cho chức năng liên quan đến sản phẩm
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{images/chap-3/database-diagram.png}
+    \caption{Entity Relationship Diagram - ERD}
+\end{figure}
+\subsubsection {Mô tả chi tiết thực thể}
+\begin{itemize}
+    \item \textbf{Product:} Thực thể này lưu trữ thông tin về sản phẩm của cửa hàng.
+        \begin{table}[h]
+        \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                            \\ \hline
+        ID                  & int                   & Mã sản phẩm - khoá chính                  \\ \hline
+        name                & varchar               & Tên sản phẩm                              \\ \hline
+        desc                & text                  & Mô tả sản phẩm                            \\ \hline
+        SKU                 & varchar               & Kết hợp giữa mã sản phẩm và loại sản phẩm \\ \hline
+        category\_id        & Long                  & Mã loại sản phẩm - khoá ngoại             \\ \hline
+        inventory\_id       & Long                  & Mã kho lưu trữ sản phẩm - khoá ngoại      \\ \hline
+        price               & decimal               & Giá của sản phẩm                          \\ \hline
+        discount\_id        & int                   & Mã khuyến mãi của sản phẩm - khoá ngoại   \\ \hline
+        created\_at         & timestamp             & Thời gian tạo                             \\ \hline
+        modified\_at        & timestamp             & Thời gian điều chỉnh                      \\ \hline
+        image\_link         & string                & Liên kết chứa hỉnh ảnh sản phẩm           \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{Product Category:} Thực thể này lưu trữ thông tin về loại sản phẩm của cửa hàng.
+            \begin{table}[h]
+                \begin{tabular}{|l|l|l|}
+                \hline
+                \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                \\ \hline
+                ID                  & int                   & Mã loại sản phẩm - khoá chính \\ \hline
+                name                & varchar               & Tên loại sản phẩm             \\ \hline
+                desc                & text                  & Mô tả loại sản phẩm           \\ \hline
+                deleted\_at         & timestamp             & Thời giản xoá loại sản phẩm   \\ \hline
+                modified\_at        & timestamp             & Thời gian điều chỉnh          \\ \hline
+                created\_at         & timestamp             & Thời gian tạo                 \\ \hline
+                \end{tabular}
+                \end{table}
+    \item \textbf{Product Inventory:} Thực thể này lưu trữ thông tin về kho lưu trữ sản phẩm của cửa hàng.
+        \begin{table}[h]
+        \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                \\ \hline
+        ID                  & int                   & Mã loại sản phẩm - khoá chính \\ \hline
+        quantity            & int                   & Số lượng sản phẩm             \\ \hline
+        modified\_at        & timestamp             & Thời gian điều chỉnh          \\ \hline
+        created\_at         & timestamp             & Thời gian tạo                 \\ \hline
+        \end{tabular}
+        \end{table}
+    \item \textbf{Discount:} Thực thể này lưu trữ thông tin về khuyến mãi của sản phẩm.
+        \begin{table}[h]
+        \begin{tabular}{|l|l|l|}
+        \hline
+        \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}           \\ \hline
+        ID                  & int                   & Mã giảm giá - khoá chính \\ \hline
+        name                & varchar               & Tên giảm giá             \\ \hline
+        desc                & text                  & Mô tả giảm giá           \\ \hline
+        discount\_percent   & decimal               & Phần trăm giảm giá       \\ \hline
+        created\_at         & timestamp             & Thời gian tạo            \\ \hline
+        deleted\_at         & timestamp             & Thời gian xoá            \\ \hline
+        Modified\_at        & timestamp             & Thời gian điều chỉnh     \\ \hline
+        \end{tabular}
+        \end{table}
+\end{itemize}
 
