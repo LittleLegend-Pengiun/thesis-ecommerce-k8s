@@ -4,13 +4,77 @@
 \begin{itemize}
     \item ReactJS: Hiện thực UI, frontend.
     \item Java Springboot: Hiện thực microservice, backend.
+    \item PostgresSQL: Hệ cơ sở dữ liệu lưu trữ thông tin.
     \item Kubernetes: Deploy các microservice.
     \item Minikube: Chạy Kubernetes cluster trên local.
 \end{itemize}
 
 \section{Giới hạn phạm vi}
-\noindent Sau khi cân nhắc kỹ lưỡng, để đảm bảo cho phiên bản demo thể hiện được trọn vẹn và đầy đủ nhất các tính chất cốt lõi của hệ thống, nhóm đã giới hạn phạm vi hiện thực của hệ thống xuống còn các thành phần như sau:
 \subsection{Về mặt nghiệp vụ}
 \noindent Sau khi bàn bạc, nhóm đi tới thống nhất là sẽ hiện thực phần Trang chủ (Home page - Catalog), vì đó là thành phần mà người dùng sẽ gặp đầu tiên khi bắt đầu truy câp vào hệ thống.
 \subsection{Về mặt thành phần hệ thống}
-\noindent 
+\noindent Sau khi cân nhắc kỹ lưỡng, để đảm bảo cho phiên bản demo thể hiện được trọn vẹn và đầy đủ nhất các tính chất cốt lõi của hệ thống, nhóm đã giới hạn phạm vi hiện thực của hệ thống xuống còn các thành phần như sau:
+\begin{itemize}
+    \item Frontend: Trang chủ - Catalog, thể hiện danh sách các mặt hàng đang được bày bán 
+    \item Backend: Catalog service, cung cấp api danh sách sản phẩm.
+    \item Minikube cluster: Cung cấp môi trường Kubernetes cluster local trên máy tính cá nhân.
+    \item Deployment: Thành phần cơ bản nhất của hệ thống, dùng để quản lý trực tiếp các pod.
+    \item Service: Một lớp ảo hóa để các thành phần khác có thể truy cập tới các pod.
+    \item Ingress: Đóng vai trò như reverse proxy, cung cấp API gateway để kết nối từ bên ngoài cluster tới service.
+    \item Horizontal Pod Autoscaler: Dùng để tăng hoặc giảm số pod một cách tự động, dựa trên các thông số (metrics) của chính các pod đó.
+\end{itemize}
+\section{Nội dung hiện thực}
+\subsection{Hiện thực frontend và backend}
+\noindent Sau khi có một ứng dụng hoàn chỉnh, có thể hiển thị được thông tin mặt hàng, ta đóng gói nó thành Docker image và đẩy lên Docker Hub.\\[0.5cm]
+Dockerfile của frontend có nội dung như sau:
+\begin{lstlisting}[language=Docker]
+# Use an official Node runtime as a parent image
+FROM node:18 AS builder
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the container
+COPY package.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy the rest of the application code to the container
+COPY . .
+
+# Build the Vite React application
+RUN npm run build
+
+# Use an official Nginx runtime as a parent image
+FROM nginx:alpine
+
+# Copy the build output from the builder stage to the nginx web root
+COPY --from=builder /app/dist /usr/share/nginx/html
+
+# Expose port 80
+EXPOSE 80
+\end{lstlisting}
+
+Docker file của backend có nội dung như sau:
+\begin{lstlisting}[language=Docker]
+# Use an official OpenJDK runtime as a base image with Java 17
+FROM eclipse-temurin:17-jdk-alpine
+
+# Set the working directory to /app
+WORKDIR /app
+
+# Copy the current directory contents into the container at /app
+COPY . /app
+
+# Build the Spring Boot application
+RUN ./mvnw package -DskipTests
+
+# Expose the port that your Spring Boot application will run on
+EXPOSE 80
+
+# Define the command to run your application
+CMD ["java", "-jar", "target/catalog-0.0.1-SNAPSHOT.jar"]
+\end{lstlisting}
+
+\subsection{Hiện thực Deployment và Service}
