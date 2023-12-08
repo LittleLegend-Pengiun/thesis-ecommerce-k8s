@@ -99,7 +99,7 @@
 \subsubsection{Kiến trúc}
  \begin{figure}[H]
     \begin{center}
-    \includegraphics[scale = 0.24]{images/chap-2-images/kubernetes_architecture.jpg}
+    \includegraphics[scale = 0.22]{images/chap-2-images/kubernetes_architecture.jpg}
     \vspace*{7mm}
     \caption{Kubernetes Architecture }
     \end{center}
@@ -246,3 +246,200 @@ Mỗi ứng dụng có thể có nhiều kết nối.
     \item Cấu hình phức tạp và yêu cầu kiến thức về hệ thống phân tán.
     \item Hiệu suất có thể bị ảnh hưởng đối với tải công việc rất cao.
 \end{itemize}
+
+\section{Case study}
+\subsection{Ứng dụng kiến trúc microservice với Azure Kubernetes Service}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.8]{images/hieu/chap-2/aks-architecture.png}
+    \caption{AKS Architecture}
+\end{figure}
+\subsubsection{Các thành phần của kiến trúc}
+\begin{itemize}
+    \item \textbf{Azure Kubernetes Service (AKS)}: Là một dịch vụ quản lý Kubernetes do Microsoft cung cấp.Azure quản lý dịch vụ API Kubernetes và bạn chỉ cần quản lý các nút tác nhân (agent node).
+    \item \textbf{Virtual Network}: Theo mặc định, AKS tạo một mạng ảo trong đó các nút tác nhân được kết nối. Trước tiên, bạn có thể tạo mạng ảo cho các tình huống nâng cao hơn, cho phép bạn kiểm soát những thứ như cấu hình mạng con.
+    \item \textbf{Ingress}:Ingress hiển thị các tuyến HTTPs tới các dịch vụ bên trong cluster.
+    \item \textbf{Azure Load Balancer}:sau khi tạo AKS cluster, cluster đã sẵn sàng sử dụng bộ cân bằng tải. Khi dịch vụ NGINX được triển khai, bộ cân bằng tải sẽ được cấu hình bằng một IP công cộng mới phía trước bộ điều khiển xâm nhập (ingress controller). Bằng cách này, bộ cân bằng tải định tuyến lưu lượng truy cập internet đến ingress.
+    \item \textbf{Exteral Data Store}: Các microservice thường không có trạng thái (stateless) và trạng thái ghi vào các kho dữ liệu bên ngoài, chẳng hạn như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB.
+    \item \textbf{Microsoft ID Entra}: AKS sử dụng Microsoft Entra ID để tạo và quản lý các tài nguyên Azure khác như bộ cân bằng tải Azure. Microsoft Entra ID cũng được khuyến nghị để xác thực người dùng trong các ứng dụng khách.
+    \item \textbf{Azure Container Registry}: Azure Container Registry là một kho lưu trữ riêng tư cho các hình ảnh Docker. Nó được sử dụng để lưu trữ các hình ảnh Docker được sử dụng để triển khai các dịch vụ trong AKS cluster.
+    \item \textbf{Azure Pipeline}: Azure Pipeline là một dịch vụ liên tục tích hợp và triển khai (CI/CD) được sử dụng để triển khai các dịch vụ trong AKS cluster.. Azure Pipelines là một phần của Dịch vụ Azure DevOps và chạy các bản dựng, thử nghiệm và triển khai tự động.
+    \item \textbf{Helm}: Helm là một công cụ quản lý gói cho Kubernetes. Nó cho phép bạn định nghĩa, cài đặt và cập nhật các ứng dụng Kubernetes. Helm Charts là các gói Helm. Helm Charts được sử dụng để triển khai các ứng dụng trong AKS cluster.
+    \item \textbf{Azure Monitor}: Azure Monitor là một dịch vụ giám sát đám mây. Nó cho phép bạn thu thập và phân tích dữ liệu từ nhiều nguồn khác nhau, bao gồm các dịch vụ Azure và các ứng dụng trên nhiều nền tảng. Azure Monitor được sử dụng để giám sát các dịch vụ trong AKS cluster.
+\end{itemize}
+\subsubsection{Một số cân nhắc}
+\begin{itemize}
+    \item \textbf{Design}:Kiến trúc tham chiếu này tập trung vào kiến trúc microservice, mặc dù nhiều phương pháp được đề xuất áp dụng cho các khối lượng công việc khác chạy trên AKS.
+    \item \textbf{Microservice}:Microservice là một đơn vị mã có thể triển khai độc lập. Các microservice thường giao tiếp thông qua các API được xác định rõ ràng . Dịch vụ phải luôn có thể truy cập được ngay cả khi pod di chuyển xung quanh. Đối tượng Dịch vụ Kubernetes là một cách tự nhiên để mô hình hóa các dịch vụ vi mô trong Kubernetes.
+    \item \textbf{API Gateway}:API gateway nằm giữa các máy khách bên ngoài và microservice. Nó hoạt động như một proxy ngược, định tuyến các yêu cầu từ máy khách đến microservice.
+    \item \textbf{Data storage}:Trong kiến trúc microservice, các dịch vụ không nên chia sẻ giải pháp lưu trữ dữ liệu. Mỗi dịch vụ nên quản lý tập dữ liệu riêng của mình để tránh sự phụ thuộc ẩn giữa các dịch vụ.
+Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục bộ vì điều đó liên kết dữ liệu với node. Thay vào đó, hãy sử dụng dịch vụ bên ngoài như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB. Nếu bạn cần lưu trữ dữ liệu tạm thời, hãy sử dụng Redis Cache.
+    \item \textbf{Namespace}:Namespace tổ chức các dịch vụ trong cluster, ngăn ngừa xung đột tên, áp dụng ràng buộc tài nguyên và chính sách bảo mật ở cấp độ namespace, và tổ chức microservice thành các ngữ cảnh được giới hạn thông qua việc tạo namespace cho từng ngữ cảnh. Đồng thời, việc đặt các dịch vụ tiện ích như Elasticsearch, Prometheus hoặc Tiller vào các namespace riêng biệt cũng được khuyến khích.
+    \item \textbf{Health Probes}:Health probes là các yêu cầu HTTP được gửi đến các dịch vụ để xác định trạng thái của chúng. Nếu một dịch vụ không phản hồi, Kubernetes sẽ xóa pod và tạo lại nó. Điều này đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
+    \newline
+    Kubernetes xác định hai loại thăm dò sức khỏe mà pod có thể hiển thị:
+        \begin{itemize}
+            \item Thăm dò sẵn sàng:Thăm dò sẵn sàng xác định khi nào pod đã sẵn sàng để phục vụ yêu cầu.  
+            \item Thăm dò sự sống:Thăm dò sự sống xác định khi nào pod cần được khởi động lại. Nếu thăm dò sự sống thất bại, pod sẽ bị xóa và tạo lại.
+        \end{itemize}
+    Một số cân nhắc khi thiết kế health probes:
+        \begin{itemize}
+            \item Nếu mã của bạn có thời gian khởi động dài, có nguy cơ do trình thăm dò mức độ hoạt động sẽ báo cáo lỗi trước khi quá trình khởi động hoàn tất. Để giải quyết vấn đề này, hãy sử dụng cài đặt initialDelaySeconds để trì hoãn việc khởi động đầu dò.
+            \item Việc thăm dò độ sống sẽ không giúp ích gì trừ khi việc khởi động lại pod có khả năng khôi phục nó về trạng thái khỏe mạnh. Bạn có thể sử dụng công cụ thăm dò mức độ hoạt động để giảm thiểu tình trạng rò rỉ bộ nhớ hoặc bế tắc không mong muốn, nhưng việc khởi động lại pod sẽ lại bị lỗi ngay lập tức sẽ chẳng ích gì.
+            \item Đôi khi các thăm dò sẵn sàng được sử dụng để kiểm tra các dịch vụ phụ thuộc. 
+            Ví dụ: nếu một pod phụ thuộc vào cơ sở dữ liệu thì đầu dò có thể kiểm tra kết nối cơ sở dữ liệu. 
+            Tuy nhiên, cách tiếp cận này có thể tạo ra những vấn đề không mong muốn. 
+            Một dịch vụ bên ngoài có thể tạm thời không khả dụng vì một số lý do. 
+            Điều đó sẽ khiến cho việc thăm dò mức độ sẵn sàng không thành công đối với tất cả các pod trong dịch vụ của bạn, khiến tất cả các pod đó bị xóa khỏi cân bằng tải và do đó tạo ra lỗi xếp tầng ở thượng nguồn. 
+            Cách tiếp cận tốt hơn là triển khai xử lý thử lại trong dịch vụ của bạn để dịch vụ của bạn có thể khôi phục chính xác sau các lỗi nhất thời.
+        \end{itemize}
+    \item \textbf{Resource constrain}: Tranh chấp tài nguyên có thể ảnh hưởng đến tính sẵn có của dịch vụ. Xác định các giới hạn tài nguyên cho các container để một container không thể áp đảo các tài nguyên của cluster (bộ nhớ và CPU).
+    Sử dụng hạn ngạch tài nguyên để giới hạn tài nguyên được phép cho một namespace. 
+    \item \textbf{Service object - SO}: Đôi tượng dịch vụ Kubernetes cung cấp một tập hợp các khả năng phù hợp với yêu cầu của microservice về khả năng khám phá dịch vụ:
+        \begin{itemize}
+            \item Địa chị IP: SO cung cấp một địa chỉ IP nội bộ tĩnh cho một pod (ReplicaSet) để các dịch vụ có thể truy cập tại địa chỉ này.
+            \item Cân bằng tải (Load Balancer): Lưu lượng gửi đến địa chỉ IP của dịch vụ được cân bằng tải cho cácp pod.
+            \item Khám phá dịch vụ (Service Recovery): SO cung cấp một tên miền DNS cho một dịch vụ, cổng API có thể gọi dịch vụ bằng tên miền này này. Các mục DNS được sắp xếp theo namespace.
+        \end{itemize}
+        \begin{figure}[h]
+            \centering
+            \includegraphics[scale=1]{images/hieu/chap-2/service-object-diagram.png}
+            \caption{Sơ đồ mối quan hệ giữa các đối tượng dịch vụ và pod}  
+        \end{figure}
+    \item \textbf{Ingress}: Bộ điều khiển ingress (Ingress Controller) và ingress có thể phối hợp hoạt động để cung cấp các tính năng sau:
+        \begin{itemize}
+            \item Định tuyến các yêu cầu của khách hàng, định tuyến này cung cấp một điểm cuối duy nhất cho khách hàng và tách khách hàng khỏi các dịch vụ.
+            \item Tổng hợp nhiều yêu cầu thành một yêu cầu duy nhất.
+            \item Giảm tải chức năng như chấm dứt SSL, xác thực, hạn chế IP hoặc giới hạn tốc độ máy khách. 
+        \end{itemize}
+    \item \textbf{Mã hoá TLS/SSL}: Mã hoá TLS/SSL là một phương pháp mã hoá dữ liệu để bảo mật các kết nối giữa các máy khách và máy chủ.
+\end{itemize}
+\subsubsection{Security}
+\begin{itemize}
+    \item \textbf{Role-based Access Control}
+    \newline
+    Kubernetes và Azure đều có cơ chế kiểm soát truy cập dựa trên vai trò (RBAC):
+    \begin{itemize}
+        \item Azure RBAC kiểm soát quyền truy cập vào tài nguyên trong Azure, bao gồm khả năng tạo tài nguyên mới. Quyền có thể được chỉ định cho người dùng.
+        \item Kubernetes RPAC kiểm soát các quyền đối với API Kubernetes. Để gán quyền Kubernetes cho người dùng, tạo vai trò và ràng buộc vai trò với người dùng.
+    \end{itemize}
+    AKS tích hợp hai chơ chế RBAC này, khi tạo một cụm AKS, bạn có thể đặt cấu hình cụm đó để sử dụng Microsoft Entra ID để xác thực người dùng. Người dùng Microsoft Entra ID cần được quản trị viên cụm tạo RoleBindings để cấp quyền truy cập cho người dùng hoặc nhóm người dùng.
+    \item \textbf{Secrets management and application credentials}
+    \newline
+    Các ứng dụng và dịch vụ thường cần thông tin xác thực cho phép chúng kết nối với các dịch vụ bên ngoài như Bộ lưu trữ Azure hoặc Cơ sở dữ liệu SQL. Thách thức là giữ những thông tin xác thực này an toàn và không rò rỉ chúng.
+    Dưới đây là một số tuỳ chọn để lưu trữ bí mật một cách an toàn:
+        \begin{itemize}
+            \item Azure Key Vault: Azure Key Vault là một dịch vụ quản lý khóa, bí mật và chứng chỉ. Nó cung cấp một nơi để lưu trữ các bí mật và khóa truy cập vào các dịch vụ bên ngoài. Các ứng dụng có thể truy cập Key Vault để lấy thông tin xác thực.
+            \item Kubernetes Secrets: Kubernetes Secrets là một đối tượng Kubernetes được sử dụng để lưu trữ các bí mật. Các bí mật được lưu trữ dưới dạng cặp khóa-giá trị và có thể được sử dụng bởi các pod trong cụm.
+            \item HashiCorp Vault: HashiCorp Vault là một dịch vụ quản lý khóa, bí mật và chứng chỉ mã nguồn mở. Nó cung cấp một nơi để lưu trữ các bí mật và khóa truy cập vào các dịch vụ bên ngoài. Các ứng dụng có thể truy cập Vault để lấy thông tin xác thực.
+        \end{itemize}
+    Việc sử dụng HashiCorp Vault hoặc Azure Key Vault là một giải pháp tốt hơn so với Kubernetes Secrets có thể mang lại mốt số lợi ích:
+        \begin{itemize}
+            \item Kiểm soát tập trung các bí mật
+            \item Đảm bảo ràng tất cả các bí mật được mã hoá ở phần còn lại.
+            \item Quản lý khoá tập trung.
+            \item Kiểm soát truy cập bị mật.
+            \item Kiểm toán.
+        \end{itemize}
+    \item \textbf{Container và Orchestrator security}
+    Đây là những phương pháp được khuyến nghị để bảo vệ pods và container của bạn:
+        \begin{itemize}
+            \item Giám sát mối đe doạ (thread monitoring) bằng cách sử dụng Microsoft Defender cho Containers.
+            \item Giám sát lỗ hổng (Vulnerabilities monitoring) bằng cách sử dụng Microsoft Defender dành cho đám mây hoặc giải pháp bên thứ ba có sẵn thông qua Azure Marketplace.
+            \item Tự động vá hình ảnh bằng tác vụ ACR, một tính năng của Azure Register. 
+            \item Lưu trữ image trong Azure Container Registry, một private registry đáng tin cậy. Sử dụng webhook xác thực tiếp nhận trong Kubernetes để đảm bảo rằng các nhóm chỉ có thể lấy hình ảnh từ cơ quan đăng ký đáng tin cậy.
+        \end{itemize}
+      
+\end{itemize}
+\newpage
+\subsection {Ứng dụng AKS cho kiến trúc microservice nâng cao}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.6]{images/hieu/chap-2/aks-architecture-advance.png}
+    \caption{AKS Architecture Advance}
+\end{figure}
+\subsubsection{Workflow}
+Luồng yêu cầu này triển khai các design pattern trên cloud Publisher-Subscriber, Competing Consumers, và Gateway Routing. Luồng tin nhắn diễn ra như sau:
+    \begin{itemize}
+        \item Một yêu cầu HTTPS được gửi để lên lịch nhận hàng bằng máy bay không người lái. Các yêu cầu chuyển qua Cổng ứng dụng Azure vào ứng dụng web nhập, ứng dụng này chạy dưới dạng vi dịch vụ trong cụm trong AKS.
+        \item Ứng dụng web truyền dẫn sẽ tạo một thông báo và gửi nó đến hàng đợi thông báo Service Bus.
+        \item Hệ thống phụ trợ chỉ định một máy bay không người lái và thông báo cho người dùng. Quy trình làm việc:
+            \begin{itemize}
+                \item Sử dụng thông tin tin nhắn từ hàng đợi tin nhắn Service Bus.
+                \item Gửi yêu cầu HTTPS tới vi dịch vụ Phân phối để chuyển dữ liệu tới Bộ nhớ đệm Azure để lưu trữ dữ liệu ngoài của Redis.
+                \item Gửi yêu cầu HTTPS tới microservice Drone Scheduler. 
+                \item Gửi yêu cầu HTTPS tới vi dịch vụ Package, chuyển dữ liệu tới bộ lưu trữ dữ liệu bên ngoài MongoDB.
+            \end{itemize} 
+        \item Yêu cầu HTTPS GET được sử dụng để trả về trạng thái gửi. Yêu cầu này đi qua Cổng ứng dụng vào vi dịch vụ phân phối (Delivery Microservice).
+        \item Vi dịch vụ phân phối đọc dữ liệu từ Azure Cache cho Redis.     
+    \end{itemize}
+\subsubsection{Các thành phần của kiến trúc}
+Kiến trúc này sử dụng các thành phần Azure sau:
+\begin{itemize}
+    \item \textbf{Azure Kubernetes Services} là một dịch vụ Azure cung cấp cụm Kubernetes được quản lý. Khi sử dụng AKS, máy chủ API Kubernetes được quản lý bởi Azure. Các nút hoặc nhóm nút Kubernetes có thể truy cập được và được quản lý bởi nhà điều hành cụm.
+    Các tính năng AKS sủe dụng trong kiến trúc này bao gồm:
+    \begin{itemize}
+        \item Tách nhóm node hệ thống và người dùng
+        \item ID Microsoft Entra do AKS quản lý để kiểm soát truy cập dựa trên vai trò (RBAC)
+        \item ID khối lượng công việc Microsoft Entra
+        \item Tiện ích bổ sung chính sách Azure cho AKS
+        \item Giao diện mạng vùng chứa Azure (CNI)
+        \item Thông tin chi tiết về vùng chứa Azure Monitor
+    \end{itemize} 
+    \item \textbf{Azure Virtual Network} là môi trường biệt lập và có độ bảo mật cao để chạy các ứng dụng và máy ảo (VM). Kiến trúc tham chiếu này sử dụng cấu trúc liên kết mạng ảo trung tâm ngang hàng. Mạng ảo trung tâm chứa tường lửa Azure và mạng con Azure Bastion. Mạng ảo nan hoa chứa các mạng con nhóm nút người dùng và hệ thống AKS cũng như mạng con cổng ứng dụng Azure.
+    \item  \textbf{Azure Private Link} phân bổ các địa chỉ IP riêng tư cụ thể để truy cập Azure Container Register và Key Vault từ Điểm cuối riêng tư trong hệ thống AKS và mạng con nhóm nút người dùng.
+    \item \textbf{Azure Application Gateway} với tường lửa ứng dụng web (WAF) hiển thị các tuyến HTTP(S) tới cụm AKS và cân bằng tải lưu lượng truy cập web đến ứng dụng web. Kiến trúc này sử dụng Bộ điều khiển xâm nhập cổng ứng dụng Azure (AGIC) làm bộ điều khiển xâm nhập Kubernetes.
+    \item \textbf{Azure Bastion} cung cấp giao thức máy tính từ xa an toàn (RDP) và quyền truy cập shell bảo mật (SSH) vào máy ảo trong mạng ảo bằng cách sử dụng lớp ổ cắm bảo mật (SSL) mà không cần hiển thị máy ảo thông qua địa chỉ IP công cộng.
+    \item \textbf{Azure Firewall} là dịch vụ bảo mật mạng bảo vệ tất cả tài nguyên Mạng ảo Azure. Tường lửa chỉ cho phép các dịch vụ được phê duyệt và tên miền đủ điều kiện (FQDN) làm lưu lượng truy cập đầu ra. 
+\end{itemize}
+\subsubsection{Bộ nhớ ngoài (external storage) và các thành phần khác}
+\begin{itemize}
+    \item \textbf{Azure Container Register} lưu trữ các hình ảnh vùng chứa riêng tư có thể chạy trong cụm AKS. AKS xác thực với Cơ quan đăng ký vùng chứa bằng cách sử dụng danh tính do Microsoft Entra quản lý. Bạn cũng có thể sử dụng các cơ quan đăng ký vùng chứa khác như Docker Hub.
+    \item \textbf{Azure Cosmos DB} lưu trữ dữ liệu bằng cách sử dụng Azure Cosmos DB mã nguồn mở cho MongoDB. Các vi dịch vụ thường không có trạng thái và ghi trạng thái của chúng vào kho dữ liệu bên ngoài. Azure Cosmos DB là cơ sở dữ liệu NoSQL với các API nguồn mở cho MongoDB và Cassandra.
+    \item \textbf{Azure Service Bus} cung cấp dịch vụ nhắn tin đám mây đáng tin cậy như một dịch vụ và tích hợp kết hợp đơn giản. Service Bus hỗ trợ các mẫu nhắn tin không đồng bộ phổ biến với các ứng dụng vi dịch vụ.
+    \item \textbf{Azure Cache for Redis} thêm lớp bộ nhớ đệm vào kiến trúc ứng dụng để cải thiện tốc độ và hiệu suất khi tải lưu lượng truy cập lớn.
+    \item \textbf{Azure Monitor} thu thập và lưu trữ số liệu cũng như nhật ký, bao gồm dữ liệu đo từ xa của ứng dụng cũng như số liệu dịch vụ và nền tảng Azure. Bạn có thể sử dụng dữ liệu này để giám sát ứng dụng, thiết lập cảnh báo và bảng thông tin cũng như thực hiện phân tích nguyên nhân gốc rễ của lỗi. 
+\end{itemize}
+\subsubsection{Các thành phần hệ thống hỗ trợ hoạt động khác (OSS)}
+\begin{itemize}
+    \item \textbf{Helm} trình quản lý gói dành cho Kubernetes, gói các đối tượng Kubernetes thành một đơn vị duy nhất mà bạn có thể xuất bản, triển khai, tạo phiên bản và cập nhật.
+    \item \textbf{Nhà cung cấp CSI của Azure Key Vault Secret Store} nhận các bí mật được lưu trữ trong Azure Key Vault và sử dụng giao diện trình điều khiển Secret Store CSI để gắn chúng vào nhóm Kubernetes. 
+    \item \textbf{Flux} một giải pháp phân phối liên tục mở và có thể mở rộng cho Kubernetes, được hỗ trợ bởi Bộ công cụ GitOps.
+\end{itemize}
+\subsubsection{Một số cân nhắc}
+Triển khai những đề xuất này khi sử dụng kiến trúc microservice AKS nâng cao:
+    \begin{itemize}
+        \item \textbf{Appication Gateway Ingress Controller (AGIC)} 
+            \newline
+            AGIC là một bộ điều khiển xâm nhập Kubernetes (Ingress Controller) được sử dụng để quản lý bộ điều khiển xâm nhập cổng ứng dụng Azure. AGIC cung cấp các tính năng sau:
+            \begin{itemize}
+                \item Tổng hợp nhiều yêu cầu thành một yêu cầu duy nhất để giảm bớt tình trạng trò chuyện giữa máy khách và chương trình phụ trợ.
+                \item Giảm tải chức năng như chấm dứt SSL, xác thực, hạn chế IP và giới hạn hoặc điều tiết tốc độ máy khách khỏi các dịch vụ phụ trợ.
+            \end{itemize}
+            Bộ điều khiển xâm nhập bên ngoài (External Ingress controller) đơn giản hoá việc nhập lưu lượng truy cập vào cụm AKS, cải thiện tính an toàn và hiệu suất, đồng thời tiết kiệm tài nguyên. Việc sử dụng Cổng ứng dụng để xử lý tất cả lưu lượng truy cập sẽ loại bỏ nhu cầu sử dụng thêm bộ cân bằng tải
+            \newline
+            Cổng ứng dụng có khả năng tự động điều chỉnh quy mô tích hợp. Cổng ứng dụng có thể thực hiện định tuyến lớp 7 và chấm dứt SSL, đồng thời có bảo mật lớp truyền tải (TLS) từ đầu đến cuối được tích hợp với tường lửa ứng dụng web (WAF) tích hợp sẵn.
+            \newline
+            Đối với tùy chọn xâm nhập AGIC, bạn phải bật kết nối mạng CNI khi định cấu hình cụm AKS vì Cổng ứng dụng được triển khai vào mạng con của mạng ảo AKS.
+        \item \textbf{Hạn ngạch tài nguyên (Resource Quota)}
+            \newline 
+            Hạn ngạch tài nguyên là một cách để quản trị viên dự trữ và giới hạn tài nguyên trong một nhóm hoặc dự án phát triển. Bạn có thể đặt hạn ngạch tài nguyên trên một không gian tên và sử dụng chúng để đặt giới hạn cho:
+            \begin{itemize}
+                \item Tính toán các tài nguyên, chẳng hạn như CPU và bộ nhớ hoặc GPU.
+                \item Tài nguyên lưu trữ, bao gồm số lượng ổ đĩa hoặc dung lượng ổ đĩa cho một lớp lưu trữ nhất định.
+                \item Số lượng đối tượng, chẳng hạn như số lượng bí mật, dịch vụ hoặc công việc tối đa có thể được tạo.
+            \end{itemize} 
+        \item \textbf{Autoscaling} 
+        \newline
+        Kubernetes hỗ trợ tự động điều chỉnh quy mô để tăng số lượng nhóm được phân bổ cho quá trình triển khai hoặc tăng các nút trong cụm để tăng tổng tài nguyên điện toán có sẵn. Autoscaling là một hệ thống phản hồi tự động tự điều chỉnh
+        \item \textbf{Cluster Autoscaling - CA}
+        \newline
+        Cluster autoscaling (CA) chia tỷ lệ số lượng nút,xác định số lượng nút tối thiểu để duy trì hoạt động của cụm AKS và khối lượng công việc cũng như số lượng nút tối đa cho lưu lượng truy cập lớn. CA kiểm tra vài giây một lần để tìm các nhóm đang chờ xử lý hoặc các nút trống và chia tỷ lệ cụm AKS một cách thích hợp. 
+        \item \textbf{Horizontal Pod Autoscaling - HPA}
+            \begin{itemize}
+                \item Horizontal Pod Autoscaler (HPA) chia tỷ lệ các nhóm dựa trên CPU, bộ nhớ hoặc số liệu tùy chỉnh được quan sát. Để định cấu hình chia tỷ lệ nhóm theo chiều ngang, bạn chỉ định số liệu mục tiêu cũng như số lượng bản sao tối thiểu và tối đa trong thông số nhóm triển khai Kubernetes. Tải kiểm tra dịch vụ của bạn để xác định những con số này.
+                \item CA và HPA phối hợp tốt với nhau, vì vậy hãy bật cả hai tùy chọn bộ chia tỷ lệ tự động trong cụm AKS của bạn. HPA mở rộng quy mô ứng dụng, trong khi CA quy mô cơ sở hạ tầng. 
+            \end{itemize}
+        \item \textbf{Health Probes}
+    \end{itemize}
+
