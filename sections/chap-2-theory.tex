@@ -440,6 +440,117 @@ Triển khai những đề xuất này khi sử dụng kiến trúc microservice
                 \item Horizontal Pod Autoscaler (HPA) chia tỷ lệ các nhóm dựa trên CPU, bộ nhớ hoặc số liệu tùy chỉnh được quan sát. Để định cấu hình chia tỷ lệ nhóm theo chiều ngang, bạn chỉ định số liệu mục tiêu cũng như số lượng bản sao tối thiểu và tối đa trong thông số nhóm triển khai Kubernetes. Tải kiểm tra dịch vụ của bạn để xác định những con số này.
                 \item CA và HPA phối hợp tốt với nhau, vì vậy hãy bật cả hai tùy chọn bộ chia tỷ lệ tự động trong cụm AKS của bạn. HPA mở rộng quy mô ứng dụng, trong khi CA quy mô cơ sở hạ tầng. 
             \end{itemize}
-        \item \textbf{Health Probes}
+        \item \textbf{Health Probes}: Tương tự trong kiến trúc cơ bản của AKS, trong kiến trúc nâng cao này, bạn cũng nên sử dụng các thăm dò sẵn sàng và thăm dò sự sống để đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
+        \item \textbf{Azure Monitor}: Trong ứng dụng microservice, việc giảm sát hiệu suất ứng dụng (APM) rất quan trọng để phát hiện các điểm bất thường, chấn đoán sự cố và nhanh chóng hiểu được sự phụ thuộc giữa các dịch vụ.
+        \newline
+        Thông tin chi tiết về ứng dụng là một phần của Azure Monitor cung cấp tính năng giám sát APM cho các ứng dụng trực tiếp viết bằng .NET Core, Node.js, java...Với một số chức năng:
+            \begin{itemize}
+                \item Ghi lại các yêu cầu HTTP, bao gồm độ trễ và mã kết quả.
+                \item Cho phép theo dõi phân tán theo mặc định.
+                \item Bao gồm ID hoạt động trong dấu vết, do đó bạn có thể khớp tất cả dấu vết cho một hoạt động cụ thể.
+                \item Thường bao gồm thông tin ngữ cảnh bổ sung trong dấu vết. 
+            \end{itemize}
+    \end{itemize}
+\subsubsection{Các mối bận tâm}
+\textbf{Khả năng mở rộng}
+    \begin{itemize}
+        \item Không kết hợp tính năng tự động điều chỉnh tỷ lệ và quản lý bắt buộc hoặc khai báo số lượng bản sao. Cả người dùng và bộ chia tỷ lệ tự động đều cố gắng sửa đổi số lượng bản sao có thể gây ra hành vi không mong muốn. Khi bật HPA, hãy giảm số lượng bản sao xuống số lượng tối thiểu bạn muốn triển khai.
+        \item Một tác dụng phụ của việc tự động chia tỷ lệ nhóm là các nhóm có thể được tạo hoặc loại bỏ thường xuyên khi các sự kiện mở rộng quy mô và mở rộng quy mô xảy ra. Để giảm thiểu những tác động này.
+        \item Sử dụng các thăm dò mức độ sẵn sàng để cho Kubernetes biết khi nào một nhóm mới sẵn sàng chấp nhận lưu lượng truy cập.
+        \item Sử dụng ngân sách gián đoạn nhóm để giới hạn số lượng nhóm có thể bị loại khỏi một dịch vụ cùng một lúc.
+        \item Bạn không thể thay đổi kích thước VM sau khi tạo cụm, vì vậy hãy lập kế hoạch dung lượng ban đầu để chọn kích thước VM phù hợp cho các nút tác nhân khi bạn tạo cụm.
+        \item Khối lượng công việc nhiều bên thuê hoặc nâng cao khác có thể có các yêu cầu cách ly nhóm nút đòi hỏi nhiều mạng con hơn và có thể nhỏ hơn. Để biết thêm thông tin về cách tạo nhóm nút với mạng con duy nhất, hãy xem Thêm nhóm nút với mạng con duy nhất. Các tổ chức có các tiêu chuẩn khác nhau cho việc triển khai hub-spoke của họ. Hãy chắc chắn làm theo hướng dẫn tổ chức của bạn. 
+    \end{itemize}
+\textbf{Khả năng quản lý}
+    \begin{itemize}
+        \item Quản lý cơ sở hạ tầng cụm AKS thông qua quy trình triển khai tự động. Việc triển khai tham chiếu cho kiến trúc này cung cấp quy trình làm việc Hành động GitHub mà bạn có thể tham khảo khi xây dựng quy trình của mình.
+        \item Tệp quy trình làm việc chỉ triển khai cơ sở hạ tầng chứ không phải khối lượng công việc vào mạng ảo hiện có và cấu hình Microsoft Entra. Việc triển khai cơ sở hạ tầng và khối lượng công việc một cách riêng biệt cho phép bạn giải quyết các mối lo ngại về vòng đời và vận hành riêng biệt.
+        \item Hãy coi quy trình làm việc của bạn như một cơ chế để triển khai sang khu vực khác nếu xảy ra lỗi khu vực. Xây dựng quy trình để bạn có thể triển khai một cụm mới trong một khu vực mới với các thay đổi về tham số và đầu vào. 
+    \end{itemize}
+\textbf{Bảo mật}
+    \begin{itemize}
+        \item Nhóm AKS tự xác thực bằng cách sử dụng danh tính khối lượng công việc được lưu trữ trong Microsoft Entra ID. Nên sử dụng danh tính khối lượng công việc vì nó không yêu cầu bí mật ứng dụng khách.
+        \item Với danh tính được quản lý, quy trình thực thi có thể nhanh chóng nhận được mã thông báo Azure Resource Manager OAuth 2.0; không cần mật khẩu hoặc chuỗi kết nối. Trong AKS, bạn có thể chỉ định danh tính cho từng nhóm bằng cách sử dụng ID Microsoft Entra Workload.
+        \item Mỗi dịch vụ trong ứng dụng vi dịch vụ phải được chỉ định một mã nhận dạng khối lượng công việc duy nhất để hỗ trợ các nhiệm vụ RBAC có đặc quyền thấp nhất. Bạn chỉ nên chỉ định danh tính cho các dịch vụ yêu cầu chúng.
+        \item Trong trường hợp thành phần ứng dụng yêu cầu quyền truy cập API Kubernetes, hãy đảm bảo rằng nhóm ứng dụng được định cấu hình để sử dụng tài khoản dịch vụ có quyền truy cập API trong phạm vi phù hợp. Để biết thêm thông tin về cách định cấu hình và quản lý tài khoản dịch vụ Kubernetes, hãy xem Quản lý tài khoản dịch vụ Kubernetes.
+        \item Không phải tất cả các dịch vụ Azure đều hỗ trợ xác thực mặt phẳng dữ liệu bằng Microsoft Entra ID. Để lưu trữ thông tin xác thực hoặc bí mật ứng dụng cho các dịch vụ đó, cho dịch vụ của bên thứ ba hoặc cho khóa API, hãy sử dụng Azure Key Vault. Azure Key Vault cung cấp khả năng quản lý tập trung, kiểm soát truy cập, mã hóa ở trạng thái lưu trữ và kiểm tra tất cả các khóa và bí mật.
+        \item Trong AKS, bạn có thể gắn một hoặc nhiều bí mật từ Key Vault dưới dạng một tập. Sau đó, nhóm có thể đọc các bí mật của Key Vault giống như một tập thông thường. Để biết thêm thông tin, hãy xem dự án secret-store-csi-driver-provider-azure trên GitHub.    
+    \end{itemize}
+\textbf{Tối ưu hoá chi phí}
+    \begin{itemize}
+        \item Phần chi phí trong Khung kiến trúc tối ưu của Microsoft Azure mô tả các cân nhắc về chi phí. Sử dụng công cụ tính giá Azure để ước tính chi phí cho trường hợp cụ thể của bạn.
+        \item AKS không có chi phí liên quan đến việc triển khai, quản lý và vận hành cụm Kubernetes. Bạn chỉ trả tiền cho các phiên bản VM, bộ nhớ và tài nguyên kết nối mạng mà cụm sử dụng. Tự động điều chỉnh quy mô cụm có thể giảm đáng kể chi phí của cụm bằng cách loại bỏ các nút trống hoặc không sử dụng.
+        \item Để ước tính chi phí của các tài nguyên cần thiết, hãy xem phần tính toán Dịch vụ Container.
     \end{itemize}
 
+
+\subsection{Nền tảng thương mại điện tử Magento trong kiến trúc Azure Kubernetes Service - AKS}
+\subsubsection{Magento là gì}
+Magento là một platform về e-commerce được tạo ra dựa trên ngôn ngữ lập trình PHP và cơ sở dữ liệu MySQL. Magento hoạt động theo mô hình EAV (entity – attribute – value) và có kiến trúc module (mọi tính năng đều được module hóa). Tất cả các module này đều được lưu trữ trên website thương mại điện tử của Magento.
+\newline
+Một số ưu điểm của Magento:
+    \begin{itemize}
+        \item Magento bản chất là một open source với khả năng mở rộng linh hoạt. Do đó, nó có thể sử dụng cho nhiều đối tượng khác nhau, từ doanh nghiệp vừa và nhỏ (SME) cho đến doanh nghiệp có quy mô lớn.
+        \item Người dùng có thể download Magento hoàn toàn miễn phí và có rất nhiều tiện ích mở rộng kèm theo.
+        \item Giao diện phiên bản di động được thiết kế linh hoạt, thân thiện với người dùng và tốc độ tải trang nhanh.
+        \item Có nhiều tính năng được tích hợp sẵn như: SEO, Marketing, checkout, quản trị site,…
+        \item Người dùng có thể tùy chọn các giải pháp lưu trữ hosting khác nhau để nâng cao hiệu suất của trang và tăng doanh số.
+        \item Cung cấp các tool bảo mật thông tin, bảo vệ dữ liệu PCI, CAPTCHA,… giúp kho hàng hóa trên site thương mại điện tử luôn được an toàn.
+        \item Có thể tạo website thương mại điện tử hàng loạt, ở nhiều nước khác nhau nhờ các hỗ trợ về tiền tệ và ngôn ngữ đa dạng.    
+    \end{itemize}
+ \subsubsection{Kiến trúc}
+ \begin{figure}[h]
+    \centering
+    \includegraphics[scale=0.7]{images/hieu/chap-2/magento-architecture.png}
+    \caption{Sơ đồ kiến trúc của Magento}
+\end{figure}    
+\subsubsection{Các thành phần của kiến trúc}
+    \begin{itemize}
+        \item \textbf{Azure Kubernetes Service (AKS)}:chia tỉ lệ các vùng chứa (containers) trên các dịch vụ mà Kubernetes quản lý.
+        \item \textbf{Azure Virtual Network}: mạng ảo trên đám mây (cloud).
+        \item \textbf{Azure Database for MySQL}: MySQL trên cloud giúp tiết kiệm chi phí, dễ thiết lập vận hành và mở rộng quy mô.
+        \item \textbf{Azure Files}: chia sẽ các files trên cloud.
+        \item \textbf{Azure NetApp Files}: chia sẻ các file Azure cấp doanh nghiệp, được cung cấp bởi NetApp.
+        \item \textbf{Azure Content Delivery Network}:mạng phân phối nội dung nhanh chóng, đáng tin cậy và toàn cầu.
+        \item \textbf{Microsoft Entra ID}: quản lý quyền try cập và định danh multicloud.
+        \item \textbf{Azure Container Registry}: lưu trữ các hình ảnh vùng chứa riêng tư có thể chạy trong cụm AKS.
+        \item \textbf{Azure Monitor}: thu thập và lưu trữ số liệu cũng như nhật ký, bao gồm dữ liệu đo từ xa của ứng dụng cũng như số liệu dịch vụ và nền tảng Azure.
+    \end{itemize} 
+\subsubsection{Workflow}
+    \begin{itemize}
+        \item Azure Kubernetes Service (AKS):triển khai Kubernetes bằng cách phân cụm thành các nhóm (pod) gồm Varnish, Magento, Redis và Elaticsearch.
+        \item AKS tạo ra một mạng ảo (Virtual Network) để triển khai các node. Tạo trước mạng ảo để thiết lập cấu hình mạng con, liên kết riêng tư và hạn chế đầu ra. 
+        \item Varnish cài đặt trước máy chủ HTTP để hoạt động như full-page cache (Full-page cache hay còn gọi là Cache toàn trang: Kỹ thuật này sẽ nén toàn bộ dữ liệu của website sang tệp HTML tĩnh và phản hồi cho trình duyệt khi được gọi).
+        \item Cơ sở dữ liệu Azure cho MySQL lưu trữ dữ liệu giao dịch như đơn đặt hàng (Orders) và danh mục (catalogs) .
+        \item Azure Files Premium, Azure NetApp Files hoặc hệ thống lưu trữ gắn mạng (Network-Attached Storage) tương đương lưu trữ các tệp phương tiện như hình ảnh sản phẩm. Magento cần một hệ thống tệp tương thích với Kubernetes có thể gắn ổ đĩa ở chế độ ReadWriteMany, như Azure Files Premium hoặc Azure NetApp Files. Lưu trữ các tuỳ chọn cho các ứng dụng trong Azure Kubernetes Service (AKS).
+        \item Mạng phân phối nội dung (Content Delivery Network) phục vụ nội dung tĩnh như CSS, JavaScript và hình ảnh. Cung cấp nội dung thông qua CDN giảm thiểu độ trễ mạng giữa người dùng và trung tâm dữ liệu. CDN có thể loại bỏ tải đáng kể khỏi NAS bằng cách lưu vào bộ nhớ đệm và cung cấp nội dung tĩnh. 
+        \item Redis lưu trữ session data. Nên lưu trữ Redis trên vùng chứa vì lý do hiệu suất. AKS sử dụng  Microsoft Entra ID để tạo và quản lý các tài nguyên Azure khác như bộ cân bằng tải Azure, xác thực người dùng, kiểm soát quyền truy cập dựa trên vai trò và danh tính được quản lý. 
+        \item Azure Container Registry lưu trữ các hình ảnh Docker riêng được triển khai vào cụm AKS. Bạn có thể sử dụng các cơ quan đăng ký vùng chứa khác như Docker Hub. Cài đặt Magento mặc định ghi một số bí mật vào hình ảnh. 
+        \item Azure Monitor thu thập và lưu trữ số liệu cũng như nhật ký, bao gồm số liệu nền tảng dịch vụ Azure và dữ liệu đo từ xa của ứng dụng. Azure Monitor tích hợp với AKS để thu thập số liệu bộ điều khiển, nút và bộ chứa cũng như nhật ký bộ chứa và nút chính.   
+    \end{itemize}
+\subsubsection{Khả năng mở rộng - scalability}
+    \begin{itemize}
+        \item \textbf{Media and static files}
+            \begin{itemize}
+                \item Cung cấp đầy đủ các files Azure, files Azure NetApp hoặc hệ thống lưu trữ gắn mạng (NAS) khác. Magento có thể lưu trữ hàng nghìn file media như hình ảnh sản phẩm. Đảm bảo cung cấp các sản phẩm NAS có tỉ lệ IOPS (Input/Outpur per Second) hợp lý để đáp ứng nhu cầu. 
+                \item Giảm thiểu kích thước của nội dung tĩnh như HTML, CSS và JavaScript. Việc giảm thiểu có thể giảm chi phí băng thông và mang lại trải nghiệm phản hồi nhanh hơn cho người dùng. 
+            \end{itemize}
+        \item \textbf{Caching}: Cân bằng tải bộ đệm Varnish bằng cách chạy nhiều phiên bản trên các pods để có thể mở rộng quy mô.
+        \item \textbf{Database Connection}: Bật kết nối liên tục với cơ sở dữ liệu MySQL, vì vật magento tiếp tục sử dụng lại kết nối hiện có thay vì tạo kết nối mới cho mọi yêu cầu.
+        \item  \textbf{Logging}: Hạn chế ghi nhật ký truy cập để tránh các vấn đề về hiệu suất và ngăn chặn việc lộ dữ liệu nhạy cảm như địa chỉ IP của khách hàng.  
+    \end{itemize}
+\subsubsection{Khả năng sẵn sàng phục vụ - availability}
+    \begin{itemize}
+        \item \textbf{Health Probes}: tương tự 2 case study được đề cập ở trên.
+        \item \textbf{Availability Zones}
+            \begin{itemize}
+                \item Availability zones là các vị trí thực tế duy nhất trong  Azure regions giúp bảo vệ ứng dụng và dữ liệu khỏi lỗi của trung tâm dữ liệu. 
+                \item Mỗi vùng được tạo thành từ một hoặc nhiều trung tâm dữ liệu. Các ứng dụng trong vùng có thể vẫn khả dụng ngay cả khi có lỗi vật lý trong một trung tâm dữ liệu. 
+                \item Các cụm AKS có thể được triển khai trên nhiều Availability zones để cung cấp mức sẵn sàng cao hơn và bảo vệ khỏi các lỗi phần cứng hoặc các sự kiện bảo trì theo kế hoạch. Việc phân cụm các nhóm nodes để trải rộng trên nhiều vùng cho phép các nút tiếp tục hoạt động ngay cả khi một vùng duy nhất bị hỏng.  
+            \end{itemize}
+        \item \textbf{Resource constraints}
+            \begin{itemize}
+                \item Tranh chấp tài nguyên có thể ảnh hưởng đến tính sẵn có của dịch vụ. Xác định các ràng buộc về tài nguyên vùng chứa để không một vùng chứa nào có thể lấn át tài nguyên bộ nhớ cụm và CPU, có thể sử dụng chẩn đoán AKS để xác định bất kỳ vấn đề nào trong cụm.
+                \item Sử dụng giới hạn tài nguyên để hạn chế tổng tài nguyên cho phép cho một vùng chứa, giúp cân bằng tài nguyên giữa các vùng chứa. 
+            \end{itemize}
+    \end{itemize}
