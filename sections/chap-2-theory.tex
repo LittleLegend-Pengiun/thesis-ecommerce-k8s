@@ -498,8 +498,8 @@ Một số ưu điểm của Magento:
         \item Cung cấp các tool bảo mật thông tin, bảo vệ dữ liệu PCI, CAPTCHA,… giúp kho hàng hóa trên site thương mại điện tử luôn được an toàn.
         \item Có thể tạo website thương mại điện tử hàng loạt, ở nhiều nước khác nhau nhờ các hỗ trợ về tiền tệ và ngôn ngữ đa dạng.    
     \end{itemize}
- \subsubsection{Kiến trúc}
- \begin{figure}[h]
+\subsubsection{Kiến trúc}
+\begin{figure}[h]
     \centering
     \includegraphics[scale=0.7]{images/hieu/chap-2/magento-architecture.png}
     \caption{Sơ đồ kiến trúc của Magento}
@@ -537,7 +537,7 @@ Một số ưu điểm của Magento:
             \end{itemize}
         \item \textbf{Caching}: Cân bằng tải bộ đệm Varnish bằng cách chạy nhiều phiên bản trên các pods để có thể mở rộng quy mô.
         \item \textbf{Database Connection}: Bật kết nối liên tục với cơ sở dữ liệu MySQL, vì vật magento tiếp tục sử dụng lại kết nối hiện có thay vì tạo kết nối mới cho mọi yêu cầu.
-        \item  \textbf{Logging}: Hạn chế ghi nhật ký truy cập để tránh các vấn đề về hiệu suất và ngăn chặn việc lộ dữ liệu nhạy cảm như địa chỉ IP của khách hàng.  
+        \item \textbf{Logging}: Hạn chế ghi nhật ký truy cập để tránh các vấn đề về hiệu suất và ngăn chặn việc lộ dữ liệu nhạy cảm như địa chỉ IP của khách hàng.  
     \end{itemize}
 \subsubsection{Khả năng sẵn sàng phục vụ - availability}
     \begin{itemize}
@@ -554,3 +554,10 @@ Một số ưu điểm của Magento:
                 \item Sử dụng giới hạn tài nguyên để hạn chế tổng tài nguyên cho phép cho một vùng chứa, giúp cân bằng tài nguyên giữa các vùng chứa. 
             \end{itemize}
     \end{itemize}
+\subsection{Amazon Web Services (AWS) Architecture}
+\subsubsection{Kiến trúc}
+\begin{figure}[h]
+    \centering
+    \includegraphics[scale=1]{images/hieu/chap-2/aws-architecture.png}
+    \caption{AWS Architecture}
+\end{figure} 
