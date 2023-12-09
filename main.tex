@@ -99,46 +99,6 @@
   showtabs=false,
   captionpos=b
 }
-% Define docker language
-\usepackage{listingsutf8}
-
-\lstdefinelanguage{docker}{
-  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
-  backgroundcolor=\color{white},
-  keywordstyle=\color{blue}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-
-\lstdefinelanguage{docker-compose}{
-  keywords={image, environment, ports, container_name, ports, volumes, links},
-  keywordstyle=\color{blue}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
-\lstdefinelanguage{docker-compose-2}{
-  keywords={version, volumes, services},
-  keywordstyle=\color{blue}\bfseries,
-  keywords=[2]{image, environment, ports, container_name, ports, links, build},
-  keywordstyle=[2]\color{olive}\bfseries,
-  identifierstyle=\color{black},
-  sensitive=false,
-  comment=[l]{\#},
-  commentstyle=\color{purple}\ttfamily,
-  stringstyle=\color{red}\ttfamily,
-  morestring=[b]',
-  morestring=[b]"
-}
 
 % Define language terraform - kubernetes
 \lstdefinelanguage{terraform}{
@@ -153,6 +113,7 @@
   morestring=[b]',
   morestring=[b]"
 }
+
 
 \lstset{basicstyle=\ttfamily,
   showstringspaces=false,
@@ -182,43 +143,44 @@
 
 % \renewcommand{\lstlistingname}{Mã nguồn}
 % \renewcommand{\lstlistlistingname}{Danh sách mã nguồn}
-% \lstdefinelanguage{docker}{
-%   keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
-%   keywordstyle=\color{blue}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
+\lstdefinelanguage{docker}{
+  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
+  backgroundcolor=\color{white},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
-% \lstdefinelanguage{docker-compose}{
-%   keywords={image, environment, ports, container_name, ports, volumes, links},
-%   keywordstyle=\color{blue}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
-% \lstdefinelanguage{docker-compose-2}{
-%   % keywords={version, volumes, services},
-%   keywords={image, environment, ports, container_name, ports, volumes, links, working_dir, command, networks, services, restart, build, context, dockerfile, depends_on},
-%   keywordstyle=\color{blue}\bfseries,
-%   % keywords=[10]{sfu:, controller:, mongodb:, message-broker-server, event-simulator, node-api-server, node-api-gateway, redis},
-%   % keywordstyle=[10]\color{olive}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
+\lstdefinelanguage{docker-compose}{
+  keywords={image, environment, ports, container_name, ports, volumes, links},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinelanguage{docker-compose-2}{
+  % keywords={version, volumes, services},
+  keywords={image, environment, ports, container_name, ports, volumes, links, working_dir, command, networks, services, restart, build, context, dockerfile, depends_on},
+  keywordstyle=\color{blue}\bfseries,
+  % keywords=[10]{sfu:, controller:, mongodb:, message-broker-server, event-simulator, node-api-server, node-api-gateway, redis},
+  % keywordstyle=[10]\color{olive}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
 
 \onehalfspacing
