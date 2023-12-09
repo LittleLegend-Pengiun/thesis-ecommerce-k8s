@@ -283,6 +283,40 @@ Còn đây là hình ảnh sau khi vừa xóa:
   \caption{Hình ảnh sau khi vừa xóa pod}
   \end{center}
 \end{figure}
-Như ta nhìn thấy trong hình, khi một pod vừa bị xóa, ngay lập tức một pod khác được khởi động ngay lập tức, thế chỗ cho pod vừa bị xóa. Như vậy, ta có thể kết luận rằng, khi triển khai hệ thống bằng Kubernetes, cụ thể là Deployment, tính sẵn sàng - availability của hệ thống được đảm bảo.
+Như ta nhìn thấy trong hình 5.1 và 5.2, khi một pod vừa bị xóa, ngay lập tức một pod khác được khởi động ngay lập tức, thế chỗ cho pod vừa bị xóa. Như vậy, ta có thể kết luận rằng, khi triển khai hệ thống bằng Kubernetes, cụ thể là Deployment, tính sẵn sàng - availability của hệ thống được đảm bảo.
 \subsection{Kiếm tra tính mở rộng - scalability}
-\noindent Tính mở rộng là việc hệ thống có thể tạo ra thêm nhiều bản sao của microservice, chạy song song với nhau nhằm đáp ứng được lượng request trên giây tương ứng của người dùng. Với kubernetes, ta có thể dễ dàng scale up hay scale down hệ thống bằng tay thông qua việc điều chỉnh miền \lstinline|replicas| trong file config của Deployment.
+\subsubsection{Manual scaling}
+\noindent Tính mở rộng là việc hệ thống có thể tạo ra thêm nhiều bản sao của microservice, chạy song song với nhau nhằm đáp ứng được lượng request trên giây tương ứng của người dùng. Với kubernetes, ta có thể dễ dàng scale up hay scale down hệ thống bằng tay thông qua việc điều chỉnh miền \lstinline|replicas| trong file config của Deployment.\\[0.5cm]
+Ví dụ như hình 5.3 dưới đây, khi ta tăng số lượng pod của catalog-ms từ 1 lên 3
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.45]{images/hanh/catalog_ms_scale_up.png}
+    \caption{Hình ảnh khi scale số pod từ 1 lên 3}
+  \end{center}
+\end{figure}
+Ngay lập tức đã có thêm 2 pod mới được tạo ra như hình. Sau đó, khi ta giảm xuống 1 lại thì:
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.45]{images/hanh/catalog_ms_scale_down.png}
+    \caption{Hình ảnh khi scale số pod từ 3 xuống 1}
+  \end{center}
+\end{figure}
+Như hình 5.4, ta thấy ngay lập tức có 2 pod bị xóa đi để đảm bảo số lượng pod trong cluster về đúng số lượng quy định.
+
+\subsubsection{Auto scaling}
+Tuy nhiên, trên thực tế, việc scale thủ công như trên sẽ gây tiêu tốn tài nguyên về cả nhân lực và vật lực kha khá, do cần phải có sự can thiệp trực tiếp của con người, và cũng cần con người giám sát 24/24 để đảm bảo có thể điều chỉnh lượng pod phù hợp với nhu cầu lúc đó. Do đó, tốt hơn hết là ta nên thiết lập để kubernetes có thể thực hiện việc đó một cách tự động thay cho chúng ta, và đó là khi ta cần dùng tới HPA - Horizontal Pod Autoscaler.\\[0.5cm]
+Bài kiểm tra bao gồm các bước sau:
+\begin{enumerate}
+  \item Triển khai Deployment, Service, và HPA cho đối tượng muốn kiểm tra, ở đây là Catalog backend microservice.
+  \item Khởi tạo một pod có chứa container được chạy từ image busybox, pod này sẽ cung cấp cho chúng ta môi trường linux shell. Ta sau đó viết 1 đoạn script tạo một vòng lặp vô hạn gọi tới API của Catalog backend microservice.
+  \item Sử dụng câu lệnh \lstinline|kubectl get hpa --watch| để theo dõi trạng thái của HPA. Một thời gian sau, khi lượng pod đã được scale tới tối đa, ta tắt script để ngưng gọi API. 
+  \item Lại đợi một khoảng thời gian, số pod đã được scale về mức tối thiểu. 
+\end{enumerate}
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.19]{images/hanh/HPA_CPU_scale.png}
+    \caption{Kết quả cuộc thử nghiệm}
+  \end{center}
+\end{figure}
+\textbf{Mô tả thí nghiệm:} Trong hình 5.5, ta có thể thấy khi băt đầu gọi API liên tục tới Catalog backend server, thì CPU load bắt đầu tăng mạnh. Khi CPU load vượt ngưỡng 10\% thì HPA sẽ được kích hoạt để tăng số pod trong deployment lên, nhằm mục đích làm giảm PCU load xuống. Tuy nhiên, một thời gian ngắn sau vì CPU load tiếp tục vượt ngưỡng nên HPA lại tiếp tục được kích hoạt tiếp để tăng thêm số pod ở deployment. Việc này chỉ dừng lại cho đến khi số pod dã đạt ngưỡng tối đa cho phép, hoặc CPU load ổn định không tiếp tục vượt ngưỡng nữa thì thôi.\\[0.5cm]
+Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate busybox đi để ngừng việc gửi request tới Catalog microservice. Lúc này CPU load giảm mạnh xuống còn 0\%. Sau một khoảng thời gian, HPA lại được kích hoạt để giảm số pod xuống. Khi giảm pod, nhận thấy CPU load vẫn tiếp tục dưới ngưỡng, HPA tiếp tục được kích hoạt để giảm tiếp số pod xuống, đến khi nào CPU load xấp xỉ với ngưỡng, hoăc khi đạt đến số pod tối thiểu, ở đây là 1 pod.
