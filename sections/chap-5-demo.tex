@@ -188,9 +188,101 @@ resource "kubernetes_service" "catalog-ms-service" {
 \end{lstlisting}
 \section{Hiện thực ingress}
 \noindent Ingress hiện tại đóng vai trò là reverse proxy, expose các Kubernetes service ra bên ngoài cluster.
-% \begin{lstlisting}
-    
-% \end{lstlisting}
+\begin{lstlisting}[language=yaml]
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: example-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/enable-directory-listing: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /backend(/|$)(.*)
+            backend:
+              service:
+                name: catalog-ms-service
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /frontend/?(.*)
+            # path: /
+            backend:
+              service:
+                name: catalog-fe-service
+                port:
+                  number: 80
+---
+
+\end{lstlisting}
+\section{Hiện thực Horizontal Pod Autoscaler}
+\noindent Horizontal Pod Autoscaler (HPA) được sử dụng để giúp deployment có thể scale lên và scale xuống số lượng pod tùy theo thông số nào đó của hệ thống. HPA được hiện thực như sau:
+\begin{lstlisting}[language=yaml]
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: catalog-ms-hpa
+spec:
+  maxReplicas: 10
+  metrics:
+  - resource:
+      name: cpu
+      target:
+        averageUtilization: 10
+        type: Utilization
+    type: Resource
+  minReplicas: 1
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: catalog-ms-deploy
+  behavior:
+    scaleUp:
+      selectPolicy: Max
+      stabilizationWindowSeconds: 60
+      policies:
+      # number of pods that scale in a period of time
+        - periodSeconds: 30
+          type: Pods
+          value: 4
+    scaleDown:
+      selectPolicy: Min
+      stabilizationWindowSeconds: 60
+      policies:
+      # number of pods that scale in a period of time
+        - periodSeconds: 30
+          type: Pods
+          value: 4
+\end{lstlisting}
 \section{Kiểm thử hệ thống}
+\subsection{Thiết lập}
+\noindent Sử dụng minikube, ta tạo một cluster với driver là docker (chạy trên nền docker), bằng câu lệnh \lstinline|minikube start --driver=docker|. Sau đó, ta cần kích hoạt 2 add on cần thiết cho ingress và HPA bằng 2 câu lệnh sau:
+\begin{itemize}
+  \item \lstinline|minikube addons enable ingress|
+  \item \lstinline|minikube addons enable metrics-server|
+\end{itemize}
+Với addon ingress, ta có thể thiết lập và cấu hình ingress cho cluster. Addon metrics-server đóng vai trò cung cấp, theo dõi các thông số của pod (cpu, memory) nhằm phục vụ cho HPA.\\[0.5cm]
+Sau đó, ta sẽ chạy cặp lệnh \lstinline|terraform init| để terraform tải và thiết lập sẵn các dependency cần thiết, và \lstinline|terraform apply --auto-approve| để khởi tạo các dịch vụ kubernetes được viết bằng terraform.\\[0.5cm]
+Với các dịch vụ được viết bằng yaml, ta cần chạy lệnh \lstinline|kubectl apply -f <file_name>| với \lstinline|<file_name>| là tên file config được viết bằng yaml.
 \subsection{Kiểm tra tính sẵn sàng - availability}
+\noindent Để kiếm tra tính sẵn sàng của hệ thống, ta sẽ thử xóa pod đi xem chuyện gì sẽ xảy ra.\\[0.5cm]
+Đây là trạng thái ban đầu của các pod:
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[scale=0.45]{images/hanh/pod_before_delete.png}
+  \caption{Hình ảnh trước khi xóa pod}
+  \end{center}
+\end{figure}
+Còn đây là hình ảnh sau khi vừa xóa:
+\begin{figure}[H]
+  \begin{center}
+  \includegraphics[scale=0.45]{images/hanh/pod_after_delete.png}
+  \caption{Hình ảnh sau khi vừa xóa pod}
+  \end{center}
+\end{figure}
+Như ta nhìn thấy trong hình, khi một pod vừa bị xóa, ngay lập tức một pod khác được khởi động ngay lập tức, thế chỗ cho pod vừa bị xóa. Như vậy, ta có thể kết luận rằng, khi triển khai hệ thống bằng Kubernetes, cụ thể là Deployment, tính sẵn sàng - availability của hệ thống được đảm bảo.
 \subsection{Kiếm tra tính mở rộng - scalability}
+\noindent Tính mở rộng là việc hệ thống có thể tạo ra thêm nhiều bản sao của microservice, chạy song song với nhau nhằm đáp ứng được lượng request trên giây tương ứng của người dùng. Với kubernetes, ta có thể dễ dàng scale up hay scale down hệ thống bằng tay thông qua việc điều chỉnh miền \lstinline|replicas| trong file config của Deployment.
