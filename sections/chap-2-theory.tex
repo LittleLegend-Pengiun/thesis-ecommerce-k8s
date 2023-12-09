@@ -246,13 +246,15 @@ Mỗi ứng dụng có thể có nhiều kết nối.
     \item Cấu hình phức tạp và yêu cầu kiến thức về hệ thống phân tán.
     \item Hiệu suất có thể bị ảnh hưởng đối với tải công việc rất cao.
 \end{itemize}
-
+\newpage
 \section{Case study}
 \subsection{Ứng dụng kiến trúc microservice với Azure Kubernetes Service}
-\begin{figure}[h]
-    \centering
+\begin{figure}[H]
+    \begin{center}
     \includegraphics[scale=0.8]{images/hieu/chap-2/aks-architecture.png}
-    \caption{AKS Architecture}
+    \vspace*{5mm}
+    \caption{AKS Architecture}\footnote{https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks}
+    \end{center}
 \end{figure}
 \subsubsection{Các thành phần của kiến trúc}
 \begin{itemize}
@@ -301,10 +303,11 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
             \item Cân bằng tải (Load Balancer): Lưu lượng gửi đến địa chỉ IP của dịch vụ được cân bằng tải cho cácp pod.
             \item Khám phá dịch vụ (Service Recovery): SO cung cấp một tên miền DNS cho một dịch vụ, cổng API có thể gọi dịch vụ bằng tên miền này này. Các mục DNS được sắp xếp theo namespace.
         \end{itemize}
-        \begin{figure}[h]
+        \begin{figure}[H]
             \centering
             \includegraphics[scale=1]{images/hieu/chap-2/service-object-diagram.png}
-            \caption{Sơ đồ mối quan hệ giữa các đối tượng dịch vụ và pod}  
+            \vspace*{5mm}
+            \caption{Sơ đồ mối quan hệ giữa các đối tượng dịch vụ và pod}\footnote{1}
         \end{figure}
     \item \textbf{Ingress}: Bộ điều khiển ingress (Ingress Controller) và ingress có thể phối hợp hoạt động để cung cấp các tính năng sau:
         \begin{itemize}
@@ -353,7 +356,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
 \end{itemize}
 \newpage
 \subsection {Ứng dụng AKS cho kiến trúc microservice nâng cao}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-2/aks-architecture-advance.png}
     \caption{AKS Architecture Advance}
@@ -499,7 +502,7 @@ Một số ưu điểm của Magento:
         \item Có thể tạo website thương mại điện tử hàng loạt, ở nhiều nước khác nhau nhờ các hỗ trợ về tiền tệ và ngôn ngữ đa dạng.    
     \end{itemize}
 \subsubsection{Kiến trúc}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.7]{images/hieu/chap-2/magento-architecture.png}
     \caption{Sơ đồ kiến trúc của Magento}
@@ -554,10 +557,121 @@ Một số ưu điểm của Magento:
                 \item Sử dụng giới hạn tài nguyên để hạn chế tổng tài nguyên cho phép cho một vùng chứa, giúp cân bằng tài nguyên giữa các vùng chứa. 
             \end{itemize}
     \end{itemize}
-\subsection{Amazon Web Services (AWS) Architecture}
-\subsubsection{Kiến trúc}
-\begin{figure}[h]
-    \centering
+\subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS}
+\subsubsection{Bối cảnh}
+Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta thực hiện đánh giá sơ bộ về đợt ra mắt điện thoại thông minh sắp ra mắt và rất được mong đợi, thông tin này đã lan truyền rộng rãi. Bài đánh giá, một bài đăng blog trên trang web của chúng ta, bao gồm cả video và hình ảnh. Tính năng bình luận được bật cho bài viết và người đọc cũng có thể đánh giá bài viết đó. 
+\subsubsection{Giải pháp đề xuất}
+\begin{figure}[H]
+    \begin{center}
     \includegraphics[scale=1]{images/hieu/chap-2/aws-architecture.png}
+    \vspace*{5mm}
     \caption{AWS Architecture}
+    \end{center}
 \end{figure} 
+\begin{itemize}
+    \item \textbf{Bước 1:Load server dễ dàng}
+        \newline
+        Chúng ta cần nhanh chóng xử lý lưu lượng truy cập tăng đột biến, vì vậy, việc giảm tải máy chủ chúng ta chúng tag cách di chuyển hình ảnh và video sang một số mạng phân phối nội dung của bên thứ ba (CDN). \\[0.5cm]
+        AWS cung cấp Amazon CloudFront dưới dạng giải pháp CDN, có khả năng mở rộng cao với tính năng bảo mật tích hợp để xác minh danh tính truy cập nguồn gốc và xử lý mọi cuộc tấn công DDoS. \\[0.5cm]
+        CloudFront có thể hướng lưu lượng truy cập đến máy chủ local hoặc được lưu trữ trên cloud.
+    \item \textbf{Bước 2: Giảm read request bằng cách thêm nhiều read replicas}
+        \begin{figure}[H]
+            \begin{center}
+            \includegraphics[scale=1]{images/hieu/chap-2/read-replica.png}
+            \vspace*{5mm}
+            \caption{Tăng số lượng read replicas}
+            \end{center}
+        \end{figure} 
+    \item \textbf{Bước 3: Giảm write request}
+        \begin{figure}[H]
+            \begin{center}
+            \includegraphics[scale=0.8]{images/hieu/chap-2/write-request-1.png}
+            \vspace*{5mm}
+            \caption{Amazon Simple Queue Service}
+            \end{center}
+        \end{figure}
+
+        \begin{figure}[H]
+            \begin{center}
+            \includegraphics[scale=0.8]{images/hieu/chap-2/write-request-2.png}
+            \vspace*{5mm}
+            \caption{Giảm write request}
+            \end{center}
+        \end{figure}
+        Điều này có thể đạt được bằng cách đưa vào hàng đợi để xử lý thông báo không đồng bộ. Amazon Simple Queue Service (Amazon SQS) là hàng đợi có khả năng mở rộng cao, có thể xử lý mọi loại tải tin nhắn công việc. chúng ta có thể xử lý dữ liệu, như xếp hạng và đánh giá.
+    \item \textbf{Bước 4: Amazon Elasticache}
+    \newline
+        Chúng ta có thể sử dụng Amazon Elasticache cho Memcached hoặc Redis để giảm yêu cầu ghi. Memcached và Redis có các trường hợp sử dụng khác nhau, vì vậy nếu chúng ta có đủ khả năng để mất và khôi phục bộ đệm từ cơ sở dữ liệu của mình, hãy sử dụng Memcached.\\[0.5cm]
+        Nếu chúng ta đang tìm kiếm tính bền vững của dữ liệu mạnh mẽ hơn và cấu trúc dữ liệu phức tạp hơn, hãy sử dụng Redis. Trong AWS, đây là những dịch vụ được quản lý, nghĩa là AWS sẽ đảm nhận khối lượng công việc cho chúng ta và chúng ta cũng có thể triển khai chúng trong các phiên bản tại chỗ của mình hoặc sử dụng phương pháp kết hợp.
+    \item  \textbf{Bước 5:Mở rộng quy mô máy chủ}
+    \newline
+    Nếu vẫn còn sự cố, đã đến lúc mở rộng quy mô máy chủ. Để có hiệu quả chi phí cao nhất và khả năng mở rộng không giới hạn, chúng ta nên luôn sử dụng tỷ lệ theo chiều ngang (horizontal scaling).\\[0.5cm]
+    Nếu máy chủ của chúng ta đặt tại chỗ (on promise), thì nên cân nhắc việc tạo kiến trúc nhiều trang, điều này sẽ giúp chúng ta đạt được khả năng mở rộng nhanh chóng theo yêu cầu và cung cấp giải pháp khắc phục thảm họa tốt, chúng ta có thể chọn các dịch vụ riêng lẻ như Amazon Route 53, AWS CloudFormation, Amazon SQS, Amazon SNS, Amazon RDS, v.v. tùy theo nhu cầu của chúng ta.\\[0.5cm]
+    Kiến trúc multi-site của chúng ta sẽ trông giống như sơ đồ sau:
+    \begin{figure}[H]
+        \begin{center}
+        \includegraphics[scale=0.8]{images/hieu/chap-2/multi-site-architecture.png}
+        \vspace*{5mm}
+        \caption{Kiến trúc multi-site}
+        \end{center}
+    \end{figure}
+        Trong kiến trúc này, chúng ta có thể chạy khối lượng công việc thông thường của mình tại on-premise và sử dụng khối lượng công việc AWS theo yêu cầu để có khả năng mở rộng và khắc phục thảm họa. chúng tag cách sử dụng Route 53, chúng ta có thể hướng một tỷ lệ phần trăm người dùng chính xác tới khối lượng công việc AWS.\\[0.5cm]
+        Nếu chúng ta quyết định chuyển tất cả khối lượng công việc của mình sang AWS, kiến trúc multi-AZ được đề xuất sẽ như sau:
+        \begin{figure}[H]
+            \begin{center}
+            \includegraphics[scale=0.8]{images/hieu/chap-2/multi-AZ-architecture.png}
+            \vspace*{5mm}
+            \caption{Kiến trúc multi-AZ}
+            \end{center}
+        \end{figure}
+        Đối với kiểu kiến trúc này, chúng ta đang sử dụng khối lượng công việc phân tán nhiều AZ để có tính sẵn sàng cao. chúng ta có thể thiết lập nhiều AZ và sử dụng Route 53 để phân bổ khối lượng công việc của mình giữa các Khu vực AWS.\\[0.5cm]
+        CloudFront giúp chúng ta mở rộng quy mô và phân phối nội dung tĩnh thông qua bộ chứa S3 và DynamoDB, duy trì trạng thái ứng dụng của chúng ta để Tự động chia tỷ lệ có thể áp dụng tỷ lệ theo chiều ngang (Horizontal) mà không làm mất dữ liệu. Ở lớp cơ sở dữ liệu, RDS với chế độ chờ multi-AZ cung cấp tính sẵn sàng cao và chúng ta sao chỉ có quyền đọc giúp đạt được khả năng mở rộng.\\[0.5cm]
+        Chúng ta nên tạo một mô hình kết hợp, nhiều địa điểm bằng cách đặt bản sao môi trường tại chỗ trên đám mây công cộng như Đám mây AWS, đồng thời sử dụng Dịch vụ DNS Amazon Route53 và 
+        Elastic Load Balancing để định tuyến lưu lượng giữa môi trường tại chỗ (on premise) và đám mây (cloud).\\[0.5cm]
+        AWS hiện hỗ trợ cân bằng tải giữa AWS và môi trường tại chỗ để giúp chúng ta mở rộng môi trường đám mây một cách nhanh chóng, bất cứ khi nào cần và giảm thiểu hơn nữa bằng cách áp dụng khả năng tự động thay đổi quy mô của Amazon và đặt ngưỡng cho lưu lượng truy cập tại chỗ của chúng ta bằng Route 53.
+    \end{itemize}
+\subsection{Phân tích ảnh hưởng của các framework PHP khi triển khai ứng dụng trên AKS}
+\subsubsection{Bối cảnh}
+    Trước khi chúng ta bắt đầu mở rộng quy mô của một ứng dụng PHP lên trên cloud, điều quan trọng là phải tuân theo các biện pháp liên quan đến hiệu suất và phương pháp phát triển. Tối ưu hóa hiệu suất rất quan trọng vì tắc nghẽn hiệu suất ở cấp độ hard code sẽ cản trở chúng ta khi thực hiện các cải tiến đối với cơ sở hạ tầng AWS.\\[0.5cm]
+    Thực tiễn phát triển tốt rất quan trọng để đảm bảo rằng chúng ta có sự cân bằng phù hợp giữa tốc độ phát triển, mức độ dễ đọc của code và tính linh hoạt trong ứng dụng của mình.\\[0.5cm]
+    Ngoài việc đảm bảo rằng chúng ta có mã tối ưu và các phương pháp phát triển tốt thì việc nên hiểu một số lợi ích và hạn chế của việc lựa chọn framework PHP trước khi chuẩn bị mở rộng quy mô của ứng dụng.\\[0.5cm]
+    Các framework giúp chúng ta không phải đưa ra các quyết định quan trọng về kiến trúc cho dự án của mình, nhưng chúng ta có thể phải trả giá vì việc không cân nhắc khi sử dụng chúng. Lợi ích chính của hầu hết các framework bao gồm các đoạn code mạnh mẽ hơn, nhiều chức năng vượt trội hơn và tốc độ phát triển nhanh hơn.\\[0.5cm]
+    Tuy nhiên, cái giá phải trả khi sử dụng framework là chúng thường có các mẫu kiến trúc cố định và tính không linh hoạt này có thể dẫn đến khó khăn khi sau này chúng ta muốn tích hợp ứng dụng của mình với AWS.\\[0.5cm]
+    Với những sự cân bằng này, điều quan trọng là phải chọn framework nào bạn sẽ sử dụng nếu có và nó sẽ tác động như thế nào đến các quyết định mở rộng quy mô của chúng ta sau này. Các framework PHP phổ biến nhất là CodeIgniter, Symfony và Laravel.
+\subsubsection{Tích hợp các framework PHP với kiến trúc phân tán}
+    \begin{itemize}
+        \item \textbf{CodeIgniter MVC architecture}
+        \newline
+        Mô hình ứng dụng của chúng ta có thể chứa những thứ như phiên người dùng (session) và bộ nhớ đệm (cache), do đó nó có thể gây khó khăn nếu những thứ này bị ràng buộc chặt chẽ với ứng dụng của chúng ta, vì điều này có nghĩa là chúng cũng bị ràng buộc với các phiên bản EC2 duy nhất của chúng ta. Điều này gây khó khăn nếu sau này chúng ta muốn mở rộng quy mô thành nhiều phiên bản EC2.
+        \item \textbf{Symfony MVC architecture}
+        \newline
+        Symfony là một framework giúp phát triển các thành phần tách rời và một khung MVC tùy chọn được triển khai trên các thành phần này. Điều này đặc biệt có lợi khi tích hợp với AWS vì chúng ta vẫn có thể duy trì tính linh hoạt trong kiến trúc trong khi vẫn tận dụng được các thành phần của Symfony, được thiết kế để thực hiện các tác vụ phát triển dễ dàng hơn.
+        \item \textbf{Laravel MVC architecture}
+        \newline
+        Laravel là một framework thường sử dụng kiến trúc MVC để phát triển ứng dụng, nghĩa là có thể cần nhiều bước hơn để tách các phần khác nhau trong ứng dụng của chúng ta thành các service khác nhau trên AWS. Tuy nhiên, Laravel có khả năng tùy biến cao (option cao) nên vẫn có nhiều lựa chọn để mở rộng quy mô trên AWS với Laravel.\\[0.5cm]
+        Một lựa chọn khác là không sử dụng framework nào cả. Điều này cho phép linh hoạt tối đa vì có toàn quyền kiểm soát kiến trúc của mình và có thể phát triển kiến trúc phân tán tương thích hơn với AWS ngay từ đầu.
+    \end{itemize}
+\subsection{Giải pháp triển khai cho ứng dụng microservice trên EKS}
+\subsubsection{Bối cảnh}
+Chúng ta sẽ triển khai hai microservice:
+\begin{itemize}
+    \item Quản lý người dùng: tạo API người dùng sẽ gọi service.
+    \item Thông báo: gửi API thông báo để gửi email cho người dùng khi chúng ta tạo một tài khoản người dùng mới.
+\end{itemize}
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[scale=1]{images/hieu/chap-2/microservice.png}
+    \vspace*{5mm}
+    \caption{Hai microservices quản lý người dùng và thông báo}
+    \end{center}
+\end{figure}
+\subsubsection{Kiến trúc giải pháp}
+Sơ đồ kiến trúc được triển khai như hình:
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[scale=0.8]{images/hieu/chap-2/solution-architecture.png}
+    \vspace*{5mm}
+    \caption{Sơ đồ iến trúc giải pháp}
+    \end{center}
+\end{figure}    
+Khi có request từ Users hướng đến hệ thống, các request sẽ được phân tán ra 02 availability zone - nơi đặt các máy chủ của hệ thống thông qua một service của AWS là Ingress Service, sau đó request được dẫn đến các EC2 Worker Node nơi chứa các pods của hệ thống để xử lý logic (Amazon RDS DB để lưu dữ liệu của ứng dụng, Amazon Route 53 để phân giải tên miền) cho các request đó, sau đó thông báo sẽ được gửi đến người dùng thông qua service khác của EKS có tên là Simple Email Service (SES).
