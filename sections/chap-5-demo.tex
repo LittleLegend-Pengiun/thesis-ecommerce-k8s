@@ -7,6 +7,7 @@
     \item PostgresSQL: Hệ cơ sở dữ liệu lưu trữ thông tin.
     \item Kubernetes: Deploy các microservice.
     \item Minikube: Chạy Kubernetes cluster trên local.
+    \item Terraform: Khởi tạo 
 \end{itemize}
 
 \section{Giới hạn phạm vi}
@@ -27,7 +28,7 @@
 \subsection{Hiện thực frontend và backend}
 \noindent Sau khi có một ứng dụng hoàn chỉnh, có thể hiển thị được thông tin mặt hàng, ta đóng gói nó thành Docker image và đẩy lên Docker Hub.\\[0.5cm]
 Dockerfile của frontend có nội dung như sau:
-\begin{lstlisting}[language=Docker]
+\begin{lstlisting}[language=docker]
 # Use an official Node runtime as a parent image
 FROM node:18 AS builder
 
@@ -57,7 +58,8 @@ EXPOSE 80
 \end{lstlisting}
 
 Docker file của backend có nội dung như sau:
-\begin{lstlisting}[language=Docker]
+
+\begin{lstlisting}[language=docker]
 # Use an official OpenJDK runtime as a base image with Java 17
 FROM eclipse-temurin:17-jdk-alpine
 
@@ -78,3 +80,117 @@ CMD ["java", "-jar", "target/catalog-0.0.1-SNAPSHOT.jar"]
 \end{lstlisting}
 
 \subsection{Hiện thực Deployment và Service}
+\noindent Ta sử dụng terraform để khởi tạo các service trên, tương ứng với mỗi microservice frontend và backend.
+\subsubsection{Với frontend}
+\noindent Với frontend, khi được đưa lên production, service sẽ được build thành định dạng html, css truyền thống, đi kèm với file javascript chứa logic, và được cung cấp bởi nginx server, do đó mặc định port sẽ là 80 (HTTP).
+\begin{lstlisting}[language=terraform]
+resource "kubernetes_deployment" "catalog-fe-deploy" {
+  metadata {
+    name = "catalog-fe-deploy"
+    labels = { app = "catalog-fe", tier = "frontend" }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = { app = "catalog-fe-pod", tier = "frontend" }
+    }
+    template {
+      metadata {
+        name = "catalog-fe-pod"
+        labels = { app = "catalog-fe-pod", tier = "frontend"}
+      }
+      spec {
+        container {
+          name = "catalog-fe"
+          image = "hoanganhleboy/catalog-fe:latest"
+          port { container_port = 80 }
+          env {
+            name = "CONTENT"
+            value = "This is the string from k8s"
+          }
+          image_pull_policy = "Always"
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "catalog-fe-service" {
+  metadata {
+    name = "catalog-fe-service"
+    labels = { app = "catalog-fe-service", tier = "frontend" }
+  }
+  spec {
+    selector = { app = "catalog-fe-pod", tier = "frontend"}
+    port {
+      protocol = "TCP"
+      port = 80
+      target_port = 80
+    }
+    type = "NodePort"
+  }
+}
+\end{lstlisting} 
+\subsubsection{Với backend}
+\noindent Catalog microservice sau khi được build thành image sẽ được chạy từ file .jar, thông qua JVM.
+\begin{lstlisting}[language=terraform]
+resource "kubernetes_deployment" "catalog-ms-deploy" {
+  metadata {
+    name = "catalog-ms-deploy"
+    labels = { app = "catalog-ms", tier = "backend" }
+  }
+  spec {
+    replicas = 1
+    selector {
+      match_labels = { app = "catalog-ms-pod", tier = "backend" }
+    }
+    template {
+      metadata {
+        name = "catalog-ms-pod"
+        labels = { app = "catalog-ms-pod", tier = "backend"}
+      }
+      spec {
+        container {
+          name = "catalog-ms"
+          image = "hoanganhleboy/catalog-ms"
+          port { container_port = 8090 } // This port the same with port in the code.
+          resources {
+            requests = {
+              cpu = "256m"
+              memory = "128Mi"
+            }
+            limits = {
+              cpu = "256m"
+              memory = "128Mi"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+resource "kubernetes_service" "catalog-ms-service" {
+  metadata {
+    name = "catalog-ms-service"
+    labels = { app = "catalog-ms-service", tier = "backend" }
+  }
+  spec {
+    selector = { app = "catalog-ms-pod", tier = "backend"}
+    port {
+      protocol = "TCP"
+      port = 8090 // port expose to outside
+      target_port = 80 // This port the same with port in the code.
+    }
+    type = "NodePort"
+  }
+}
+\end{lstlisting}
+\section{Hiện thực ingress}
+\noindent Ingress hiện tại đóng vai trò là reverse proxy, expose các Kubernetes service ra bên ngoài cluster.
+% \begin{lstlisting}
+    
+% \end{lstlisting}
+\section{Kiểm thử hệ thống}
+\subsection{Kiểm tra tính sẵn sàng - availability}
+\subsection{Kiếm tra tính mở rộng - scalability}
