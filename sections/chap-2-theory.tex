@@ -246,3 +246,26 @@ Mỗi ứng dụng có thể có nhiều kết nối.
     \item Cấu hình phức tạp và yêu cầu kiến thức về hệ thống phân tán.
     \item Hiệu suất có thể bị ảnh hưởng đối với tải công việc rất cao.
 \end{itemize}
+\section{Định nghĩa các yêu cầu mục tiêu của đồ án}
+\noindent Đề tài xây dựng nhằm phân tích và giải quyết bài toán xoay quanh 2 từ khóa \textbf{scalability} và \textbf{availability}. Do đó, ta cần đi vào tìm hiểu định nghĩa của 2 từ khóa này:
+% \\[0.5cm]
+
+\subsection{Availability - Tính sẵn sàng}
+\noindent Theo định nghĩa của Microsoft\footnote{Website: https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/2-high-availability-scalability-cloud}, “Khi bạn deploy một ứng dụng, dịch vụ, hay bất kỳ tài nguyên IT nào, việc những tài nguyên đó sẵn sàng khi bạn cần là điều quan trọng. High availability tập trung vào việc đảm bảo tối đa tính sẵn sàng của hệ thống, bất kể sự gián đoạn hay sự kiện nào có thể xảy ra.” \\[0.5cm]
+
+\noindent Khi xây dựng giải pháp của mình, ta sẽ cần tính đến các đảm bảo về tính khả dụng của dịch vụ. Azure là môi trường đám mây có tính sẵn sàng cao với sự đảm bảo về thời gian hoạt động tùy thuộc vào dịch vụ. Những đảm bảo này là một phần của thỏa thuận cấp độ dịch vụ (SLA).\\[0.5cm]
+
+\noindent Tính availability của hệ thống là thước đo thời gian mà một hệ thống máy tính hoặc một dịch vụ hoạt động và sẵn sàng để sử dụng. Nó thường được biểu thị dưới dạng phần trăm và được tính dựa trên tổng thời gian mà hệ thống sẽ khả dụng trong một khoảng thời gian nhất định.\\
+\noindent Công thức tính availability của hệ thống là:\\
+\begin{equation}
+    Availability = \frac{Operational Time}{Total Time}\\
+\end{equation}
+\noindent Trong đó:
+\begin{itemize}
+    \item OperationalTime là thời gian hệ thống hoạt động và sẵn sàng.
+    \item TotalTime là tổng thời gian trong khoảng thời gian nhất định.
+\end{itemize}
+\subsection{Scalability - Tính mở rộng}
+\noindent Theo định nghĩa của Microsoft\footnote{Như trên}, “Khả năng mở rộng (scalability) đề cập đến khả năng điều chỉnh các tài nguyên để đáp ứng nhu cầu. Nếu bạn đột nhiên gặp phải lưu lượng truy cập cao và hệ thống của bạn bị quá tải thì khả năng mở rộng quy mô có nghĩa là bạn có thể bổ sung thêm tài nguyên để xử lý tốt hơn lượng tải đang gia tăng.” \\[0.5cm]
+\noindent Lợi ích khác của tính mở rộng là bạn không phải trả quá nhiều tiền cho các dịch vụ. Vì đám mây là mô hình dựa trên mức tiêu dùng nên bạn chỉ trả tiền cho những gì bạn sử dụng. Nếu nhu cầu giảm, bạn có thể giảm tài nguyên và từ đó giảm chi phí. \\[0.5cm]
+\noindent Scalability thường có hai loại: dọc và ngang. Mỏ rộng theo chiều dọc tập trung vào việc tăng hoặc giảm khả năng của tài nguyên. Mở rộng theo chiều ngang là thêm hoặc bớt số lượng tài nguyên.
