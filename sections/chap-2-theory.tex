@@ -248,12 +248,12 @@ Mỗi ứng dụng có thể có nhiều kết nối.
 \end{itemize}
 \newpage
 \section{Case study}
-\subsection{Ứng dụng kiến trúc microservice với Azure Kubernetes Service}
+\subsection{Ứng dụng kiến trúc microservice với Azure Kubernetes Service \protect\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices}}
 \begin{figure}[H]
     \begin{center}
     \includegraphics[scale=0.8]{images/hieu/chap-2/aks-architecture.png}
     \vspace*{5mm}
-    \caption{AKS Architecture}\footnote{https://docs.microsoft.com/en-us/azure/architecture/reference-architectures/microservices/aks}
+    \caption{AKS Architecture}
     \end{center}
 \end{figure}
 \subsubsection{Các thành phần của kiến trúc}
@@ -307,7 +307,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
             \centering
             \includegraphics[scale=1]{images/hieu/chap-2/service-object-diagram.png}
             \vspace*{5mm}
-            \caption{Sơ đồ mối quan hệ giữa các đối tượng dịch vụ và pod}\footnote{1}
+            \caption{Sơ đồ mối quan hệ giữa các đối tượng dịch vụ và pod}
         \end{figure}
     \item \textbf{Ingress}: Bộ điều khiển ingress (Ingress Controller) và ingress có thể phối hợp hoạt động để cung cấp các tính năng sau:
         \begin{itemize}
@@ -355,7 +355,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
       
 \end{itemize}
 \newpage
-\subsection {Ứng dụng AKS cho kiến trúc microservice nâng cao}
+\subsection {Ứng dụng AKS cho kiến trúc microservice nâng cao\protect\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices-advanced}}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-2/aks-architecture-advance.png}
@@ -487,7 +487,7 @@ Triển khai những đề xuất này khi sử dụng kiến trúc microservice
     \end{itemize}
 
 
-\subsection{Nền tảng thương mại điện tử Magento trong kiến trúc Azure Kubernetes Service - AKS}
+\subsection{Nền tảng thương mại điện tử Magento trong kiến trúc Azure Kubernetes Service - AKS\protect\footnote{Nguồn thảm khảo: https://learn.microsoft.com/en-us/azure/architecture/example-scenario/magento/magento-azure}}
 \subsubsection{Magento là gì}
 Magento là một platform về e-commerce được tạo ra dựa trên ngôn ngữ lập trình PHP và cơ sở dữ liệu MySQL. Magento hoạt động theo mô hình EAV (entity – attribute – value) và có kiến trúc module (mọi tính năng đều được module hóa). Tất cả các module này đều được lưu trữ trên website thương mại điện tử của Magento.
 \newline
@@ -557,7 +557,7 @@ Một số ưu điểm của Magento:
                 \item Sử dụng giới hạn tài nguyên để hạn chế tổng tài nguyên cho phép cho một vùng chứa, giúp cân bằng tài nguyên giữa các vùng chứa. 
             \end{itemize}
     \end{itemize}
-\subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS}
+\subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS\protect\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}}
 \subsubsection{Bối cảnh}
 Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta thực hiện đánh giá sơ bộ về đợt ra mắt điện thoại thông minh sắp ra mắt và rất được mong đợi, thông tin này đã lan truyền rộng rãi. Bài đánh giá, một bài đăng blog trên trang web của chúng ta, bao gồm cả video và hình ảnh. Tính năng bình luận được bật cho bài viết và người đọc cũng có thể đánh giá bài viết đó. 
 \subsubsection{Giải pháp đề xuất}
@@ -630,7 +630,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
         Elastic Load Balancing để định tuyến lưu lượng giữa môi trường tại chỗ (on premise) và đám mây (cloud).\\[0.5cm]
         AWS hiện hỗ trợ cân bằng tải giữa AWS và môi trường tại chỗ để giúp chúng ta mở rộng môi trường đám mây một cách nhanh chóng, bất cứ khi nào cần và giảm thiểu hơn nữa bằng cách áp dụng khả năng tự động thay đổi quy mô của Amazon và đặt ngưỡng cho lưu lượng truy cập tại chỗ của chúng ta bằng Route 53.
     \end{itemize}
-\subsection{Phân tích ảnh hưởng của các framework PHP khi triển khai ứng dụng trên AKS}
+\subsection{Phân tích ảnh hưởng của các framework PHP khi triển khai ứng dụng trên AKS\protect\footnote{Nguồn tham khảo: https://www.logicata.com/blog/scaling-php-applications-on-aws}}
 \subsubsection{Bối cảnh}
     Trước khi chúng ta bắt đầu mở rộng quy mô của một ứng dụng PHP lên trên cloud, điều quan trọng là phải tuân theo các biện pháp liên quan đến hiệu suất và phương pháp phát triển. Tối ưu hóa hiệu suất rất quan trọng vì tắc nghẽn hiệu suất ở cấp độ hard code sẽ cản trở chúng ta khi thực hiện các cải tiến đối với cơ sở hạ tầng AWS.\\[0.5cm]
     Thực tiễn phát triển tốt rất quan trọng để đảm bảo rằng chúng ta có sự cân bằng phù hợp giữa tốc độ phát triển, mức độ dễ đọc của code và tính linh hoạt trong ứng dụng của mình.\\[0.5cm]
@@ -651,7 +651,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
         Laravel là một framework thường sử dụng kiến trúc MVC để phát triển ứng dụng, nghĩa là có thể cần nhiều bước hơn để tách các phần khác nhau trong ứng dụng của chúng ta thành các service khác nhau trên AWS. Tuy nhiên, Laravel có khả năng tùy biến cao (option cao) nên vẫn có nhiều lựa chọn để mở rộng quy mô trên AWS với Laravel.\\[0.5cm]
         Một lựa chọn khác là không sử dụng framework nào cả. Điều này cho phép linh hoạt tối đa vì có toàn quyền kiểm soát kiến trúc của mình và có thể phát triển kiến trúc phân tán tương thích hơn với AWS ngay từ đầu.
     \end{itemize}
-\subsection{Giải pháp triển khai cho ứng dụng microservice trên EKS}
+\subsection{Giải pháp triển khai cho ứng dụng microservice trên EKS\protect\footnote{Nguồn tham khảo: https://www.stacksimplify.com/aws-eks/microservices-on-aws-eks/learn-to-deploy-microservices-on-aws-eks}}
 \subsubsection{Bối cảnh}
 Chúng ta sẽ triển khai hai microservice:
 \begin{itemize}
