@@ -55,3 +55,28 @@
     \end{center}
     \label{}
 \end{figure}
+\section{Thiết kế Database}
+\subsection{Thiết kế Database cho hiển thị sản phẩm}
+ \begin{figure}[H]
+    \begin{center}
+    \includegraphics[scale = 0.8]{images/phat/DB_catalog.jpg}
+    \vspace*{7mm}
+    \caption{Database cho hiển thị sản phẩm}
+    \end{center}
+    \label{}
+\end{figure}
+\textbf{\textit{Ghi chú:}}
+\begin{itemize}
+    \item [-] 1..*: Mối quan hệ 1-N.
+    \item [-] 1..1: Mối quan hệ 1-1.
+    \item [-] *..*: Mối quan hệ N-N.
+\end{itemize}
+\noindent{\textbf{Mô tả:}}\\
+\noindent Cấu trúc database cho hiển thị danh sách sản phẩm gồm có 05 bảng dữ liệu:
+\begin{itemize}
+    \item [-] Bảng product: chứa thông tin chi tiết sản phẩm.
+    \item [-] Bảng product\_category: chứa thông tin loại sản phẩm.
+    \item [-] Bảng product\_inventory: chứa thông tin nơi lưu trữ sản phẩm.
+    \item [-] Bảng discount: chứa thông tin về giảm giá.
+    \item [-] Bảng attribute: chứa thông tin về thuộc tính của sản phẩm.
+\end{itemize}
