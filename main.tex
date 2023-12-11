@@ -61,45 +61,67 @@
 
 
 \usepackage{listings}
-% \usepackage{color}
+\usepackage{color}
 \usepackage{listingsutf8}
 
 \definecolor{dkgreen}{rgb}{0,0.6,0}
 \definecolor{gray}{rgb}{0.5,0.5,0.5}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
+% Define Javascript language
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+  keywordstyle=\color{blue}\bfseries,
+  ndkeywords={class, export, boolean, throw, implements, import, this},
+  ndkeywordstyle=\color{darkgray}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
-% \lstdefinelanguage{JavaScript}{
-%   keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
-%   keywordstyle=\color{blue}\bfseries,
-%   ndkeywords={class, export, boolean, throw, implements, import, this},
-%   ndkeywordstyle=\color{darkgray}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{//},
-%   morecomment=[s]{/*}{*/},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
+\lstset{
+  language=JavaScript,
+  backgroundcolor=\color{lightgray},
+  extendedchars=true,
+  basicstyle=\footnotesize\ttfamily,
+  showstringspaces=false,
+  showspaces=false,
+  numbers=left,
+  numberstyle=\footnotesize,
+  numbersep=9pt,
+  tabsize=2,
+  breaklines=true,
+  showtabs=false,
+  captionpos=b
+}
 
-% \lstset{
-%    language=JavaScript,
-%    backgroundcolor=\color{lightgray},
-%    extendedchars=true,
-%    basicstyle=\footnotesize\ttfamily,
-%    showstringspaces=false,
-%    showspaces=false,
-%    numbers=left,
-%    numberstyle=\footnotesize,
-%    numbersep=9pt,
-%    tabsize=2,
-%    breaklines=true,
-%    showtabs=false,
-%    captionpos=b
-% }
+% Define language terraform - kubernetes
+\lstdefinelanguage{terraform}{
+  keywords={terraform, variable, locals, output, module, resource, data, provider, lifecycle, provisioner, connection, count, for_each, depends_on, provider, for, if, metadata, spec, type},
+  backgroundcolor=\color{white},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{gray}\ttfamily,
+  stringstyle=\color{purple}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
+
+\lstset{basicstyle=\ttfamily,
+  showstringspaces=false,
+  commentstyle=\color{red},
+  keywordstyle=\color{blue},
+  inputencoding=utf8,
+  extendedchars=true
+}
 
 
 \lstset{frame=tb,
@@ -121,44 +143,91 @@
 
 % \renewcommand{\lstlistingname}{Mã nguồn}
 % \renewcommand{\lstlistlistingname}{Danh sách mã nguồn}
-% \lstdefinelanguage{docker}{
-%   keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
-%   keywordstyle=\color{blue}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
+% Docker syntax highlight
+\lstdefinelanguage{docker}{
+  keywords={FROM, RUN, COPY, ADD, ENTRYPOINT, CMD,  ENV, ARG, WORKDIR, EXPOSE, LABEL, USER, VOLUME, STOPSIGNAL, ONBUILD, MAINTAINER},
+  backgroundcolor=\color{white},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
-% \lstdefinelanguage{docker-compose}{
-%   keywords={image, environment, ports, container_name, ports, volumes, links},
-%   keywordstyle=\color{blue}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
-% \lstdefinelanguage{docker-compose-2}{
-%   % keywords={version, volumes, services},
-%   keywords={image, environment, ports, container_name, ports, volumes, links, working_dir, command, networks, services, restart, build, context, dockerfile, depends_on},
-%   keywordstyle=\color{blue}\bfseries,
-%   % keywords=[10]{sfu:, controller:, mongodb:, message-broker-server, event-simulator, node-api-server, node-api-gateway, redis},
-%   % keywordstyle=[10]\color{olive}\bfseries,
-%   identifierstyle=\color{black},
-%   sensitive=false,
-%   comment=[l]{\#},
-%   commentstyle=\color{purple}\ttfamily,
-%   stringstyle=\color{red}\ttfamily,
-%   morestring=[b]',
-%   morestring=[b]"
-% }
+\lstdefinelanguage{docker-compose}{
+  keywords={image, environment, ports, container_name, ports, volumes, links},
+  keywordstyle=\color{blue}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
+\lstdefinelanguage{docker-compose-2}{
+  % keywords={version, volumes, services},
+  keywords={image, environment, ports, container_name, ports, volumes, links, working_dir, command, networks, services, restart, build, context, dockerfile, depends_on},
+  keywordstyle=\color{blue}\bfseries,
+  % keywords=[10]{sfu:, controller:, mongodb:, message-broker-server, event-simulator, node-api-server, node-api-gateway, redis},
+  % keywordstyle=[10]\color{olive}\bfseries,
+  identifierstyle=\color{black},
+  sensitive=false,
+  comment=[l]{\#},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\color{red}\ttfamily,
+  morestring=[b]',
+  morestring=[b]"
+}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%% YAML syntax highlighting %%%%%%%%%%%%%%%%%
+
+% http://tex.stackexchange.com/questions/152829/how-can-i-highlight-yaml-code-in-a-pretty-way-with-listings
+
+% here is a macro expanding to the name of the language
+% (handy if you decide to change it further down the road)
+\newcommand\YAMLcolonstyle{\color{red}\mdseries}
+\newcommand\YAMLkeystyle{\color{black}\bfseries}
+\newcommand\YAMLvaluestyle{\color{blue}\mdseries}
+
+\makeatletter
+
+\newcommand\language@yaml{yaml}
+
+\expandafter\expandafter\expandafter\lstdefinelanguage
+\expandafter{\language@yaml}
+{
+  keywords={true,false,null,y,n},
+  % assuming a key comes first
+  backgroundcolor=\color{white}
+  sensitive=false,
+  comment=[l]{\#},
+  morecomment=[s]{/*}{*/},
+  commentstyle=\color{purple}\ttfamily,
+  stringstyle=\YAMLvaluestyle\ttfamily,
+  moredelim=[l][\color{orange}]{\&},
+  moredelim=[l][\color{magenta}]{*},
+  moredelim=**[il][\YAMLcolonstyle{:}\YAMLvaluestyle]{:},   % switch to value style at :
+  morestring=[b]',
+  morestring=[b]",
+  literate =    {---}{{\ProcessThreeDashes}}3
+                {>}{{\textcolor{red}\textgreater}}1     
+                {|}{{\textcolor{red}\textbar}}1 
+                {\ -\ }{{\mdseries\ -\ }}3,
+}
+
+% switch to key style at EOL
+\lst@AddToHook{EveryLine}{\ifx\lst@language\language@yaml\YAMLkeystyle\fi}
+\makeatother
+
+\newcommand\ProcessThreeDashes{\llap{\color{cyan}\mdseries-{-}-}}
+
+%%%%%%%%%%% YAML syntax highlighting %%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \onehalfspacing
 \begin{document}
@@ -228,7 +297,7 @@
 \input{sections/chap-4-design}
 \input{sections/chap-5-demo}
 % \input{sections/chapter6}
-% \input{sections/conclusion}
+\input{sections/chap-6-conclusion}
 % \input{sections/references.tex}
 % \input{sections/appendixes}
 % \input{sections/task_division}
