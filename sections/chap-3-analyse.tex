@@ -468,3 +468,21 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
     \item Một tổ chức bao gồm các nhóm phát triển nhỏ.    
 \end{itemize}
 \subsection{Đề xuất giải pháp}
+\subsubsection{Kết luận}
+Từ việc phân tích các use case trên, chúng ta có thể rút ra được một số kết luận như sau:
+\noindent Tất cả các use case đều sử dụng nền tảng cloud để xây dựng hệ thống nhằm đáp ứng tính 
+scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. Tuy nhiên, chúng ta có thể sử dụng Kubernetes để triển khai ứng dụng của mình trên bất kỳ nơi nào có hỗ trợ Kubernetes, mà không bị ràng buộc bởi một nhà cung cấp dịch vụ nào, hay nói cách khác nó độc lập với hạ tầng cụ thể. 
+
+Bên cạnh đó, Kubernetes còn đảm bảo được hệ thống sẽ đáp ứng được tính scalability (khả năng mở rộng) và availability (tính sẵn sàng) thông qua một số dịch vụ và khái niệm của nó như:
+\begin{itemize}
+    \item ReplicaSets: Dùng để định nghĩa và duy trì một số lượng replicas (bản sao) của các pod chạy ứng dụng. Điều này giúp đảm bảo tính sẵn sàng của ứng dụng và có thể mở rộng hoặc thu hẹp số lượng replicas dựa trên tải công việc.
+    \item Horizontal Pod Autoscaler (HPA): Cho phép tự động thay đổi số lượng replicas của một pod dựa trên các điều kiện như CPU và/hoặc bộ nhớ sử dụng.
+    \item Cluster Autoscaler: Tự động mở rộng hoặc thu hẹp cụm Kubernetes bằng cách thêm hoặc giảm số lượng node dựa trên tải công việc.
+    \item Load Balancer Services: Sử dụng để phân phối các yêu cầu đến các pod trong cụm, giúp đảm bảo tính sẵn sàng và chia tải đều.
+    \item Readiness Probes: Cho phép Kubernetes kiểm tra tính sẵn sàng của mỗi pod trước khi chuyển lưu lượng truy cập đến nó.
+    \item Liveness Probes: Kiểm tra xem một pod có hoạt động đúng cách hay không và tự động khởi động lại pod nếu cần.
+    \item Pod Disruption Budgets: Giới hạn số lượng pods có thể bị tắt đồng thời trong khi thực hiện các cập nhật hoặc bảo trì để đảm bảo tính sẵn sàng.
+\end{itemize}
+\noindent Đa phần kiến trúc microservice được ưu tiên áp dụng vì đây là một mô hình ít phụ thuộc vào nhau nên chúng có thể được triển khai, quản lý và mở rộng độc lập với nhau, đồng thời cũng giảm lực cho hệ thống vì chúng không cần phải tương tác trực tiếp với nhau mà thông qua message queue (Apache Kafka, RabbitMQ, ActiveMQ, và Microsoft Azure Service Bus).
+\subsubsection{Đề xuất giải pháp}
+\noindent Từ các phân tích và kết luận ở trên, nhóm quyết định sẽ xây dựng hệ thống dưới dạng microservice và deloy ứng dụng bằng Kubernetes. Với Kubernetes, ứng dụng sẽ đáp ứng được tính mở rộng và tính sẵn sàng cao thông qua một số dịch vụ mà Kubernetes cung cấp: deloyment, HPA, masternode v.v. Các service của hệ thống sẽ giao tiếp với nhau thông qua message queue.
