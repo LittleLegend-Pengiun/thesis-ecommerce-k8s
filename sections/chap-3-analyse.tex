@@ -32,15 +32,17 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
     \item Hệ thống có thể chạy mượt mà, ổn định.
     \item Hệ thống có thể chịu tải tốt, phục vụ nhiều người dùng cùng một lúc.
     \item Hệ thống phục vụ người dùng 24/7.
-    \item Hệ thống có thể bảo mật thông tin người dùng.
+    \item Hệ thống có thể bảo mật thông tin người dùng bằng những phương pháp mã hoá thông tin nhạy cảm.
 \newpage
 \section{Phân tích hệ thống}
 \subsection{Use case diagram}
 \subsubsection{Use case diagram cho toàn bộ tính năng của hệ thống}
-\begin{figure}[h]
-    \centering
-    \includegraphics[scale=0.4]{images/hieu/chap-3/usecase-diagram.png}
+\begin{figure}[H]
+    \begin{center}
+    \includegraphics[scale=0.45]{images/hieu/chap-3/usecase-diagram.png}
+    \vspace*{5mm}
     \caption{Use case diagram cho toàn bộ tính năng của hệ thống}
+    \end{center}
 \end{figure}
 \newpage
 \subsubsection{Đặc tả use case cho một số tính năng chính}
@@ -88,7 +90,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \textbf{Use-case name}    & \textbf{Xem sản phẩm - View Products}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \\ \hline
         \textbf{Actor}            & User (Manager, Customer, Staff)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 \\ \hline
         \textbf{Description}      & Người dùng xem những sản phẩm được bày bán trên cửa hàng                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
-        \textbf{Pre-condition}    & Người dùng truy cập vào website thành công                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \\ \hline
+        \textbf{Pre-condition}    & Người dùng đăng nhập vào hệ thống thành công                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \\ \hline
         \textbf{Post-condition}   & Người dùng có thể xem sản phẩm của cửa hàng                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     \\ \hline
         \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Người dùng truy cập vào website.\\ 2.Hệ thống tự động chuyển đến trang chủ (HomePage).\\ 3.Tại trang chủ, người dùng có thể lướt để xem tất cả những sản phẩm được   \\ hiển thị theo loại, ngoài ra còn có những sản phẩm nổi bật, những sản phẩm\\ sắp được ra mắt trong tương lai.\\ 4.Người dùng có thể tìm kiếm sản phẩm mình muốn bằng cách nhập từ khoá \\ (tên, loại, giá, kích thước...) vào ô tìm kiếm rồi nhấn nút "TÌM KIẾM".\\ 5.Hệ thống hiển thị kết quả tìm kiếm.\\ 6.Người dùng nhấn vào từng sản phẩm \\ 7.Hệ thống hiển thị thông tin chi tiết của sản phẩm tương ứng.\\ 8.Nếu người dùng muốn mua sản phẩm:\\       8.1.Nhấn vào nút "MUA HÀNG" để trực tiếp mua sản phẩm.\\       8.2.Nhấn vào biểu tưởng giỏ hàng để thêm sản phẩm vào giỏ hàng.\end{tabular} \\ \hline
         \textbf{Alternative-flow} & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
@@ -191,7 +193,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
 \newpage
 \subsection{Activity diagram}
 \subsubsection{Activity diagram cho user là khách hàng}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.45]{images/hieu/chap-3/user-activity-diagram.png}
     \caption{Activity diagram cho user là khách hàng}
@@ -199,34 +201,34 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
 
 \newpage
 \subsubsection{Activity diagram cho user là quản lý}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{images/hieu/chap-3/admin-activity-diagram.png}
     \caption{Activity diagram cho user là quản lý}
 \end{figure}
 \newpage
 \subsubsection{Activity diagram cho chức năng đăng nhập - đăng ký}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-3/login-signup-activity-diagram.png}
     \caption{Activity diagram cho chức năng đăng nhập - đăng ký}
 \end{figure}
 \newpage
 \subsubsection{Activity diagram cho chức năng quản lý}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-activity-diagram.png}
     \caption{Activity diagram cho chức năng quản lý}
 \end{figure}
 \newpage
 \subsubsection{Activity diagram cho chức năng mua sắm}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.4]{images/hieu/chap-3/shopping-activity-diagram.png}
     \caption{Activity diagram cho chức năng mua sắm}
 \end{figure}
 \newpage
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-3/Statistic-activity-diagram.png}
     \caption{Activity diagram cho chức năng xem thống kê}
@@ -234,7 +236,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
 \newpage
 \subsection{Sequence diagram}
 \subsubsection{Sequence diagram cho chức năng đăng nhập - đăng ký}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-3/login-signup-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng đăng nhập - đăng ký}
@@ -249,7 +251,7 @@ Trong đó:
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng mua sắm}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/shopping-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng mua sắm}
@@ -265,7 +267,7 @@ Trong đó:
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng quản lý sản phẩm}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-product-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý sản phẩm}
@@ -282,7 +284,7 @@ Trong đó:
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng quản lý tài khoản}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-account-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý tài khoản}
@@ -299,7 +301,7 @@ Trong đó:
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng quản lý bài viết}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-blog-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý bài viết}
@@ -316,7 +318,7 @@ Trong đó:
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng xem thống kê doanh thu}
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/statistic-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng xem thống kê doanh thu}
@@ -334,12 +336,10 @@ Trong đó:
 \newpage
 \subsection{Database diagram}
 \subsubsection {Entity Relationship Diagram - ERD}
-Sơ đồ ERD đá tinh giản hoá các thuộc tính của các thực thể
-\newline
 \textbf{Ghi chú:} Đây chỉ là sơ đồ cho chức năng liên quan đến sản phẩm
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[scale=0.6]{images/hieu/chap-3/database-diagram.png}
+    \includegraphics[scale=0.5]{images/hieu/chap-3/database-diagram.png}
     \caption{Entity Relationship Diagram - ERD}
 \end{figure}
 \subsubsection {Mô tả chi tiết thực thể}
@@ -403,68 +403,23 @@ Sơ đồ ERD đá tinh giản hoá các thuộc tính của các thực thể
 \end{itemize}
 
 \section{Phân tích bài toán và đề xuất giải pháp}
-\subsection{Định nghĩa các yêu cầu mục tiêu của đồ án}
-\noindent Đề tài xây dựng nhằm phân tích và giải quyết bài toán xoay quanh 2 từ khóa \textbf{scalability} và \textbf{availability}. Do đó, ta cần đi vào tìm hiểu định nghĩa của 2 từ khóa này:
-% \\[0.5cm]
 
-\subsubsection{Availability - Tính sẵn sàng}
-\noindent Theo định nghĩa của Microsoft\footnote{Website: https://learn.microsoft.com/en-us/training/modules/describe-benefits-use-cloud-services/2-high-availability-scalability-cloud}, “Khi bạn deploy một ứng dụng, dịch vụ, hay bất kỳ tài nguyên IT nào, việc những tài nguyên đó sẵn sàng khi bạn cần là điều quan trọng. High availability tập trung vào việc đảm bảo tối đa tính sẵn sàng của hệ thống, bất kể sự gián đoạn hay sự kiện nào có thể xảy ra.” \\[0.5cm]
-\noindent Khi xây dựng giải pháp của mình, ta sẽ cần tính đến các đảm bảo về tính khả dụng của dịch vụ. Azure là môi trường đám mây có tính sẵn sàng cao với sự đảm bảo về thời gian hoạt động tùy thuộc vào dịch vụ. Những đảm bảo này là một phần của thỏa thuận cấp độ dịch vụ (SLA).
-
-\subsubsection{Scalability - Tính mở rộng}
-\noindent Theo định nghĩa của Microsoft\footnote{Như trên}, “Khả năng mở rộng (scalability) đề cập đến khả năng điều chỉnh các tài nguyên để đáp ứng nhu cầu. Nếu bạn đột nhiên gặp phải lưu lượng truy cập cao và hệ thống của bạn bị quá tải thì khả năng mở rộng quy mô có nghĩa là bạn có thể bổ sung thêm tài nguyên để xử lý tốt hơn lượng tải đang gia tăng.” \\[0.5cm]
-\noindent Lợi ích khác của tính mở rộng là bạn không phải trả quá nhiều tiền cho các dịch vụ. Vì đám mây là mô hình dựa trên mức tiêu dùng nên bạn chỉ trả tiền cho những gì bạn sử dụng. Nếu nhu cầu giảm, bạn có thể giảm tài nguyên và từ đó giảm chi phí. \\[0.5cm]
-\noindent Scalability thường có hai loại: dọc và ngang. Mỏ rộng theo chiều dọc tập trung vào việc tăng hoặc giảm khả năng của tài nguyên. Mở rộng theo chiều ngang là thêm hoặc bớt số lượng tài nguyên.
-\subsection{Phân tích các kiểu kiến trúc hệ thống}
-\subsubsection{Kiến trúc monolith}
-\noindent \textbf{Định nghĩa} \\[0.3cm]
-\noindent Kiến trúc monolith là kiến trúc trong đó tất cả các thành phần của một ứng dụng được đặt trong một đơn vị duy nhất. Đơn vị này thường bị hạn chế trong một phiên bản thời gian chạy duy nhất của ứng dụng. Các ứng dụng truyền thống thường bao gồm giao diện web, lớp dịch vụ và lớp dữ liệu. Trong kiến trúc monolith, các lớp này được kết hợp trên một phiên bản của ứng dụng.\footnote{Website: https://learn.microsoft.com/en-us/training/modules/microservices-architecture/}\\[0.5cm]
-\textbf{Lý do sử dụng}\\[0.5cm]
-Kiến trúc monolith thường là giải pháp phù hợp cho các ứng dụng nhỏ, nhưng chúng có thể trở nên khó sử dụng khi ứng dụng phát triển. Ban đầu, một ứng dụng nhỏ có thể nhanh chóng trở thành một hệ thống phức tạp, khó mở rộng quy mô, khó triển khai và khó đổi mới.\\[0.5cm]
-\textbf{Thách thức}\\[0.5cm]
-Tất cả các dịch vụ được chứa trong một đơn vị duy nhất. Sự sắp xếp này mang lại những thách thức khi hoạt động kinh doanh của họ và tải hệ thống tiếp theo phát triển. Một số thách thức này là:
-\begin{itemize}
-    \item Khó mở rộng quy mô dịch vụ một cách độc lập.
-    \item Phức tạp để phát triển và quản lý việc triển khai khi cơ sở mã phát triển, điều này làm chậm quá trình phát hành và triển khai tính năng mới.
-    \item Kiến trúc được gắn với một ngăn xếp công nghệ duy nhất, điều này hạn chế sự đổi mới trong các nền tảng và SDK mới.
-    \item Cập nhật lược đồ dữ liệu có thể ngày càng khó khăn.
-\end{itemize}
-Những thách thức này có thể được giải quyết bằng cách xem xét các kiến trúc thay thế, chẳng hạn như kiến trúc microservices.
-\subsubsection{Kiến trúc microservices}
-\noindent \textbf{Định nghĩa}\\[0.5cm]
-Kiến trúc microservice bao gồm các dịch vụ nhỏ, độc lập và được liên kết lỏng lẻo. Mỗi dịch vụ có thể được triển khai và mở rộng quy mô một cách độc lập.\\[0.5cm]
-Một microservice đủ nhỏ để một nhóm nhỏ các nhà phát triển có thể viết và duy trì nó. Vì các dịch vụ có thể được triển khai độc lập nên một nhóm có thể cập nhật dịch vụ hiện có mà không cần xây dựng lại và triển khai lại toàn bộ ứng dụng.\\[0.5cm]
-Mỗi dịch vụ thường chịu trách nhiệm về dữ liệu riêng của mình. Cấu trúc dữ liệu của nó được tách biệt nên việc nâng cấp hoặc thay đổi lược đồ không phụ thuộc vào các dịch vụ khác. Các yêu cầu về dữ liệu thường được xử lý thông qua API và cung cấp mô hình truy cập nhất quán và được xác định rõ ràng. Chi tiết triển khai nội bộ được ẩn khỏi người tiêu dùng dịch vụ.\\[0.5cm]
-Vì mỗi dịch vụ đều độc lập nên chúng có thể sử dụng các nhóm công nghệ, khung và SDK khác nhau. Người ta thường thấy các dịch vụ dựa vào các lệnh gọi REST để liên lạc giữa các dịch vụ bằng cách sử dụng các API được xác định rõ ràng thay vì các lệnh gọi thủ tục từ xa (RPC) hoặc các phương thức liên lạc tùy chỉnh khác.\\[0.5cm]
-Kiến trúc vi dịch vụ không phụ thuộc vào công nghệ, nhưng bạn thường thấy các bộ chứa hoặc công nghệ serverless được sử dụng để triển khai chúng. Triển khai liên tục và tích hợp liên tục (CI/CD) thường được sử dụng để tăng tốc độ và chất lượng của các hoạt động phát triển.\\[0.5cm]
-\textbf{Lý do sử dụng}\\[0.5cm]
-Có một số lợi ích chính đối với kiến trúc microservices:
-\begin{itemize}
-    \item Nhanh nhẹn
-    \item Mã nhỏ, nhóm nhỏ
-    \item Sự kết hợp của công nghệ
-    \item khả năng phục hồi
-    \item Khả năng mở rộng (Scalability)
-    \item Cách ly dữ liệu
-\end{itemize}
-\textbf{Những thách thức}\\[0.5cm]
-Có rất nhiều lợi ích đối với kiến trúc microservices, nhưng đó không phải là tất cả. Kiến trúc microservice có những thách thức riêng:
-\begin{itemize}
-    \item Độ phức tạp
-    \item Phát triển và thử nghiệm
-    \item Thiếu quản trị
-    \item Tắc nghẽn mạng và độ trễ
-    \item Toàn vẹn dữ liệu
-    \item Sự quản lý
-    \item Phiên bản
-    \item Bộ kỹ năng    
-\end{itemize}
-\textbf{Khi nào nên chọn kiến trúc microservices?}\\[0.5cm]
-Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp trong những tình huống sau
-\begin{itemize}
-    \item Các ứng dụng lớn đòi hỏi tốc độ phát hành cao.
-    \item Các ứng dụng phức tạp cần có khả năng mở rộng cao.
-    \item Ứng dụng có miền phong phú hoặc nhiều miền phụ.
-    \item Một tổ chức bao gồm các nhóm phát triển nhỏ.    
-\end{itemize}
 \subsection{Đề xuất giải pháp}
+\subsubsection{Kết luận}
+Từ việc phân tích các use case trên, chúng ta có thể rút ra được một số kết luận như sau:
+\noindent Tất cả các use case đều sử dụng nền tảng cloud để xây dựng hệ thống nhằm đáp ứng tính 
+scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. Tuy nhiên, chúng ta có thể sử dụng Kubernetes để triển khai ứng dụng của mình trên bất kỳ nơi nào có hỗ trợ Kubernetes, mà không bị ràng buộc bởi một nhà cung cấp dịch vụ nào, hay nói cách khác nó độc lập với hạ tầng cụ thể. 
+
+Bên cạnh đó, Kubernetes còn đảm bảo được hệ thống sẽ đáp ứng được tính scalability (khả năng mở rộng) và availability (tính sẵn sàng) thông qua một số dịch vụ và khái niệm của nó như:
+\begin{itemize}
+    \item ReplicaSets: Dùng để định nghĩa và duy trì một số lượng replicas (bản sao) của các pod chạy ứng dụng. Điều này giúp đảm bảo tính sẵn sàng của ứng dụng và có thể mở rộng hoặc thu hẹp số lượng replicas dựa trên tải công việc.
+    \item Horizontal Pod Autoscaler (HPA): Cho phép tự động thay đổi số lượng replicas của một pod dựa trên các điều kiện như CPU và/hoặc bộ nhớ sử dụng.
+    \item Cluster Autoscaler: Tự động mở rộng hoặc thu hẹp cụm Kubernetes bằng cách thêm hoặc giảm số lượng node dựa trên tải công việc.
+    \item Load Balancer Services: Sử dụng để phân phối các yêu cầu đến các pod trong cụm, giúp đảm bảo tính sẵn sàng và chia tải đều.
+    \item Readiness Probes: Cho phép Kubernetes kiểm tra tính sẵn sàng của mỗi pod trước khi chuyển lưu lượng truy cập đến nó.
+    \item Liveness Probes: Kiểm tra xem một pod có hoạt động đúng cách hay không và tự động khởi động lại pod nếu cần.
+    \item Pod Disruption Budgets: Giới hạn số lượng pods có thể bị tắt đồng thời trong khi thực hiện các cập nhật hoặc bảo trì để đảm bảo tính sẵn sàng.
+\end{itemize}
+\noindent Đa phần kiến trúc microservice được ưu tiên áp dụng vì đây là một mô hình ít phụ thuộc vào nhau nên chúng có thể được triển khai, quản lý và mở rộng độc lập với nhau, đồng thời cũng giảm lực cho hệ thống vì chúng không cần phải tương tác trực tiếp với nhau mà thông qua message queue (Apache Kafka, RabbitMQ, ActiveMQ, và Microsoft Azure Service Bus).
+\subsubsection{Đề xuất giải pháp}
+\noindent Từ các phân tích và kết luận ở trên, nhóm quyết định sẽ xây dựng hệ thống dưới dạng microservice và deloy ứng dụng bằng Kubernetes. Với Kubernetes, ứng dụng sẽ đáp ứng được tính mở rộng và tính sẵn sàng cao thông qua một số dịch vụ mà Kubernetes cung cấp: deloyment, HPA, masternode v.v. Các service của hệ thống sẽ giao tiếp với nhau thông qua message queue.
