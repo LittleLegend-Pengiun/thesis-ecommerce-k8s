@@ -31,12 +31,53 @@
 \end{itemize}
 \section{Đánh giá giải pháp và kết quả đạt được}
 \subsection{Đánh giá thiết kế}
+\noindent Hệ thống được xây dựng nhằm mục đích là thử nghiệm các lý thuyết để có được một hệ thống vừa có tính sẵn sàng cao mà vừa có tính mở rộng cao. Đồng thời, giải pháp được áp dụng trong hệ thống có thể sử dụng với nhiều môi trường cloud khác nhau, tăng tính linh động khi triển khai thực tế.
 \subsubsection{Ưu điểm}
-\subsubsection{NHược điểm}
+\begin{itemize}
+    \item Hệ thống đảm báo được tính sẵn sàng cao, tính mở rộng cao.
+    \item Phù hợp để chạy trên môi trường cloud, có thể tiết kiệm tối đa chi phí vận hành.
+    \item Tương thích với mọi nền tảng cloud có hỗ trợ Kubernetes.
+\end{itemize}
+\subsubsection{Nhược điểm}
+\begin{itemize}
+    \item Việc deploy khá phức tạp, cần có sự hiểu biết về Kubernetes và nền tảng cloud dùng để deploy.
+    \item Việc kiểm thử cũng tốn nhiều công sức do việc chạy ở local phức tạp và hạn chế hơn khá nhiều khi chạy trên môi trường cloud, tuy nhiên nếu đưa lên cloud sớm thì sẽ không tối ưu về mặt chi phí.
+\end{itemize}
 \subsection{Đánh giá tính khả thi}
-\subsubsection{Tính khả thi về mặt công nghệ}
-\subsubsection{Tính khả thi về mặt kinh tế}
-\subsubsection{Tính khả thi về mặt vận hành}
+\noindent Để đánh giá tính khả thi của hệ thống trong thực tế, nhóm đã dựa trên 3 tiêu chí là Tính khả thi về mặt Công nghệ, Tính khả thi về mặt Kinh tế, Tính khả thi về mặt Vận hành.
+\subsubsection{Tính khả thi về mặt Công nghệ}
+\noindent Hệ thống sử dụng các tool, framework nổi tiếng, được cộng đồng hỗ trợ nhiệt tình nên việc bảo trì, bảo dưỡng, sửa chữa lỗi sẽ dễ dàng hơn nhiều.
+\begin{itemize}
+    \item Frontend: ReactJS
+    \item Backend: Java Springboot, RabbitMQ
+    \item Database: Postgres
+    \item Đeploy: Kubernetes, Docker, Minikube.
+\end{itemize}
+\subsubsection{Tính khả thi về mặt Kinh tế}
+\noindent Các công nghệ được dùng đều là mã nguồn mở, miễn phí, do đó sẽ không tốn chi phí bản quyền.\\[0.5cm]
+Về việc triển khai hệ thống, nhóm sẽ ưu tiên kiểm thử ở local trước khi đưa lên cloud, do đó cũng không cần tốn nhiều chi phí vận hành cho các nhà cung cấp dịch vụ trong giai đoạn phát triển hệ thống.
+\subsubsection{Tính khả thi về mặt Vận hành}
+\noindent Về phía người dùng, hệ thống không có gì khác biệt so với các hệ thống thương mại điện tử khác, nên không cần làm quen bất kỳ điều gì mới. Về phía doanh nghiệp, họ cần có kỹ sư DevOp để quản lý và bảo trì hệ thống, nhưng khối lượng công việc cũng không nặng nếu như họ đã có sẵn các luồng CI/CD tự động cho việc nâng cấp và cập nhật hệ thống.
 \subsection{Đánh giá lợi ích}
+\noindent Về mặt thực tiễn, hệ thống có thể xem như một bản mẫu cho tổ chức, doanh nghiệp muốn xây dựng một hệ thống thương mại điện tử đáng tin cậy, đảm bảo luôn sẵn sàng phục vụ khách hàng, cũng như dễ dàng thêm và mở rộng tính năng mới.
 \subsection{Đánh giá kết quả đạt được}
+\subsubsection{Ưu điểm}
+\begin{itemize}
+    \item Đáp ứng được các yêu cầu cơ bản của một hệ thống thương mại điện tử.
+    \item Giải quyết được bài toán về tính sẵn sàng cao và tính mở rộng cao.
+    \item Sử dụng Message Queue để giao tiếp giữa các microservices một cách hiệu quả, đặc biệt kết hợp với kiến trúc microservice giúp tăng tính decoupling và tính mở rộng (về tính năng) cho hệ thống sau này
+\end{itemize}
+\subsubsection{Nhược điểm}
+\begin{itemize}
+    \item Kiến trúc khá phức tạp, tốn nhiều thời gian, công sức để triển khai.
+    \item Chưa có luồng CI/CD để tự động hóa, hỗ trợ phát triển hệ thống.
+    \item Chức năng Autoscaling còn chưa được tùy chỉnh hợp lý.
+\end{itemize}
 \section{Hướng phát triển đề tài trong tương lai}
+\noindent Trải qua quá trình nghiên cứu lý thuyết, tổng hợp đưa ra giải pháp và xây dựng phiên bản thử nghiệm, nhóm nhận thấy trong tương lai đề tài còn cần thực hiện thêm các công việc như:
+\begin{itemize}
+    \item Triển khai trên môi trường cloud để có đánh giá chính xác hơn.
+    \item Xây dựng luồng CI/CD để tăng hiệu quả công việc.
+    \item Xây dựng tính năng gợi ý sản phầm phù hợp với lich sử mua hàng của từng cá nhân.
+    \item Nghiên cứu tận dụng thêm các plugin của Kubernetes để có thể scale hệ thống hiệu quả hơn.
+\end{itemize}
