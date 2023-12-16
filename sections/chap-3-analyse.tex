@@ -346,7 +346,7 @@ Trong đó:
 \subsubsection {Mô tả chi tiết thực thể}
 \begin{itemize}
     \item \textbf{Product:} Thực thể này lưu trữ thông tin về sản phẩm của cửa hàng.
-        \begin{table}[h]
+        \begin{table}[H]
         \begin{tabular}{|l|l|l|}
         \hline
         \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                            \\ \hline
@@ -354,17 +354,14 @@ Trong đó:
         name                & varchar               & Tên sản phẩm                              \\ \hline
         desc                & text                  & Mô tả sản phẩm                            \\ \hline
         SKU                 & varchar               & Kết hợp giữa mã sản phẩm và loại sản phẩm \\ \hline
-        category\_id        & Long                  & Mã loại sản phẩm - khoá ngoại             \\ \hline
-        inventory\_id       & Long                  & Mã kho lưu trữ sản phẩm - khoá ngoại      \\ \hline
         price               & decimal               & Giá của sản phẩm                          \\ \hline
-        discount\_id        & int                   & Mã khuyến mãi của sản phẩm - khoá ngoại   \\ \hline
         created\_at         & timestamp             & Thời gian tạo                             \\ \hline
         modified\_at        & timestamp             & Thời gian điều chỉnh                      \\ \hline
         image\_link         & string                & Liên kết chứa hỉnh ảnh sản phẩm           \\ \hline
         \end{tabular}
         \end{table}
     \item \textbf{Product Category:} Thực thể này lưu trữ thông tin về loại sản phẩm của cửa hàng.
-            \begin{table}[h]
+            \begin{table}[H]
                 \begin{tabular}{|l|l|l|}
                 \hline
                 \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                \\ \hline
@@ -377,7 +374,7 @@ Trong đó:
                 \end{tabular}
                 \end{table}
     \item \textbf{Product Inventory:} Thực thể này lưu trữ thông tin về kho lưu trữ sản phẩm của cửa hàng.
-        \begin{table}[h]
+        \begin{table}[H]
         \begin{tabular}{|l|l|l|}
         \hline
         \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}                \\ \hline
@@ -388,7 +385,7 @@ Trong đó:
         \end{tabular}
         \end{table}
     \item \textbf{Discount:} Thực thể này lưu trữ thông tin về khuyến mãi của sản phẩm.
-        \begin{table}[h]
+        \begin{table}[H]
         \begin{tabular}{|l|l|l|}
         \hline
         \textbf{Thuộc tính} & \textbf{Kiểu dữ liệu} & \textbf{Mô tả}           \\ \hline
@@ -405,8 +402,7 @@ Trong đó:
 
 \section{Phân tích bài toán và đề xuất giải pháp}
 
-\subsection{Đề xuất giải pháp}
-\subsubsection{Kết luận}
+\subsection{Kết luận}
 Từ việc phân tích các use case trên, chúng ta có thể rút ra được một số kết luận như sau:
 \noindent Tất cả các use case đều sử dụng nền tảng cloud để xây dựng hệ thống nhằm đáp ứng tính 
 scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý Kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. \\[0.5cm]

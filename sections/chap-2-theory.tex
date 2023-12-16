@@ -97,9 +97,10 @@
 
 \indent Các ứng dụng có sử dụng Kubernetes: Google, Netflix, Airbnb, Spotify, Grab, Zalando, Adidas...và nhiều hơn nữa. Kubernetes đã trở thành một công nghệ phổ biến và mạnh mẽ trong việc quản lý và triển khai ứng dụng quy mô lớn.
 \subsubsection{Kiến trúc}
+Hình ảnh được tham khảo từ bài viết "What Is Kubernetes Architecture? – Components Overview"\footnote{https://spacelift.io/blog/kubernetes-architecture}
  \begin{figure}[H]
     \begin{center}
-    \includegraphics[scale = 0.24]{images/phat/kubernetes_architecture.jpg}
+    \includegraphics[scale = 0.2]{images/phat/kubernetes_architecture.jpg}
     \vspace*{7mm}
     \caption{Kubernetes Architecture }
     \end{center}
@@ -162,7 +163,7 @@
 \subsection{EKS}
 \subsubsection{Khái niệm}
 \indent EKS (Elastic Kubernetes Service) là một dịch vụ quản lý Kubernetes do Amazon Web Services (AWS) cung cấp.
-\subsubsection{Ưu điểm:}
+\subsubsection{Ưu điểm}
 \begin{itemize}
     \item Dễ dàng triển khai, quản lý và mở rộng các ứng dụng chạy trên Kubernetes.
     \item Tích hợp tốt với dịch vụ AWS khác.
@@ -190,8 +191,10 @@
 \end{itemize}
 \subsection{RabbitMQ}
 \subsubsection{Khái niệm}
-\indent RabbitMQ là một hệ thống message broker mã nguồn mở, dựa trên giao thức AMQP (Advanced Message Queuing Protocol).
- \begin{figure}[H]
+\indent RabbitMQ là một hệ thống message broker mã nguồn mở, dựa trên giao thức AMQP (Advanced Message Queuing Protocol).\\
+Hình ảnh được thảm khảo từ bài viết "An introduction to RabbitMQ – What is RabbitMQ?"\footnote{https://www.erlang-solutions.com/blog/an-introduction-to-rabbitmq-what-is-rabbitmq/} 
+\begin{figure}[H]
+
     \begin{center}
     \includegraphics[scale = 0.5]{images/phat/rabbitMQ.png}
     \vspace*{7mm}
@@ -326,7 +329,7 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
 \newpage
 \section{Case study}
 \subsection{Ứng dụng kiến trúc microservice với Azure Kubernetes Service}
-\noindent Tham khảo từ bài viết Microservices architecture on Azure Kubernetes Service trên Microsoft Learn.\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices}
+\noindent Tham khảo từ bài viết "Microservices architecture on Azure Kubernetes Service" trên Microsoft Learn.\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices}
 \begin{figure}[H]
     \begin{center}
     \includegraphics[scale=0.8]{images/hieu/chap-2/aks-architecture.png}
@@ -422,8 +425,8 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
             \item Kiểm soát truy cập bị mật.
             \item Kiểm toán.
         \end{itemize}
-    \item \textbf{Container và Orchestrator security:}
-    Đây là những phương pháp được khuyến nghị để bảo vệ pods và container của bạn:
+    \item \textbf{Container và Orchestrator security} đây là những phương pháp được khuyến nghị để bảo vệ pods và container của bạn:
+
         \begin{itemize}
             \item Giám sát mối đe doạ (thread monitoring) bằng cách sử dụng Microsoft Defender cho Containers.
             \item Giám sát lỗ hổng (Vulnerabilities monitoring) bằng cách sử dụng Microsoft Defender dành cho đám mây hoặc giải pháp bên thứ ba có sẵn thông qua Azure Marketplace.
@@ -434,7 +437,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
 \end{itemize}
 \newpage
 \subsection {Ứng dụng AKS cho kiến trúc microservice nâng cao}
-\noindent Tham khảo từ bài viết Advanced Azure Kubernetes Service (AKS) microservices architecture từ Microsoft Learn.\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices-advanced}
+\noindent Tham khảo từ bài viết "Advanced Azure Kubernetes Service (AKS) microservices architecture" từ Microsoft Learn.\footnote{Nguồn tham khảo: https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-microservices/aks-microservices-advanced}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-2/aks-architecture-advance.png}
@@ -567,9 +570,9 @@ Triển khai những đề xuất này khi sử dụng kiến trúc microservice
 
 
 \subsection{Nền tảng thương mại điện tử Magento trong kiến trúc Azure Kubernetes Service - AKS}
-\noindent Tham khảo từ bài viết Magento e-commerce platform in Azure Kubernetes Service từ Microsoft Learn.\footnote{Nguồn thảm khảo: https://learn.microsoft.com/en-us/azure/architecture/example-scenario/magento/magento-azure}
+\noindent Tham khảo từ bài viết "Magento e-commerce platform in Azure Kubernetes Service" từ Microsoft Learn.\footnote{Nguồn thảm khảo: https://learn.microsoft.com/en-us/azure/architecture/example-scenario/magento/magento-azure}
 \subsubsection{Magento là gì}
-Magento là một platform về e-commerce được tạo ra dựa trên ngôn ngữ lập trình PHP và cơ sở dữ liệu MySQL. Magento hoạt động theo mô hình EAV (entity – attribute – value) và có kiến trúc module (mọi tính năng đều được module hóa). Tất cả các module này đều được lưu trữ trên website thương mại điện tử của Magento.
+Magento là một nền tảng về e-commerce được tạo ra dựa trên ngôn ngữ lập trình PHP và cơ sở dữ liệu MySQL. Magento hoạt động theo mô hình EAV (entity – attribute – value) và có kiến trúc module (mọi tính năng đều được module hóa). Tất cả các module này đều được lưu trữ trên website thương mại điện tử của Magento.
 \newline
 Một số ưu điểm của Magento:
     \begin{itemize}
@@ -639,6 +642,7 @@ Một số ưu điểm của Magento:
     \end{itemize}
 \subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS}
 \noindent Tham khảo từ bài viết Scale Your Web Application — One Step at a Time của Saurabh Shrivastava.\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}
+
 \subsubsection{Bối cảnh}
 Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta thực hiện đánh giá sơ bộ về đợt ra mắt điện thoại thông minh sắp ra mắt và rất được mong đợi, thông tin này đã lan truyền rộng rãi. Bài đánh giá, một bài đăng blog trên trang web của chúng ta, bao gồm cả video và hình ảnh. Tính năng bình luận được bật cho bài viết và người đọc cũng có thể đánh giá bài viết đó. 
 \subsubsection{Giải pháp đề xuất}
@@ -712,7 +716,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
         AWS hiện hỗ trợ cân bằng tải giữa AWS và môi trường tại chỗ để giúp chúng ta mở rộng môi trường đám mây một cách nhanh chóng, bất cứ khi nào cần và giảm thiểu hơn nữa bằng cách áp dụng khả năng tự động thay đổi quy mô của Amazon và đặt ngưỡng cho lưu lượng truy cập tại chỗ của chúng ta bằng Route 53.
     \end{itemize}
 \subsection{Phân tích ảnh hưởng của các framework PHP khi triển khai ứng dụng trên EKS}
-\noindent Tham khảo từ bài viết Scaling PHP Applications on AWS của ADRIANO CATALUDDI.\protect\footnote{Nguồn tham khảo: https://www.logicata.com/blog/scaling-php-applications-on-aws}
+\noindent Tham khảo từ bài viết "Scaling PHP Applications on AWS" của ADRIANO CATALUDDI.\protect\footnote{Nguồn tham khảo: https://www.logicata.com/blog/scaling-php-applications-on-aws}
 \subsubsection{Bối cảnh}
     Trước khi chúng ta bắt đầu mở rộng quy mô của một ứng dụng PHP lên trên cloud, điều quan trọng là phải tuân theo các biện pháp liên quan đến hiệu suất và phương pháp phát triển. Tối ưu hóa hiệu suất rất quan trọng vì tắc nghẽn hiệu suất ở cấp độ hard code sẽ cản trở chúng ta khi thực hiện các cải tiến đối với cơ sở hạ tầng AWS.\\[0.5cm]
     Thực tiễn phát triển tốt rất quan trọng để đảm bảo rằng chúng ta có sự cân bằng phù hợp giữa tốc độ phát triển, mức độ dễ đọc của code và tính linh hoạt trong ứng dụng của mình.\\[0.5cm]
@@ -734,7 +738,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
         Một lựa chọn khác là không sử dụng framework nào cả. Điều này cho phép linh hoạt tối đa vì có toàn quyền kiểm soát kiến trúc của mình và có thể phát triển kiến trúc phân tán tương thích hơn với AWS ngay từ đầu.
     \end{itemize}
 \subsection{Giải pháp triển khai cho ứng dụng microservice trên EKS}
-\noindent Tham khảo từ bài viết Microservices Deployment on EKS của STACKSIMPLIFY.\footnote{Nguồn tham khảo: https://www.stacksimplify.com/aws-eks/microservices-on-aws-eks/learn-to-deploy-microservices-on-aws-eks}
+\noindent Tham khảo từ bài viết"Microservices Deployment on EKS" của STACKSIMPLIFY.\footnote{Nguồn tham khảo: https://www.stacksimplify.com/aws-eks/microservices-on-aws-eks/learn-to-deploy-microservices-on-aws-eks}
 \subsubsection{Bối cảnh}
 Chúng ta sẽ triển khai hai microservice:
 \begin{itemize}
