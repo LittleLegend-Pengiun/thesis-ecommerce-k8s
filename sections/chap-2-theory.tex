@@ -194,6 +194,7 @@ Hình ảnh được tham khảo từ bài viết "What Is Kubernetes Architectu
 \indent RabbitMQ là một hệ thống message broker mã nguồn mở, dựa trên giao thức AMQP (Advanced Message Queuing Protocol).\\
 Hình ảnh được thảm khảo từ bài viết "An introduction to RabbitMQ – What is RabbitMQ?"\footnote{https://www.erlang-solutions.com/blog/an-introduction-to-rabbitmq-what-is-rabbitmq/} 
 \begin{figure}[H]
+
     \begin{center}
     \includegraphics[scale = 0.5]{images/phat/rabbitMQ.png}
     \vspace*{7mm}
@@ -351,13 +352,13 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
 \end{itemize}
 \subsubsection{Một số cân nhắc}
 \begin{itemize}
-    \item \textbf{Design}:Kiến trúc tham chiếu này tập trung vào kiến trúc microservice, mặc dù nhiều phương pháp được đề xuất áp dụng cho các khối lượng công việc khác chạy trên AKS.
-    \item \textbf{Microservice}:Microservice là một đơn vị mã có thể triển khai độc lập. Các microservice thường giao tiếp thông qua các API được xác định rõ ràng . Dịch vụ phải luôn có thể truy cập được ngay cả khi pod di chuyển xung quanh. Đối tượng Dịch vụ Kubernetes là một cách tự nhiên để mô hình hóa các dịch vụ vi mô trong Kubernetes.
-    \item \textbf{API Gateway}:API gateway nằm giữa các máy khách bên ngoài và microservice. Nó hoạt động như một proxy ngược, định tuyến các yêu cầu từ máy khách đến microservice.
-    \item \textbf{Data storage}:Trong kiến trúc microservice, các dịch vụ không nên chia sẻ giải pháp lưu trữ dữ liệu. Mỗi dịch vụ nên quản lý tập dữ liệu riêng của mình để tránh sự phụ thuộc ẩn giữa các dịch vụ.
+    \item \textbf{Design}: Kiến trúc tham chiếu này tập trung vào kiến trúc microservice, mặc dù nhiều phương pháp được đề xuất áp dụng cho các khối lượng công việc khác chạy trên AKS.
+    \item \textbf{Microservice}: Microservice là một đơn vị mã có thể triển khai độc lập. Các microservice thường giao tiếp thông qua các API được xác định rõ ràng . Dịch vụ phải luôn có thể truy cập được ngay cả khi pod di chuyển xung quanh. Đối tượng Dịch vụ Kubernetes là một cách tự nhiên để mô hình hóa các dịch vụ vi mô trong Kubernetes.
+    \item \textbf{API Gateway}: API gateway nằm giữa các máy khách bên ngoài và microservice. Nó hoạt động như một proxy ngược, định tuyến các yêu cầu từ máy khách đến microservice.
+    \item \textbf{Data storage}: Trong kiến trúc microservice, các dịch vụ không nên chia sẻ giải pháp lưu trữ dữ liệu. Mỗi dịch vụ nên quản lý tập dữ liệu riêng của mình để tránh sự phụ thuộc ẩn giữa các dịch vụ.
 Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục bộ vì điều đó liên kết dữ liệu với node. Thay vào đó, hãy sử dụng dịch vụ bên ngoài như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB. Nếu bạn cần lưu trữ dữ liệu tạm thời, hãy sử dụng Redis Cache.
-    \item \textbf{Namespace}:Namespace tổ chức các dịch vụ trong cluster, ngăn ngừa xung đột tên, áp dụng ràng buộc tài nguyên và chính sách bảo mật ở cấp độ namespace, và tổ chức microservice thành các ngữ cảnh được giới hạn thông qua việc tạo namespace cho từng ngữ cảnh. Đồng thời, việc đặt các dịch vụ tiện ích như Elasticsearch, Prometheus hoặc Tiller vào các namespace riêng biệt cũng được khuyến khích.
-    \item \textbf{Health Probes}:Health probes là các yêu cầu HTTP được gửi đến các dịch vụ để xác định trạng thái của chúng. Nếu một dịch vụ không phản hồi, Kubernetes sẽ xóa pod và tạo lại nó. Điều này đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
+    \item \textbf{Namespace}: Namespace tổ chức các dịch vụ trong cluster, ngăn ngừa xung đột tên, áp dụng ràng buộc tài nguyên và chính sách bảo mật ở cấp độ namespace, và tổ chức microservice thành các ngữ cảnh được giới hạn thông qua việc tạo namespace cho từng ngữ cảnh. Đồng thời, việc đặt các dịch vụ tiện ích như Elasticsearch, Prometheus hoặc Tiller vào các namespace riêng biệt cũng được khuyến khích.
+    \item \textbf{Health Probes}: Health probes là các yêu cầu HTTP được gửi đến các dịch vụ để xác định trạng thái của chúng. Nếu một dịch vụ không phản hồi, Kubernetes sẽ xóa pod và tạo lại nó. Điều này đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
     \newline
     Kubernetes xác định hai loại thăm dò sức khỏe mà pod có thể hiển thị:
         \begin{itemize}
@@ -377,7 +378,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
         \end{itemize}
     \item \textbf{Resource constrain}: Tranh chấp tài nguyên có thể ảnh hưởng đến tính sẵn có của dịch vụ. Xác định các giới hạn tài nguyên cho các container để một container không thể áp đảo các tài nguyên của cluster (bộ nhớ và CPU).
     Sử dụng hạn ngạch tài nguyên để giới hạn tài nguyên được phép cho một namespace. 
-    \item \textbf{Service object - SO}: Đôi tượng dịch vụ Kubernetes cung cấp một tập hợp các khả năng phù hợp với yêu cầu của microservice về khả năng khám phá dịch vụ:
+    \item \textbf{Service object - SO}: Đối tượng dịch vụ Kubernetes cung cấp một tập hợp các khả năng phù hợp với yêu cầu của microservice về khả năng khám phá dịch vụ:
         \begin{itemize}
             \item Địa chị IP: SO cung cấp một địa chỉ IP nội bộ tĩnh cho một pod (ReplicaSet) để các dịch vụ có thể truy cập tại địa chỉ này.
             \item Cân bằng tải (Load Balancer): Lưu lượng gửi đến địa chỉ IP của dịch vụ được cân bằng tải cho cácp pod.
@@ -425,6 +426,7 @@ Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục b�
             \item Kiểm toán.
         \end{itemize}
     \item \textbf{Container và Orchestrator security} đây là những phương pháp được khuyến nghị để bảo vệ pods và container của bạn:
+
         \begin{itemize}
             \item Giám sát mối đe doạ (thread monitoring) bằng cách sử dụng Microsoft Defender cho Containers.
             \item Giám sát lỗ hổng (Vulnerabilities monitoring) bằng cách sử dụng Microsoft Defender dành cho đám mây hoặc giải pháp bên thứ ba có sẵn thông qua Azure Marketplace.
@@ -639,7 +641,8 @@ Một số ưu điểm của Magento:
             \end{itemize}
     \end{itemize}
 \subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS}
-\noindent Tham khảo từ bài viết "Scale Your Web Application — One Step at a Time" của Saurabh Shrivastava.\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}
+\noindent Tham khảo từ bài viết Scale Your Web Application — One Step at a Time của Saurabh Shrivastava.\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}
+
 \subsubsection{Bối cảnh}
 Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta thực hiện đánh giá sơ bộ về đợt ra mắt điện thoại thông minh sắp ra mắt và rất được mong đợi, thông tin này đã lan truyền rộng rãi. Bài đánh giá, một bài đăng blog trên trang web của chúng ta, bao gồm cả video và hình ảnh. Tính năng bình luận được bật cho bài viết và người đọc cũng có thể đánh giá bài viết đó. 
 \subsubsection{Giải pháp đề xuất}
@@ -651,7 +654,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
     \end{center}
 \end{figure} 
 \begin{itemize}
-    \item \textbf{Bước 1:Load server dễ dàng}
+    \item \textbf{Bước 1: Load server dễ dàng}
         \newline
         Chúng ta cần nhanh chóng xử lý lưu lượng truy cập tăng đột biến, vì vậy, việc giảm tải máy chủ chúng ta chúng tag cách di chuyển hình ảnh và video sang một số mạng phân phối nội dung của bên thứ ba (CDN). \\[0.5cm]
         AWS cung cấp Amazon CloudFront dưới dạng giải pháp CDN, có khả năng mở rộng cao với tính năng bảo mật tích hợp để xác minh danh tính truy cập nguồn gốc và xử lý mọi cuộc tấn công DDoS. \\[0.5cm]
@@ -685,7 +688,7 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
     \newline
         Chúng ta có thể sử dụng Amazon Elasticache cho Memcached hoặc Redis để giảm yêu cầu ghi. Memcached và Redis có các trường hợp sử dụng khác nhau, vì vậy nếu chúng ta có đủ khả năng để mất và khôi phục bộ đệm từ cơ sở dữ liệu của mình, hãy sử dụng Memcached.\\[0.5cm]
         Nếu chúng ta đang tìm kiếm tính bền vững của dữ liệu mạnh mẽ hơn và cấu trúc dữ liệu phức tạp hơn, hãy sử dụng Redis. Trong AWS, đây là những dịch vụ được quản lý, nghĩa là AWS sẽ đảm nhận khối lượng công việc cho chúng ta và chúng ta cũng có thể triển khai chúng trong các phiên bản tại chỗ của mình hoặc sử dụng phương pháp kết hợp.
-    \item  \textbf{Bước 5:Mở rộng quy mô máy chủ}
+    \item  \textbf{Bước 5: Mở rộng quy mô máy chủ}
     \newline
     Nếu vẫn còn sự cố, đã đến lúc mở rộng quy mô máy chủ. Để có hiệu quả chi phí cao nhất và khả năng mở rộng không giới hạn, chúng ta nên luôn sử dụng tỷ lệ theo chiều ngang (horizontal scaling).\\[0.5cm]
     Nếu máy chủ của chúng ta đặt tại chỗ (on promise), thì nên cân nhắc việc tạo kiến trúc nhiều trang, điều này sẽ giúp chúng ta đạt được khả năng mở rộng nhanh chóng theo yêu cầu và cung cấp giải pháp khắc phục thảm họa tốt, chúng ta có thể chọn các dịch vụ riêng lẻ như Amazon Route 53, AWS CloudFormation, Amazon SQS, Amazon SNS, Amazon RDS, v.v. tùy theo nhu cầu của chúng ta.\\[0.5cm]
