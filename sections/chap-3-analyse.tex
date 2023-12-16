@@ -9,7 +9,7 @@ Hệ thống có một số tính năng chính sau:
     \item Khi truy cập và hệ thống, người dùng có thể xem được tất cả các sản phẩm của cửa hàng.
     \item Hệ thống có thể phân loại sản phẩm theo từng loại khác nhau.
     \item Người dùng có thể tìm kiếm sản phẩm theo tên, loại, giá, kích thước\dots
-    \item Người dùng có thể xem chi tiết sản phẩm để lựa chọn được sản phẩm phụ hợp nhất.
+    \item Người dùng có thể xem chi tiết sản phẩm để lựa chọn được sản phẩm phù hợp nhất.
     \item Người dùng có thể thêm sản phẩm vào giỏ hàng.
     \item Người dùng có thể xem giỏ hàng của mình.
     \item Người dùng có thể xóa sản phẩm, điều chỉnh số lượng sản phẩm trong giỏ hàng.
@@ -47,8 +47,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
 \newpage
 \subsubsection{Đặc tả use case cho một số tính năng chính}
 \begin{itemize}
-    \item Đăng nhập
-    \begin{table}[h]
+    \item \textbf{Đăng nhập}
+    \begin{table}[H]
         \begin{tabular}{|l|l|}
         \hline
         \textbf{Use-case name}    & \textbf{Đăng nhập - Login}                                                                                                                                                                                                                                                                                                                                                                                                                           \\ \hline
@@ -65,8 +65,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \end{center}
         \end{table}
         
-    \item Đăng ký tài khoản
-    \begin{table}[h]
+    \item \textbf{Đăng ký}
+    \begin{table}[H]
         \begin{tabular}{|l|l|}
         \hline
         \textbf{Use-case name}    & \textbf{Đăng ký - SignUp}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
@@ -83,8 +83,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \end{center}
     \end{table}
     \newpage
-    \item Xem sản phẩm
-    \begin{table}[h]
+    \item \textbf{Xem sản phẩm}
+    \begin{table}[H]
         \begin{tabular}{|l|l|}
         \hline
         \textbf{Use-case name}    & \textbf{Xem sản phẩm - View Products}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \\ \hline
@@ -101,8 +101,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \end{center}
         \end{table}
         
-        \item Quản lý giỏ hàng
-        \begin{table}[h]
+        \item \textbf{Quản lý giỏ hàng}
+        \begin{table}[H]
             \begin{tabular}{|l|l|}
             \hline
             \textbf{Use-case name}    & \textbf{Quản lý giỏ hàng - Cart Manager}                                                                                                                                                                                                                                 \\ \hline
@@ -110,7 +110,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
             \textbf{Description}      & Người dùng quản lý giỏ hàng của mình                                                                                                                                                                                                                                     \\ \hline
             \textbf{Pre-condition}    & Người dùng đăng nhập vào hệ thống thành công                                                                                                                                                                                                                             \\ \hline
             \textbf{Post-condition}   & Người dùng quản lý giỏ hàng thành công                                                                                                                                                                                                                                   \\ \hline
-            \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Người dùng nhấn vào biểu tượng giỏ hàng nằm trên thanh điều hướng.\\ 2.Hệ thống hiển thị chi tiết trang giỏ hàng.\\ 3.Tại đây, người dùng có thể.\\ -Thêm / Xoá sản phẩm khỏi giỏ hàng.\\ -Tăng / giảm số lượng từng sản phẩm.\end{tabular} \\ \hline
+            \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Người dùng nhấn vào biểu tượng giỏ hàng nằm trên thanh điều hướng.\\ 2.Hệ thống hiển thị chi tiết trang giỏ hàng.\\ 3.Tại đây, người dùng có thể.\\ -Thêm / Xoá sản phẩm khỏi giỏ hàng.\\ -Tăng / Giảm số lượng từng sản phẩm.\end{tabular} \\ \hline
             \textbf{Alternative-flow} & Không có                                                                                                                                                                                                                                                                 \\ \hline
             \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                 \\ \hline
             \end{tabular}
@@ -119,8 +119,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
             \end{center}
             \end{table}
         \newpage
-        \item Thanh toán
-            \begin{table}[h]
+        \item \textbf{Thanh toán}
+            \begin{table}[H]
                 \begin{tabular}{|l|l|}
                 \hline
                 \textbf{Use-case name}    & \textbf{Thanh toán - Payment}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
@@ -128,7 +128,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \textbf{Description}      & Người dùng thanh toán đơn hàng của mình                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    \\ \hline
                 \textbf{Pre-condition}    & Người dùng đăng nhập vào hệ thống thành công                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \\ \hline
                 \textbf{Post-condition}   & Người dùng thanh toán thành công                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           \\ \hline
-                \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Người dùng nhấn vào biểu tượng giỏ hàng nằm trên thanh điều hướng.\\ 2.Hệ thống hiển thị chi tiết trang giỏ hàng.\\ 3.Tại giỏi hàng, người dùng có thể chọn lại những sản phẩm cần mua ngay.\\ 4.Chọn nút "THANH TOÁN".\\ 5.Hệ thống tính toán tổng số tiền cần trả (bao gồm cả phí vận chuyển) rồi\\ hiển thị lên màn hình.\\ 6.Người dùng lựa chọn phương thức thanh toán:\\ 6.1.Thanh toán tiền mặt: Người dùng để lại thông tin, đơn hàng sẽ được\\ tổng hợp và người dùng có thể ra cửa hàng để thanh toán.\\ 6.2.Thanh toán bẳng thẻ tín dụng, thẻ ngân hàng, ví điện tử:\\ -Người dùng chọn dịch vụ phù hợp.\\ -Dịch vụ bên thứ 3 sẽ liên kết và xử lý thanh toán.\\ -6.2.1.Hệ thống thông báo thanh toán thành công.\\ -6.2.2.Hệ thống thông báo lỗi, yêu cầu người dùng thực hiện lại.\end{tabular} \\ \hline
+                \textbf{Normal-flow}      & \begin{tabular}[c]{@{}l@{}}1.Người dùng nhấn vào biểu tượng giỏ hàng nằm trên thanh điều hướng.\\ 2.Hệ thống hiển thị chi tiết trang giỏ hàng.\\ 3.Tại giỏ hàng, người dùng có thể chọn lại những sản phẩm cần mua ngay.\\ 4.Chọn nút "THANH TOÁN".\\ 5.Hệ thống tính toán tổng số tiền cần trả (bao gồm cả phí vận chuyển) rồi\\ hiển thị lên màn hình.\\ 6.Người dùng lựa chọn phương thức thanh toán:\\ 6.1.Thanh toán tiền mặt: Người dùng để lại thông tin, đơn hàng sẽ được\\ tổng hợp và người dùng có thể ra cửa hàng để thanh toán.\\ 6.2.Thanh toán bẳng thẻ tín dụng, thẻ ngân hàng, ví điện tử:\\ -Người dùng chọn dịch vụ phù hợp.\\ -Dịch vụ bên thứ 3 sẽ liên kết và xử lý thanh toán.\\ -6.2.1.Hệ thống thông báo thanh toán thành công.\\ -6.2.2.Hệ thống thông báo lỗi, yêu cầu người dùng thực hiện lại.\end{tabular} \\ \hline
                 \textbf{Alternative-flow} & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
                 \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
                 \end{tabular}
@@ -137,8 +137,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \end{center}
                 \end{table}
                 
-        \item Quản lý sản phẩm
-            \begin{table}[h]
+        \item \textbf{Quản lý sản phẩm}
+            \begin{table}[H]
                 \begin{tabular}{|l|l|}
                 \hline
                 \textbf{Use-case name}    & \textbf{Quản lý sản phẩm - Products Manager}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
@@ -155,8 +155,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \end{center}
                 \end{table}
             \newpage
-            \item Quản lý người dùng
-            \begin{table}[h]
+            \item \textbf{Quản lý người dùng}
+            \begin{table}[H]
             \begin{tabular}{|l|l|}
             \hline
             \textbf{Use-case name}    & \textbf{Quản lý người dùng - User Manager}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              \\ \hline
@@ -172,8 +172,8 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 Bảng 3.7: Đặc tả use case quản lý người dùng
             \end{center}
             \end{table}
-            \item Xem thống kê doanh thu
-            \begin{table}[h]
+            \item \textbf{Xem thống kê doanh thu}
+            \begin{table}[H]
                 \begin{tabular}{|l|l|}
                 \hline
                 \textbf{Use-case name}    & \textbf{Xem thống kê doanh thu - View Statistic}                                                                                                                                                                                                                                                                                                                                 \\ \hline
@@ -228,6 +228,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
     \caption{Activity diagram cho chức năng mua sắm}
 \end{figure}
 \newpage
+\subsubsection{Activity diagram cho chức năng xem thống kê}
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.6]{images/hieu/chap-3/Statistic-activity-diagram.png}
@@ -244,10 +245,10 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
 Trong đó:
 \begin{itemize}
     \item User: người dùng (khách hàng, quản lý, nhân viên) đăng ký tài khoản và đăng nhập vào hệ thống.
-    \item UserInterface: giao diện trang đăng nhập và trang đăng ký tương tác với người dùng.
-    \item RigisterController: khối xử lý chức năng đăng ký tài khoản của người dùng.
-    \item LoginController: khối xử lý chức năng đăng nhập của người dùng.
-    \item AccountDatabase: cơ sở dữ liệu lưu thông tin tài khoản của người dùng.
+    \item User Interface: giao diện trang đăng nhập và trang đăng ký tương tác với người dùng.
+    \item Rigister Controller: khối xử lý chức năng đăng ký tài khoản của người dùng.
+    \item Login Controller: khối xử lý chức năng đăng nhập của người dùng.
+    \item Account Database: cơ sở dữ liệu lưu thông tin tài khoản của người dùng.
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng mua sắm}
@@ -280,7 +281,7 @@ Trong đó:
     \item Manager Interface: giao diện trang quản lý sản phẩm tương tác với người dùng.
     \item Product Controller: khối xử lý chức năng quản lý sản phẩm của người dùng.
     \item Product Database: cơ sở dữ liệu lưu thông tin sản phẩm của cửa hàng.
-    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khách hàng (trong trường hợp người dùng không phải là người quản lý).
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng quản lý tài khoản}
@@ -297,7 +298,7 @@ Trong đó:
     \item Manager Interface: giao diện trang quản lý tài khoản tương tác với người dùng.
     \item Account Controller: khối xử lý chức năng quản lý tài khoản của người dùng.
     \item Account Database: cơ sở dữ liệu lưu thông tin tài khoản của cửa hàng.
-    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khách hàng (trong trường hợp người dùng không phải là người quản lý).
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng quản lý bài viết}
@@ -314,7 +315,7 @@ Trong đó:
     \item Manager Interface: giao diện trang quản lý bài viết tương tác với người dùng.
     \item Blog Controller: khối xử lý chức năng quản lý bài viết của người dùng.
     \item Blog Database: cơ sở dữ liệu lưu thông tin bài viết của cửa hàng.
-    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khách hàng (trong trường hợp người dùng không phải là người quản lý).
 \end{itemize}
 \newpage
 \subsubsection{Sequence diagram cho chức năng xem thống kê doanh thu}
@@ -331,7 +332,7 @@ Trong đó:
     \item Manager Interface: giao diện trang quản lý doanh thu tương tác với người dùng.
     \item Statistic Controller: khối xử lý chức năng xem thống kê doanh thu của người dùng.
     \item Order Database: cơ sở dữ liệu lưu thông tin đơn hàng của cửa hàng.
-    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khác hàng (trong trường hợp người dùng không phải là người quản lý).
+    \item Customer Interface: giao diện trang chủ tương tác với người dùng là khách hàng (trong trường hợp người dùng không phải là người quản lý).
 \end{itemize}
 \newpage
 \subsection{Database diagram}
@@ -408,8 +409,8 @@ Trong đó:
 \subsubsection{Kết luận}
 Từ việc phân tích các use case trên, chúng ta có thể rút ra được một số kết luận như sau:
 \noindent Tất cả các use case đều sử dụng nền tảng cloud để xây dựng hệ thống nhằm đáp ứng tính 
-scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. Tuy nhiên, chúng ta có thể sử dụng Kubernetes để triển khai ứng dụng của mình trên bất kỳ nơi nào có hỗ trợ Kubernetes, mà không bị ràng buộc bởi một nhà cung cấp dịch vụ nào, hay nói cách khác nó độc lập với hạ tầng cụ thể. 
-
+scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý Kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. \\[0.5cm]
+Tuy nhiên, chúng ta có thể sử dụng Kubernetes để triển khai ứng dụng của mình trên bất kỳ nơi nào có hỗ trợ Kubernetes, mà không bị ràng buộc bởi một nhà cung cấp dịch vụ nào, hay nói cách khác nó độc lập với hạ tầng cụ thể. \\[0.5cm]
 Bên cạnh đó, Kubernetes còn đảm bảo được hệ thống sẽ đáp ứng được tính scalability (khả năng mở rộng) và availability (tính sẵn sàng) thông qua một số dịch vụ và khái niệm của nó như:
 \begin{itemize}
     \item ReplicaSets: Dùng để định nghĩa và duy trì một số lượng replicas (bản sao) của các pod chạy ứng dụng. Điều này giúp đảm bảo tính sẵn sàng của ứng dụng và có thể mở rộng hoặc thu hẹp số lượng replicas dựa trên tải công việc.
@@ -420,6 +421,6 @@ Bên cạnh đó, Kubernetes còn đảm bảo được hệ thống sẽ đáp 
     \item Liveness Probes: Kiểm tra xem một pod có hoạt động đúng cách hay không và tự động khởi động lại pod nếu cần.
     \item Pod Disruption Budgets: Giới hạn số lượng pods có thể bị tắt đồng thời trong khi thực hiện các cập nhật hoặc bảo trì để đảm bảo tính sẵn sàng.
 \end{itemize}
-\noindent Đa phần kiến trúc microservice được ưu tiên áp dụng vì đây là một mô hình ít phụ thuộc vào nhau nên chúng có thể được triển khai, quản lý và mở rộng độc lập với nhau, đồng thời cũng giảm lực cho hệ thống vì chúng không cần phải tương tác trực tiếp với nhau mà thông qua message queue (Apache Kafka, RabbitMQ, ActiveMQ, và Microsoft Azure Service Bus).
-\subsubsection{Đề xuất giải pháp}
+\noindent Đa phần kiến trúc microservice được ưu tiên áp dụng vì đây là một mô hình ít phụ thuộc vào nhau nên chúng có thể được triển khai, quản lý và mở rộng độc lập với nhau, đồng thời cũng giảm áp lực cho hệ thống vì chúng không cần phải tương tác trực tiếp với nhau mà thông qua message queue (Apache Kafka, RabbitMQ, ActiveMQ, và Microsoft Azure Service Bus).
+\subsection{Đề xuất giải pháp}
 \noindent Từ các phân tích và kết luận ở trên, nhóm quyết định sẽ xây dựng hệ thống dưới dạng microservice và deloy ứng dụng bằng Kubernetes. Với Kubernetes, ứng dụng sẽ đáp ứng được tính mở rộng và tính sẵn sàng cao thông qua một số dịch vụ mà Kubernetes cung cấp: deloyment, HPA, masternode v.v. Các service của hệ thống sẽ giao tiếp với nhau thông qua message queue.

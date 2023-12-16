@@ -269,7 +269,7 @@ Mỗi ứng dụng có thể có nhiều kết nối.
 \noindent Scalability thường có hai loại: dọc và ngang. Mỏ rộng theo chiều dọc tập trung vào việc tăng hoặc giảm khả năng của tài nguyên. Mở rộng theo chiều ngang là thêm hoặc bớt số lượng tài nguyên.
 
 \section{Định nghĩa các kiểu kiến trúc hệ thống}
-\noindent Nội dung dưới đây tham khảo từ module Decompose a monolithic application into a microservices architecture của Microsoft Learn.\footnote{Website: https://learn.microsoft.com/en-us/training/modules/microservices-architecture/}
+\noindent Nội dung dưới đây tham khảo từ module \textit{Decompose a monolithic application into a microservices architecture} của Microsoft Learn.\footnote{Website: https://learn.microsoft.com/en-us/training/modules/microservices-architecture/}
 \subsection{Kiến trúc monolith}
 \subsubsection{Định nghĩa}
 \noindent Kiến trúc monolith là kiến trúc trong đó tất cả các thành phần của một ứng dụng được đặt trong một đơn vị duy nhất. Đơn vị này thường bị hạn chế trong một phiên bản thời gian chạy duy nhất của ứng dụng. Các ứng dụng truyền thống thường bao gồm giao diện web, lớp dịch vụ và lớp dữ liệu. Trong kiến trúc monolith, các lớp này được kết hợp trên một phiên bản của ứng dụng.
@@ -336,10 +336,10 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
 \end{figure}
 \subsubsection{Các thành phần của kiến trúc}
 \begin{itemize}
-    \item \textbf{Azure Kubernetes Service (AKS)}: Là một dịch vụ quản lý Kubernetes do Microsoft cung cấp.Azure quản lý dịch vụ API Kubernetes và bạn chỉ cần quản lý các nút tác nhân (agent node).
+    \item \textbf{Azure Kubernetes Service (AKS)}: Là một dịch vụ quản lý Kubernetes do Microsoft cung cấp. Azure quản lý dịch vụ API Kubernetes và bạn chỉ cần quản lý các nút tác nhân (agent node).
     \item \textbf{Virtual Network}: Theo mặc định, AKS tạo một mạng ảo trong đó các nút tác nhân được kết nối. Trước tiên, bạn có thể tạo mạng ảo cho các tình huống nâng cao hơn, cho phép bạn kiểm soát những thứ như cấu hình mạng con.
-    \item \textbf{Ingress}:Ingress hiển thị các tuyến HTTPs tới các dịch vụ bên trong cluster.
-    \item \textbf{Azure Load Balancer}:sau khi tạo AKS cluster, cluster đã sẵn sàng sử dụng bộ cân bằng tải. Khi dịch vụ NGINX được triển khai, bộ cân bằng tải sẽ được cấu hình bằng một IP công cộng mới phía trước bộ điều khiển xâm nhập (ingress controller). Bằng cách này, bộ cân bằng tải định tuyến lưu lượng truy cập internet đến ingress.
+    \item \textbf{Ingress}: Ingress hiển thị các tuyến HTTPs tới các dịch vụ bên trong cluster.
+    \item \textbf{Azure Load Balancer}: Sau khi tạo AKS cluster, cluster đã sẵn sàng sử dụng bộ cân bằng tải. Khi dịch vụ NGINX được triển khai, bộ cân bằng tải sẽ được cấu hình bằng một IP công cộng mới phía trước bộ điều khiển xâm nhập (ingress controller). Bằng cách này, bộ cân bằng tải định tuyến lưu lượng truy cập internet đến ingress.
     \item \textbf{Exteral Data Store}: Các microservice thường không có trạng thái (stateless) và trạng thái ghi vào các kho dữ liệu bên ngoài, chẳng hạn như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB.
     \item \textbf{Microsoft ID Entra}: AKS sử dụng Microsoft Entra ID để tạo và quản lý các tài nguyên Azure khác như bộ cân bằng tải Azure. Microsoft Entra ID cũng được khuyến nghị để xác thực người dùng trong các ứng dụng khách.
     \item \textbf{Azure Container Registry}: Azure Container Registry là một kho lưu trữ riêng tư cho các hình ảnh Docker. Nó được sử dụng để lưu trữ các hình ảnh Docker được sử dụng để triển khai các dịch vụ trong AKS cluster.
@@ -589,12 +589,12 @@ Một số ưu điểm của Magento:
 \end{figure}    
 \subsubsection{Các thành phần của kiến trúc}
     \begin{itemize}
-        \item \textbf{Azure Kubernetes Service (AKS)}:chia tỉ lệ các vùng chứa (containers) trên các dịch vụ mà Kubernetes quản lý.
+        \item \textbf{Azure Kubernetes Service (AKS)}: chia tỉ lệ các vùng chứa (containers) trên các dịch vụ mà Kubernetes quản lý.
         \item \textbf{Azure Virtual Network}: mạng ảo trên đám mây (cloud).
         \item \textbf{Azure Database for MySQL}: MySQL trên cloud giúp tiết kiệm chi phí, dễ thiết lập vận hành và mở rộng quy mô.
-        \item \textbf{Azure Files}: chia sẽ các files trên cloud.
+        \item \textbf{Azure Files}: chia sẻ các files trên cloud.
         \item \textbf{Azure NetApp Files}: chia sẻ các file Azure cấp doanh nghiệp, được cung cấp bởi NetApp.
-        \item \textbf{Azure Content Delivery Network}:mạng phân phối nội dung nhanh chóng, đáng tin cậy và toàn cầu.
+        \item \textbf{Azure Content Delivery Network}: mạng phân phối nội dung nhanh chóng, đáng tin cậy và toàn cầu.
         \item \textbf{Microsoft Entra ID}: quản lý quyền try cập và định danh multicloud.
         \item \textbf{Azure Container Registry}: lưu trữ các hình ảnh vùng chứa riêng tư có thể chạy trong cụm AKS.
         \item \textbf{Azure Monitor}: thu thập và lưu trữ số liệu cũng như nhật ký, bao gồm dữ liệu đo từ xa của ứng dụng cũng như số liệu dịch vụ và nền tảng Azure.
