@@ -61,9 +61,11 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \textbf{Exception}        & \begin{tabular}[c]{@{}l@{}}Nếu người dùng bị chặn bởi người quản lý (Manager) sẽ không thể đăng nhập \\ vào hệ thống\end{tabular}                                                                                                                                                                                                                                                                                                                    \\ \hline
         \end{tabular}
         \begin{center}
-            Bảng 3.1: Đặc tả use case đăng nhập
+            % Bảng 3.1: 
         \end{center}
-        \end{table}
+    \caption{Đặc tả use case đăng nhập}
+    \label{table:1}
+    \end{table}
         
     \item \textbf{Đăng ký}
     \begin{table}[H]
@@ -79,8 +81,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \textbf{Exception}        & Một địa chỉ email chỉ đăng ký được một tài khoản.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      \\ \hline
         \end{tabular}
         \begin{center}
-            Bảng 3.2: Đặc tả use case đăng ký tài khoản
         \end{center}
+        \caption{Đặc tả use case đăng ký tài khoản}
+        \label{table:1}
     \end{table}
     \newpage
     \item \textbf{Xem sản phẩm}
@@ -97,8 +100,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
         \textbf{Exception}        & Người dùng phải đăng nhập mới có thể mua hàng hoặc thêm vào giỏ hàng.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        \\ \hline
         \end{tabular}
         \begin{center}
-            Bảng 3.3: Đặc tả use case xem sản phẩm
         \end{center}
+        \caption{Đặc tả use case xem sản phẩm}
+        \label{table:1}
         \end{table}
         
         \item \textbf{Quản lý giỏ hàng}
@@ -115,8 +119,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
             \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                 \\ \hline
             \end{tabular}
             \begin{center}
-                Bảng 3.4: Đặc tả use case quản lý giỏ hàng
             \end{center}
+            \caption{Đặc tả use case quản lý giỏ hàng}
+            \label{table:1}
             \end{table}
         \newpage
         \item \textbf{Thanh toán}
@@ -133,8 +138,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   \\ \hline
                 \end{tabular}
                 \begin{center}
-                    Bảng 3.5: Đặc tả use case thanh toán
                 \end{center}
+                \caption{Đặc tả use case thanh toán}
+                \label{table:1}
                 \end{table}
                 
         \item \textbf{Quản lý sản phẩm}
@@ -151,9 +157,10 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            \\ \hline
                 \end{tabular}
                 \begin{center}
-                    Bảng 3.6: Đặc tả use case quản lý sản phẩm
                 \end{center}
-                \end{table}
+                \caption{Đặc tả use case quản lý sản phẩm}
+            \label{table:1}    
+            \end{table}
             \newpage
             \item \textbf{Quản lý người dùng}
             \begin{table}[H]
@@ -169,8 +176,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
             \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                \\ \hline
             \end{tabular}
             \begin{center}
-                Bảng 3.7: Đặc tả use case quản lý người dùng
             \end{center}
+            \caption{Đặc tả use case quản lý người dùng}
+            \label{table:1}
             \end{table}
             \item \textbf{Xem thống kê doanh thu}
             \begin{table}[H]
@@ -186,8 +194,9 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
                 \textbf{Exception}        & Không có                                                                                                                                                                                                                                                                                                                                                                         \\ \hline
                 \end{tabular}
                 \begin{center}
-                    Bảng 3.8: Đặc tả use case xem thống kê doanh thu
                 \end{center}
+                \caption{Đặc tả use case xem thống kê doanh thu}
+                \label{table:1}
                 \end{table}
     \end{itemize}
 \newpage
@@ -359,6 +368,8 @@ Trong đó:
         modified\_at        & timestamp             & Thời gian điều chỉnh                      \\ \hline
         image\_link         & string                & Liên kết chứa hỉnh ảnh sản phẩm           \\ \hline
         \end{tabular}
+        \caption{Bảng mô tả Product}
+        \label{table:1}
         \end{table}
     \item \textbf{Product Category:} Thực thể này lưu trữ thông tin về loại sản phẩm của cửa hàng.
             \begin{table}[H]
@@ -372,6 +383,8 @@ Trong đó:
                 modified\_at        & timestamp             & Thời gian điều chỉnh          \\ \hline
                 created\_at         & timestamp             & Thời gian tạo                 \\ \hline
                 \end{tabular}
+                \caption{Bảng mô tả Product Catagory}
+                \label{table:1}
                 \end{table}
     \item \textbf{Product Inventory:} Thực thể này lưu trữ thông tin về kho lưu trữ sản phẩm của cửa hàng.
         \begin{table}[H]
@@ -383,6 +396,8 @@ Trong đó:
         modified\_at        & timestamp             & Thời gian điều chỉnh          \\ \hline
         created\_at         & timestamp             & Thời gian tạo                 \\ \hline
         \end{tabular}
+        \caption{Bảng mô tả Product Inventory}
+        \label{table:1}
         \end{table}
     \item \textbf{Discount:} Thực thể này lưu trữ thông tin về khuyến mãi của sản phẩm.
         \begin{table}[H]
@@ -397,6 +412,8 @@ Trong đó:
         deleted\_at         & timestamp             & Thời gian xoá            \\ \hline
         Modified\_at        & timestamp             & Thời gian điều chỉnh     \\ \hline
         \end{tabular}
+        \caption{Bảng mô tả Discount}
+        \label{table:1}
         \end{table}
 \end{itemize}
 
