@@ -359,11 +359,11 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
 Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục bộ vì điều đó liên kết dữ liệu với node. Thay vào đó, hãy sử dụng dịch vụ bên ngoài như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB. Nếu bạn cần lưu trữ dữ liệu tạm thời, hãy sử dụng Redis Cache.
     \item \textbf{Namespace}: Namespace tổ chức các dịch vụ trong cluster, ngăn ngừa xung đột tên, áp dụng ràng buộc tài nguyên và chính sách bảo mật ở cấp độ namespace, và tổ chức microservice thành các ngữ cảnh được giới hạn thông qua việc tạo namespace cho từng ngữ cảnh. Đồng thời, việc đặt các dịch vụ tiện ích như Elasticsearch, Prometheus hoặc Tiller vào các namespace riêng biệt cũng được khuyến khích.
     \item \textbf{Health Probes}: Health probes là các yêu cầu HTTP được gửi đến các dịch vụ để xác định trạng thái của chúng. Nếu một dịch vụ không phản hồi, Kubernetes sẽ xóa pod và tạo lại nó. Điều này đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
-    \newline
+    \\[0.5cm]
     Kubernetes xác định hai loại thăm dò sức khỏe mà pod có thể hiển thị:
         \begin{itemize}
-            \item Thăm dò sẵn sàng:Thăm dò sẵn sàng xác định khi nào pod đã sẵn sàng để phục vụ yêu cầu.  
-            \item Thăm dò sự sống:Thăm dò sự sống xác định khi nào pod cần được khởi động lại. Nếu thăm dò sự sống thất bại, pod sẽ bị xóa và tạo lại.
+            \item Thăm dò sẵn sàng: Thăm dò sẵn sàng xác định khi nào pod đã sẵn sàng để phục vụ yêu cầu.  
+            \item Thăm dò sự sống: Thăm dò sự sống xác định khi nào pod cần được khởi động lại. Nếu thăm dò sự sống thất bại, pod sẽ bị xóa và tạo lại.
         \end{itemize}
     Một số cân nhắc khi thiết kế health probes:
         \begin{itemize}
