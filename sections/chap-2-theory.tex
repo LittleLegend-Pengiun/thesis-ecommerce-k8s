@@ -359,11 +359,11 @@ Dựa vào những thông tin trên, kiến trúc microservices sẽ phù hợp 
 Tránh lưu trữ dữ liệu liên tục trong bộ lưu trữ cluster cục bộ vì điều đó liên kết dữ liệu với node. Thay vào đó, hãy sử dụng dịch vụ bên ngoài như Cơ sở dữ liệu Azure SQL hoặc Azure Cosmos DB. Nếu bạn cần lưu trữ dữ liệu tạm thời, hãy sử dụng Redis Cache.
     \item \textbf{Namespace}: Namespace tổ chức các dịch vụ trong cluster, ngăn ngừa xung đột tên, áp dụng ràng buộc tài nguyên và chính sách bảo mật ở cấp độ namespace, và tổ chức microservice thành các ngữ cảnh được giới hạn thông qua việc tạo namespace cho từng ngữ cảnh. Đồng thời, việc đặt các dịch vụ tiện ích như Elasticsearch, Prometheus hoặc Tiller vào các namespace riêng biệt cũng được khuyến khích.
     \item \textbf{Health Probes}: Health probes là các yêu cầu HTTP được gửi đến các dịch vụ để xác định trạng thái của chúng. Nếu một dịch vụ không phản hồi, Kubernetes sẽ xóa pod và tạo lại nó. Điều này đảm bảo rằng các dịch vụ luôn sẵn sàng để phục vụ yêu cầu.
-    \newline
+    \\[0.5cm]
     Kubernetes xác định hai loại thăm dò sức khỏe mà pod có thể hiển thị:
         \begin{itemize}
-            \item Thăm dò sẵn sàng:Thăm dò sẵn sàng xác định khi nào pod đã sẵn sàng để phục vụ yêu cầu.  
-            \item Thăm dò sự sống:Thăm dò sự sống xác định khi nào pod cần được khởi động lại. Nếu thăm dò sự sống thất bại, pod sẽ bị xóa và tạo lại.
+            \item Thăm dò sẵn sàng: Thăm dò sẵn sàng xác định khi nào pod đã sẵn sàng để phục vụ yêu cầu.  
+            \item Thăm dò sự sống: Thăm dò sự sống xác định khi nào pod cần được khởi động lại. Nếu thăm dò sự sống thất bại, pod sẽ bị xóa và tạo lại.
         \end{itemize}
     Một số cân nhắc khi thiết kế health probes:
         \begin{itemize}
@@ -568,7 +568,7 @@ Triển khai những đề xuất này khi sử dụng kiến trúc microservice
         \item Để ước tính chi phí của các tài nguyên cần thiết, hãy xem phần tính toán Dịch vụ Container.
     \end{itemize}
 
-
+\newpage
 \subsection{Nền tảng thương mại điện tử Magento trong kiến trúc Azure Kubernetes Service - AKS}
 \noindent Tham khảo từ bài viết "Magento e-commerce platform in Azure Kubernetes Service" từ Microsoft Learn.\footnote{Nguồn thảm khảo: https://learn.microsoft.com/en-us/azure/architecture/example-scenario/magento/magento-azure}
 \subsubsection{Magento là gì}
@@ -640,8 +640,9 @@ Một số ưu điểm của Magento:
                 \item Sử dụng giới hạn tài nguyên để hạn chế tổng tài nguyên cho phép cho một vùng chứa, giúp cân bằng tài nguyên giữa các vùng chứa. 
             \end{itemize}
     \end{itemize}
+\newpage
 \subsection{Giải pháp triển khai cho ứng dụng web về sản phẩm công nghệ trên AWS}
-\noindent Tham khảo từ bài viết Scale Your Web Application — One Step at a Time của Saurabh Shrivastava.\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}
+\noindent Tham khảo từ bài viết "Scale Your Web Application — One Step at a Time" của Saurabh Shrivastava.\footnote{Nguồn tham khảo: https://aws.amazon.com/vi/blogs/architecture/scale-your-web-application-one-step-at-a-time}
 
 \subsubsection{Bối cảnh}
 Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta thực hiện đánh giá sơ bộ về đợt ra mắt điện thoại thông minh sắp ra mắt và rất được mong đợi, thông tin này đã lan truyền rộng rãi. Bài đánh giá, một bài đăng blog trên trang web của chúng ta, bao gồm cả video và hình ảnh. Tính năng bình luận được bật cho bài viết và người đọc cũng có thể đánh giá bài viết đó. 
@@ -737,8 +738,9 @@ Giả sử chúng ta có một trang web tin tức công nghệ nơi chúng ta t
         Laravel là một framework thường sử dụng kiến trúc MVC để phát triển ứng dụng, nghĩa là có thể cần nhiều bước hơn để tách các phần khác nhau trong ứng dụng của chúng ta thành các service khác nhau trên AWS. Tuy nhiên, Laravel có khả năng tùy biến cao (option cao) nên vẫn có nhiều lựa chọn để mở rộng quy mô trên AWS với Laravel.\\[0.5cm]
         Một lựa chọn khác là không sử dụng framework nào cả. Điều này cho phép linh hoạt tối đa vì có toàn quyền kiểm soát kiến trúc của mình và có thể phát triển kiến trúc phân tán tương thích hơn với AWS ngay từ đầu.
     \end{itemize}
+\newpage
 \subsection{Giải pháp triển khai cho ứng dụng microservice trên EKS}
-\noindent Tham khảo từ bài viết"Microservices Deployment on EKS" của STACKSIMPLIFY.\footnote{Nguồn tham khảo: https://www.stacksimplify.com/aws-eks/microservices-on-aws-eks/learn-to-deploy-microservices-on-aws-eks}
+\noindent Tham khảo từ bài viết "Microservices Deployment on EKS" của STACKSIMPLIFY.\footnote{Nguồn tham khảo: https://www.stacksimplify.com/aws-eks/microservices-on-aws-eks/learn-to-deploy-microservices-on-aws-eks}
 \subsubsection{Bối cảnh}
 Chúng ta sẽ triển khai hai microservice:
 \begin{itemize}
