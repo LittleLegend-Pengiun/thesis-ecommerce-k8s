@@ -1,7 +1,7 @@
 \chapter{Phân tích yêu cầu}
 \section{Phân tích yêu cầu nghiệp vụ}
 \subsection{Yêu cầu chức năng}
-Hệ thống có một số tính năng chính sau:
+\noindent Hệ thống có một số tính năng chính sau:
 \begin {list} {-}{}
     \item Người dùng có thể đăng ký tài khoản cho riêng mình.
     \item Người dùng có thể đăng nhập vào hệ thống với tài khoản và mật khẩu đã đăng ký thành công trước đó.
@@ -23,7 +23,7 @@ Hệ thống có một số tính năng chính sau:
     \item Hệ thống thống kê doanh thu thành biểu đồ theo từng ngày,tháng,năm để nhân viên và quản lý có thể dễ dàng theo dõi.
 \end {list}
 \subsection{Yêu cầu phi chức năng}
-Hệ thống có một số yêu cầu phi chức năng như sau:
+\noindent Hệ thống có một số yêu cầu phi chức năng như sau:
 \begin {list} {-}{}
     \item Hệ thống có giao diện thân thiện với người dùng.
     \item Hệ thống có thể dễ dàng sử dụng đối với người dùng mới.
@@ -251,7 +251,7 @@ Hệ thống có một số yêu cầu phi chức năng như sau:
     \includegraphics[scale=0.6]{images/hieu/chap-3/login-signup-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng đăng nhập - đăng ký}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item User: người dùng (khách hàng, quản lý, nhân viên) đăng ký tài khoản và đăng nhập vào hệ thống.
     \item User Interface: giao diện trang đăng nhập và trang đăng ký tương tác với người dùng.
@@ -266,7 +266,7 @@ Trong đó:
     \includegraphics[scale=0.5]{images/hieu/chap-3/shopping-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng mua sắm}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item UserInterface: giao diện trang chủ, trang chi tiết sản phẩm, trang giỏ hàng và trang thanh toán tương tác với người dùng.
     \item Product Database: cơ sở dữ liệu lưu thông tin sản phẩm của cửa hàng.
@@ -282,7 +282,7 @@ Trong đó:
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-product-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý sản phẩm}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
     \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
@@ -299,7 +299,7 @@ Trong đó:
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-account-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý tài khoản}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
     \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
@@ -316,7 +316,7 @@ Trong đó:
     \includegraphics[scale=0.5]{images/hieu/chap-3/manage-blog-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng quản lý bài viết}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
     \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
@@ -333,7 +333,7 @@ Trong đó:
     \includegraphics[scale=0.5]{images/hieu/chap-3/statistic-sequence-diagram.png}
     \caption{Sequence diagram cho chức năng xem thống kê doanh thu}
 \end{figure}
-Trong đó:
+\noindent Trong đó:
 \begin{itemize}
     \item Manager: là người quản lý, sẽ quản lý tất cả các sản phẩm của cửa hàng.
     \item LoginInterface: giao diện trang đăng nhập tương tác với người dùng.
@@ -346,7 +346,7 @@ Trong đó:
 \newpage
 \subsection{Database diagram}
 \subsubsection {Entity Relationship Diagram - ERD}
-\textbf{Ghi chú:} Đây chỉ là sơ đồ cho chức năng liên quan đến sản phẩm
+\noindent \textbf{Ghi chú:} Đây chỉ là sơ đồ cho chức năng liên quan đến sản phẩm
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{images/hieu/chap-3/database-diagram.png}
@@ -431,7 +431,7 @@ Trong đó:
 \section{Phân tích bài toán và đề xuất giải pháp}
 
 \subsection{Kết luận}
-Từ việc phân tích các use case trên, chúng ta có thể rút ra được một số kết luận như sau:
+Từ việc phân tích các use case ở chương 2, chúng ta có thể rút ra được một số kết luận như sau:\\[0.5cm]
 \noindent Tất cả các use case đều sử dụng nền tảng cloud để xây dựng hệ thống nhằm đáp ứng tính 
 scalability (khả năng mở rộng) và availability (tính sẵn sàng). Một số dịch vụ nền tảng cloud phổ biến nhất hiện nay để quản lý Kubernetes là EKS (Elastic Kubernetes Service) và AKS (Azure Kubernetes Service), các dịch vụ này có thể tự động hóa nhiều công việc và tích hợp tốt với các dịch vụ khác trong hệ sinh thái của nhà cung cấp đó nhằm giúp đơn giản hóa việc triển khai và quản lý cụm Kubernetes. \\[0.5cm]
 Tuy nhiên, chúng ta có thể sử dụng Kubernetes để triển khai ứng dụng của mình trên bất kỳ nơi nào có hỗ trợ Kubernetes, mà không bị ràng buộc bởi một nhà cung cấp dịch vụ nào, hay nói cách khác nó độc lập với hạ tầng cụ thể. \\[0.5cm]
