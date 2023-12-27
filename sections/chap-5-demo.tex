@@ -186,7 +186,7 @@ resource "kubernetes_service" "catalog-ms-service" {
   }
 }
 \end{lstlisting}
-\section{Hiện thực Ingress}
+\subsection{Hiện thực Ingress}
 \noindent Ingress hiện tại đóng vai trò là reverse proxy, expose các Kubernetes service ra bên ngoài cluster.
 \begin{lstlisting}[language=yaml]
 apiVersion: networking.k8s.io/v1
@@ -218,7 +218,7 @@ spec:
 ---
 
 \end{lstlisting}
-\section{Hiện thực Horizontal Pod Autoscaler}
+\subsection{Hiện thực Horizontal Pod Autoscaler}
 \noindent Horizontal Pod Autoscaler (HPA) được sử dụng để giúp deployment có thể scale lên và scale xuống số lượng pod tùy theo thông số nào đó của hệ thống. HPA được hiện thực như sau:
 \begin{lstlisting}[language=yaml]
 apiVersion: autoscaling/v2
