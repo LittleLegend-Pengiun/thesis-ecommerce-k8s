@@ -325,8 +325,18 @@ Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate bus
 \subsection{Đặt vấn đề}
 \noindent Việc scale theo CPU và memory không hiệu quả với rest api.
 \subsection{Cơ sở lý thuyết}
+\noindent Nói về việc prometheus dùng để thu thâp và cung cấp api server cho external metrics. Keda cung cấp ScaledObject, được build dựa trên HPA để phục vụ cho việc scale dựa trên các metric thu thập từ prometheus.\\
+\noindent Có thể để các tóm tắt bài viết vào đây.
+\subsection{Các công nghệ được sử dụng}
 \subsubsection{Prometheus}
 \subsubsection{Keda}
-\subsection{Các công nghệ được sử dụng}
+\subsubsection{k6}
 \subsection{Các bước thực hiện}
+\begin{itemize}
+  \item Cài prometheus
+  \item Cài Keda
+  \item Cài kube-state-metrics
+  \item Viết Keda ScaledObject.
+\end{itemize}
 \subsection{Kiểm thử}
+\noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
