@@ -338,12 +338,17 @@ Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate bus
 % TODO: Các phần này cần tự tìm thêm các nguồn khác để tìm hiểu
 \subsubsection{k6}
 % TODO: Các phần này cần tự tìm thêm các nguồn khác để tìm hiểu
+
 \subsection{Các bước thực hiện}
+\noindent Để có thể scale một service theo request, ta cần hiện thực các dịch vụ sau vào cluster:
 \begin{itemize}
-  \item Cài prometheus
-  \item Cài Keda
-  \item Cài kube-state-metrics
-  \item Viết Keda ScaledObject.
+  \item Prometheus server
+  \item Keda runtime.
 \end{itemize}
+Các bước thực hiện cụ thể sẽ được mô tả ở các tiểu mục bên dưới.
+\subsubsection{Hiện thực prometheus server}
+\noindent Để hiện thực Prometheus server, ta cần làm theo các bước sau:\footnote{https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/}\\[0.5cm]
+\textbf{Bước 1:} Tạo Namespace và ClusterRole.\\[0.5cm]
+Để làm rạch ròi 
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
