@@ -347,8 +347,13 @@ Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate bus
 \end{itemize}
 Các bước thực hiện cụ thể sẽ được mô tả ở các tiểu mục bên dưới.
 \subsubsection{Hiện thực prometheus server}
-\noindent Để hiện thực Prometheus server, ta cần làm theo các bước sau:\footnote{https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/}\\[0.5cm]
-\textbf{Bước 1:} Tạo Namespace và ClusterRole.\\[0.5cm]
-Để làm rạch ròi 
+\noindent Để hiện thực Prometheus server, ta cần làm theo các bước sau:\footnote{https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/}
+\begin{enumerate}[label=\textbf{Bước \arabic*:}, leftmargin=*]
+  \item Tạo Namespace và ClusterRole.\\[0.2cm]
+  Ta sẽ tạo một namespace riêng cho Prometheus server và các service đi theo nó, mục đích là để 
+  \item Tạo Config map để mở rộng cấu hình của Prometheus
+  \item Tạo một Prometheus Deployment
+  \item Kết nối tới Prometheus Dashboard
+\end{enumerate}
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
