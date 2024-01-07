@@ -355,5 +355,7 @@ Các bước thực hiện cụ thể sẽ được mô tả ở các tiểu m�
   \item Tạo một Prometheus Deployment
   \item Kết nối tới Prometheus Dashboard
 \end{enumerate}
+\subsubsection{Hiện thực Keda runtime}
+\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
