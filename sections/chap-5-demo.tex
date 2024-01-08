@@ -348,14 +348,16 @@ Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate bus
 Các bước thực hiện cụ thể sẽ được mô tả ở các tiểu mục bên dưới.
 \subsubsection{Hiện thực prometheus server}
 \noindent Để hiện thực Prometheus server, ta cần làm theo các bước sau:\footnote{https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/}
-\begin{enumerate}[label=\textbf{Bước \arabic*:}, leftmargin=*]
-  \item Tạo Namespace và ClusterRole.\\[0.2cm]
-  Ta sẽ tạo một namespace riêng cho Prometheus server và các service đi theo nó, mục đích là để 
-  \item Tạo Config map để mở rộng cấu hình của Prometheus
-  \item Tạo một Prometheus Deployment
-  \item Kết nối tới Prometheus Dashboard
-\end{enumerate}
+% \begin{enumerate}[label=\textbf{Bước \arabic*:}, leftmargin=*]
+\begin{itemize}
+  \item \textbf{Bước 1: Tạo Namespace và ClusterRole.}\\[0.2cm]
+  Ta sẽ tạo một namespace riêng cho Prometheus server và các service đi theo nó, mục đích là để tách biệt chúng ra khỏi các service phục vụ cho các yêu cầu khác của hệ thống.\\[0.2cm]
+  Ta tạo namespace \textbf{monitoring} bằng câu lệnh \lstinline|kubectl create namespace monitoring|
+  \item \textbf{Bước 2: Tạo Config map để mở rộng cấu hình của Prometheus}
+  \item \textbf{Bước 3: Tạo một Prometheus Deployment}
+  \item \textbf{Bước 4: Kết nối tới Prometheus Dashboard}
+\end{itemize}
 \subsubsection{Hiện thực Keda runtime}
-\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|
+\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
