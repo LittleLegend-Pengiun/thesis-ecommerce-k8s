@@ -352,8 +352,186 @@ Các bước thực hiện cụ thể sẽ được mô tả ở các tiểu m�
 \begin{itemize}
   \item \textbf{Bước 1: Tạo Namespace và ClusterRole.}\\[0.2cm]
   Ta sẽ tạo một namespace riêng cho Prometheus server và các service đi theo nó, mục đích là để tách biệt chúng ra khỏi các service phục vụ cho các yêu cầu khác của hệ thống.\\[0.2cm]
-  Ta tạo namespace \textbf{monitoring} bằng câu lệnh \lstinline|kubectl create namespace monitoring|
-  \item \textbf{Bước 2: Tạo Config map để mở rộng cấu hình của Prometheus}
+  Ta tạo namespace \textbf{monitoring} bằng câu lệnh \lstinline|kubectl create namespace monitoring|.\\[0.2cm]
+  Sau đó, ta áp dụng config Cluster Role dưới đây vào cluster:
+  \begin{lstlisting}[language=yaml]
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: prometheus
+rules:
+- apiGroups: [""]
+  resources:
+  - nodes
+  - nodes/proxy
+  - services
+  - endpoints
+  - pods
+  verbs: ["get", "list", "watch"]
+- apiGroups:
+  - extensions
+  resources:
+  - ingresses
+  verbs: ["get", "list", "watch"]
+- nonResourceURLs: ["/metrics"]
+  verbs: ["get"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: prometheus
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: prometheus
+subjects:
+- kind: ServiceAccount
+  name: default
+  namespace: monitoring
+
+  \end{lstlisting}
+  \item \textbf{Bước 2: Tạo Config map để mở rộng cấu hình của Prometheus}\\[0.2cm]
+  Prometheus, theo như ở phần trên, có thể đóng rất nhiều vai trò khác nhau trong một hệ thống. Do đó, việc cần điểu chỉnh cấu hình của nó là điều thường xuyên xảy ra. Thay vì cần phải build lại image của Prometheus mỗi khi cấu hình được điều chỉnh, thì nay ta có thể đem những cấu hình đó ra ngoài dưới dạng 1 file config map, từ đó tiết kiệm thời gian áp dụng thay đổi, thay vì phải build lại image, rồi push image lên hub, cuối cùng là kéo về cluster, thì ta chỉ cần khởi đọng lại prometheus pod là được.\\[0.2cm]
+  Cấu hình Config map của prometheus như sau:
+  \begin{lstlisting}[language=yaml]
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-server-conf
+  labels:
+    name: prometheus-server-conf
+  namespace: monitoring
+data:
+  prometheus.rules: |-
+    groups:
+    - name: devopscube demo alert
+      rules:
+      - alert: High Pod Memory
+        expr: sum(container_memory_usage_bytes) > 1
+        for: 1m
+        labels:
+          severity: slack
+        annotations:
+          summary: High Memory Usage
+  prometheus.yml: |-
+    global:
+      scrape_interval: 5s
+      evaluation_interval: 5s
+    rule_files:
+      - /etc/prometheus/prometheus.rules
+    alerting:
+      alertmanagers:
+      - scheme: http
+        static_configs:
+        - targets:
+          - "alertmanager.monitoring.svc:9093"
+    scrape_configs:
+      - job_name: 'node-exporter'
+        kubernetes_sd_configs:
+          - role: endpoints
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_endpoints_name]
+          regex: 'node-exporter'
+          action: keep
+      - job_name: 'kubernetes-apiservers'
+        kubernetes_sd_configs:
+        - role: endpoints
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_namespace, __meta_kubernetes_service_name, __meta_kubernetes_endpoint_port_name]
+          action: keep
+          regex: default;kubernetes;https
+      - job_name: 'kubernetes-nodes'
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+        - role: node
+        relabel_configs:
+        - action: labelmap
+          regex: __meta_kubernetes_node_label_(.+)
+        - target_label: __address__
+          replacement: kubernetes.default.svc:443
+        - source_labels: [__meta_kubernetes_node_name]
+          regex: (.+)
+          target_label: __metrics_path__
+          replacement: /api/v1/nodes/${1}/proxy/metrics
+      - job_name: 'kubernetes-pods'
+        kubernetes_sd_configs:
+        - role: pod
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_path]
+          action: replace
+          target_label: __metrics_path__
+          regex: (.+)
+        - source_labels: [__address__, __meta_kubernetes_pod_annotation_prometheus_io_port]
+          action: replace
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+          target_label: __address__
+        - action: labelmap
+          regex: __meta_kubernetes_pod_label_(.+)
+        - source_labels: [__meta_kubernetes_namespace]
+          action: replace
+          target_label: kubernetes_namespace
+        - source_labels: [__meta_kubernetes_pod_name]
+          action: replace
+          target_label: kubernetes_pod_name
+      - job_name: 'kube-state-metrics'
+        static_configs:
+          - targets: ['kube-state-metrics.kube-system.svc.cluster.local:8080']
+      - job_name: 'kubernetes-cadvisor'
+        scheme: https
+        tls_config:
+          ca_file: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+        bearer_token_file: /var/run/secrets/kubernetes.io/serviceaccount/token
+        kubernetes_sd_configs:
+        - role: node
+        relabel_configs:
+        - action: labelmap
+          regex: __meta_kubernetes_node_label_(.+)
+        - target_label: __address__
+          replacement: kubernetes.default.svc:443
+        - source_labels: [__meta_kubernetes_node_name]
+          regex: (.+)
+          target_label: __metrics_path__
+          replacement: /api/v1/nodes/${1}/proxy/metrics/cadvisor
+      - job_name: 'kubernetes-service-endpoints'
+        kubernetes_sd_configs:
+        - role: endpoints
+        relabel_configs:
+        - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scrape]
+          action: keep
+          regex: true
+        - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_scheme]
+          action: replace
+          target_label: __scheme__
+          regex: (https?)
+        - source_labels: [__meta_kubernetes_service_annotation_prometheus_io_path]
+          action: replace
+          target_label: __metrics_path__
+          regex: (.+)
+        - source_labels: [__address__, __meta_kubernetes_service_annotation_prometheus_io_port]
+          action: replace
+          target_label: __address__
+          regex: ([^:]+)(?::\d+)?;(\d+)
+          replacement: $1:$2
+        - action: labelmap
+          regex: __meta_kubernetes_service_label_(.+)
+        - source_labels: [__meta_kubernetes_namespace]
+          action: replace
+          target_label: kubernetes_namespace
+        - source_labels: [__meta_kubernetes_service_name]
+          action: replace
+          target_label: kubernetes_name
+  \end{lstlisting}
   \item \textbf{Bước 3: Tạo một Prometheus Deployment}
   \item \textbf{Bước 4: Kết nối tới Prometheus Dashboard}
 \end{itemize}
