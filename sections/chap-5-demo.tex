@@ -594,7 +594,15 @@ spec:
 
 \end{itemize}
 \subsubsection{Hiện thực Keda runtime}
-\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|
+\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|\\[0.2cm]
+Sau khi quá trình cài đặt hoàn tất, ta có thể kiểm tra các dịch vụ đã được cài vào trong cluster thông qua minikube dashboard, namespace \textbf{keda}.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.4]{images/hanh/keda-deployment.png}
+    \caption{Các deployment và pod phục vụ cho Keda runtime được khởi tạo}
+  \end{center}
+  \label{}
+\end{figure}
 
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
