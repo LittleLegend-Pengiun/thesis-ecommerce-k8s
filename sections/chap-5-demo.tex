@@ -573,11 +573,28 @@ spec:
   
         - name: prometheus-storage-volume
           emptyDir: {}
-
   \end{lstlisting}
-  \item \textbf{Bước 4: Kết nối tới Prometheus Dashboard}
+  Khởi tạo thành công, ta có thể nhìn thấy sự xuất hiện của Prometheus pod và deployment ở namespace \textbf{monitoring} như hình dưới.
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics[scale = 0.4]{images/hanh/prometheus-deployment.png}
+      \caption{Prometheus pod và deployment được thể hiện ở minikube cluster dashboard}
+    \end{center}
+    \label{}
+  \end{figure}
+  \item \textbf{Bước 4: Kết nối tới Prometheus Dashboard}\\[0.2cm]
+  Sau khi đã cài đặt đầy đủ Prometheus server và các dịch vụ đi kèm, ta có thể truy cập vào dashboard của Prometheus để xem các thông số. Ví dụ với minikube cluster, ta có thể dùng lệnh \lstinline|minikube service prometheus-service| để mở cổng truy cập, cho phép truy cập từ máy tính của chúng ta vào Prometheus server.
+  \begin{figure}[H]
+    \begin{center}
+      \includegraphics[scale=0.4]{images/hanh/prometheus-dashboard.png}
+      \caption{Prometheus dashboard khi vừa mới khởi tạo}
+    \end{center}
+    \label{}
+  \end{figure}
+
 \end{itemize}
 \subsubsection{Hiện thực Keda runtime}
 \noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|
+
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
