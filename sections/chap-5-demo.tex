@@ -604,5 +604,56 @@ Sau khi quá trình cài đặt hoàn tất, ta có thể kiểm tra các dịch
   \label{}
 \end{figure}
 
+\subsubsection{Hiện thực Keda ScaledObject}
+\noindent Khi Prometheus server đã sẵn sàng để tiếp nhận thông tin, Keda runtime sẵn sàng cung cấp thông tin đó tới các Keda object thông qua API \lstinline|keda.sh|, thì đó là lúc ta có thể tiến hành cài đặt Keda ScaledObject, nhằm phục vụ cho việc scale theo request của dịch vụ theo cấu hình dưới đây.
+
+\begin{lstlisting}[language=yaml]
+apiVersion: keda.sh/v1alpha1
+kind: ScaledObject
+metadata:
+  name: prometheus-scaledobject
+  namespace: default
+spec:
+  scaleTargetRef:
+    name: catalog-ms-1-deploy
+  pollingInterval: 10  # Optional. Default: 30 seconds
+  cooldownPeriod:  15 # Optional. Default: 300 seconds
+  minReplicaCount: 1   # Optional. Default: 0
+  maxReplicaCount: 10 # Optional. Default: 100
+  # fallback:           # Optional. Section to specify fallback options
+  #   failureThreshold: 3    # Mandatory if fallback section is included
+  #   replicas: 1
+  advanced: # Optional. Section to specify advanced options
+    horizontalPodAutoscalerConfig: # Optional. Section to specify HPA related options
+      behavior: # Optional. Use to modify HPA's scaling behavior
+        scaleUp:
+          selectPolicy: Max
+          stabilizationWindowSeconds: 60
+          policies:
+            - periodSeconds: 30
+              type: Pods
+              value: 4
+        scaleDown:
+          selectPolicy: Min
+          stabilizationWindowSeconds: 60
+          policies:
+            - periodSeconds: 30
+              type: Pods
+              value: 4
+  triggers:
+  - type: prometheus
+    metadata:
+      # Required
+      serverAddress: http://prometheus-service.monitoring.svc.cluster.local:8080/
+      metricName: access_frequency
+      threshold: '1'
+      query: sum(rate(node_http_requests_total[1m]))
+\end{lstlisting}
+
 \subsection{Kiểm thử}
 \noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
+
+Đầu tiên ta thử khi chưa có scale object, kết quả là.
+Sau đó, ta thử bài test với việc có scale object, kết quả là
+
+Kết luận, k cải thiện dc nhiều do thiếu load balancer.
