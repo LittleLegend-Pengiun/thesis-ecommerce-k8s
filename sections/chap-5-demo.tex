@@ -651,9 +651,47 @@ spec:
 \end{lstlisting}
 
 \subsection{Kiểm thử}
-\noindent Ta sử dụng k6 để chạy bài stress test để kiếm tra xem liệu có scale hay không.
+\subsubsection{Thiết lập}
+\noindent Ta sử dụng một tool chuyên dùng để tạo các request gọi tới hệ thống tên là k6, để chạy bài stress test trong các bài kiểm tra lần này. Tool này cho phép ta thiết lập bài kiểm tra bằng javascript thông qua việc \lstinline|export| các biến đã được thống nhất từ trước.\\[0.5cm]
+Cấu hình của bài kiểm tra có dạng như sau:
+\begin{lstlisting}[language=javascript]
+import { check, sleep } from "k6";
+import http from "k6/http";
+
+export let options = {
+  stages: [
+    { duration: "1m", target: 50 },
+    { duration: '1m', target: 500 },
+    { duration: '2m', target: 1000 },
+    { duration: '2m', target: 1200 },
+    { duration: "2m", target: 10 },
+  ],
+};
+
+export default function () {
+  let r = http.get(`http://127.0.0.1/catalog`);
+  check(r, {
+    "status is 200": (r) => r.status === 200,
+  });
+  sleep(3);
+}
+\end{lstlisting}
+Biến \lstinline|options| có tác dụng xác định bài kiểm tra diễn ra như thế nào. Bài kiếm tra sẽ gồm 5 chặng, mỗi chặng kéo dài lần lượt 1, 1, 2, 2, và 2 phút. Trong thời gian đó, mỗi giây k6 sẽ gửi tương ứng là 50, 500, 1000, 12000 và 10 request về dịch vụ đích, được xác định qua hàm mặc định ở bên dưới. Hàm khởi tạo mặc định này sẽ chứa các thông tin cần thiết về cách kiếm tra, như URL đích của dịch vụ, cũng như các đại lượng cần đo, ở đây là số request được phục vụ thành công, thông qua việc trả về response HTTP 200 OK.
+\subsubsection{Kiểm tra khả năng mở rộng của dịch vụ với ScaledObject}
+\noindent Trước khi sử dụng một công nghệ nào đó, ta cần xác định xem công nghệ đó có hoạt động như cách ta mong muốn hay không. Ở đây thì ta sẽ kiểm tra xem khi áp dụng ScaledObject thì microservice \textbf{Catalog} có tự scale lên và scale xuống như lý thuyết hay không.\\[0.5cm]
+Để theo dõi trạng thái của HPA trong một khoảng thời gian liên tục, ta sử dụng lệnh \lstinline|kubectl get hpa --watch|. Sau đó, ta tiến hành khởi động bài kiểm tra bằng lệnh \lstinline|k6 run api-stress-test.js|.\\[0.5cm]
+Sau khi bài kiếm tra kết thúc, ta thu thập được kết quả thông qua terminal như hình dưới.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.55]{images/hanh/test-with-hpa-pod-scaling.png}
+    \caption{Số lượng các pod thay đổi khi chạy bài kiểm tra với k6}
+  \end{center}
+  \label{}
+\end{figure}
+
 
 Đầu tiên ta thử khi chưa có scale object, kết quả là.
+\subsubsection{Kiểm tra tính hiệu quả của việc auto scaling thông qua số request}
 Sau đó, ta thử bài test với việc có scale object, kết quả là
 
 Kết luận, k cải thiện dc nhiều do thiếu load balancer.
