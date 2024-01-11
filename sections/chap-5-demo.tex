@@ -906,4 +906,13 @@ Sau đó, ta thử bài test với việc có scale object, ta thu được kế
   \label{}
 \end{figure}
 Bất ngờ thay, việc áp dụng HPA cũng không giúp ta cải thiện được chất lượng dịch vụ thêm chút nào. Theo như hình trên, ta vẫn chỉ phục vụ được 32\% số request Vậy nguyên nhân là do đâu?\\[0.5cm]
-Kết luận, k cải thiện dc nhiều do thiếu load balancer.
+Để tìm hiểu sâu thêm về vấn đề này, ta theo dõi hoạt động của các pod cho Catalog microservice khi bài kiểm tra đang diễn ra.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.44]{images/hanh/test-with-hpa-pod-resource-ultilization.png}
+    \caption{Trạng thái các pod khi diễn ra bài kiểm tra của k6}
+  \end{center}
+  \label{}
+\end{figure}
+Đi tìm hiểu sâu hơn về các chỉ số các pod của Catalog microservice, ta nhận thấy rằng chí có một vài pod (được đánh dấu đỏ trên hình), là được sử dụng gần hết công suất, thông qua việc chỉ số CPU ultilization gần tối đa. Đây là biểu hiện của việc lượng tải được phân bố không đều vào các pod, từ đó dẫn đến pod thì bị quá tải, pod thì chạy không. Nguyên nhân dẫn đến hành vi này là do môi trường giả lập Kubernetes cluster trên local không cung cấp được load balancer cho Kubernetes cluster, do đó việc chia tải từ Kubernetes service vào các bod diễn ra theo trình tự ngẫu nhiên, dẫn tới hiện tượng như miêu tả trên hình.\\[0.5cm]
+\textbf{Biện pháp đề xuất:} Hiện thực cluster trên một môi trường khác có thể cung cấp được load balancer cho Kubernetes service, ví dụ như môi trường cloud.
