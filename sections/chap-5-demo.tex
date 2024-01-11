@@ -268,7 +268,7 @@ Với addon ingress, ta có thể thiết lập và cấu hình ingress cho clus
 Sau đó, ta sẽ chạy cặp lệnh \lstinline|terraform init| để terraform tải và thiết lập sẵn các dependency cần thiết, và \lstinline|terraform apply --auto-approve| để khởi tạo các dịch vụ Kubernetes được viết bằng terraform.\\[0.5cm]
 Với các dịch vụ được viết bằng yaml, ta cần chạy lệnh \lstinline|kubectl apply -f <file_name>| với \lstinline|<file_name>| là tên file config được viết bằng yaml.
 \subsection{Kiểm tra tính sẵn sàng - availability}
-\noindent Để kiếm tra tính sẵn sàng của hệ thống, ta sẽ thử xóa pod đi xem chuyện gì sẽ xảy ra.\\[0.5cm]
+\noindent Để kiểm tra tính sẵn sàng của hệ thống, ta sẽ thử xóa pod đi xem chuyện gì sẽ xảy ra.\\[0.5cm]
 Đây là trạng thái ban đầu của các pod:
 \begin{figure}[H]
   \begin{center}
@@ -284,7 +284,7 @@ Còn đây là hình ảnh sau khi vừa xóa:
   \end{center}
 \end{figure}
 Như ta nhìn thấy trong hình 5.1 và 5.2, khi một pod vừa bị xóa, ngay lập tức một pod khác được khởi động ngay lập tức, thế chỗ cho pod vừa bị xóa. Như vậy, ta có thể kết luận rằng, khi triển khai hệ thống bằng Kubernetes, cụ thể là Deployment, tính sẵn sàng - availability của hệ thống được đảm bảo.
-\subsection{Kiếm tra tính mở rộng - scalability}
+\subsection{Kiểm tra tính mở rộng - scalability}
 \subsubsection{Manual scaling}
 \noindent Tính mở rộng là việc hệ thống có thể tạo ra thêm nhiều bản sao của microservice, chạy song song với nhau nhằm đáp ứng được lượng request trên giây tương ứng của người dùng. Với Kubernetes, ta có thể dễ dàng scale up hay scale down hệ thống bằng tay thông qua việc điều chỉnh miền \lstinline|replicas| trong file config của Deployment.\\[0.5cm]
 Ví dụ như hình 5.3 dưới đây, khi ta tăng số lượng pod của catalog-ms từ 1 lên 3
@@ -854,11 +854,11 @@ export default function () {
   sleep(3);
 }
 \end{lstlisting}
-Biến \lstinline|options| có tác dụng xác định bài kiểm tra diễn ra như thế nào. Bài kiếm tra sẽ gồm 5 chặng, mỗi chặng kéo dài lần lượt 1, 1, 2, 2, và 2 phút. Trong thời gian đó, mỗi giây k6 sẽ gửi tương ứng là 50, 500, 1000, 12000 và 10 request về dịch vụ đích, được xác định qua hàm mặc định ở bên dưới. Hàm khởi tạo mặc định này sẽ chứa các thông tin cần thiết về cách kiếm tra, như URL đích của dịch vụ, cũng như các đại lượng cần đo, ở đây là số request được phục vụ thành công, thông qua việc trả về response HTTP 200 OK.
+Biến \lstinline|options| có tác dụng xác định bài kiểm tra diễn ra như thế nào. Bài kiểm tra sẽ gồm 5 chặng, mỗi chặng kéo dài lần lượt 1, 1, 2, 2, và 2 phút. Trong thời gian đó, mỗi giây k6 sẽ gửi tương ứng là 50, 500, 1000, 12000 và 10 request về dịch vụ đích, được xác định qua hàm mặc định ở bên dưới. Hàm khởi tạo mặc định này sẽ chứa các thông tin cần thiết về cách kiểm tra, như URL đích của dịch vụ, cũng như các đại lượng cần đo, ở đây là số request được phục vụ thành công, thông qua việc trả về response HTTP 200 OK.
 \subsubsection{Kiểm tra khả năng mở rộng của dịch vụ với ScaledObject}
 \noindent Trước khi sử dụng một công nghệ nào đó, ta cần xác định xem công nghệ đó có hoạt động như cách ta mong muốn hay không. Ở đây thì ta sẽ kiểm tra xem khi áp dụng ScaledObject thì microservice \textbf{Catalog} có tự scale lên và scale xuống như lý thuyết hay không.\\[0.5cm]
 Để theo dõi trạng thái của HPA trong một khoảng thời gian liên tục, ta sử dụng lệnh \lstinline|kubectl get hpa --watch|. Sau đó, ta tiến hành khởi động bài kiểm tra bằng lệnh \lstinline|k6 run api-stress-test.js|.\\[0.5cm]
-Sau khi bài kiếm tra kết thúc, ta thu thập được kết quả thông qua terminal như hình dưới.
+Sau khi bài kiểm tra kết thúc, ta thu thập được kết quả thông qua terminal như hình dưới.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[scale=0.55]{images/hanh/test-with-hpa-pod-scaling.png}
@@ -866,7 +866,7 @@ Sau khi bài kiếm tra kết thúc, ta thu thập được kết quả thông q
   \end{center}
   \label{}
 \end{figure}
-Thông qua hình trên, ta dễ thấy được là ScaledObject đã làm tốt công việc của mình, khi có thể tự động scale lên số pod từ 1 lên 10 khi lượng request tăng, và khi lượng reqest giảm được một thời gian, thì đã scale xuống lại về 1.
+Thông qua hình trên, ta dễ thấy được là ScaledObject đã làm tốt công việc của mình, khi có thể tự động scale lên số pod từ 1 lên 10 khi lượng request tăng, và khi lượng request giảm được một thời gian, thì đã scale xuống lại về 1.
 
 \subsubsection{Kiểm tra tính hiệu quả của việc auto scaling thông qua số request}
 \noindent Sau khi đã chắc chắn rằng ScaledObject có thể giúp ta scale số pod của microservice dựa theo lượng request, thì ta cần kiếm chứng tính hiệu quả của các thiết lập mà ta đã đưa vào hệ thống.\\[0.5cm]
@@ -896,5 +896,5 @@ Trong trường hợp này, việc áp dụng HPA cũng không giúp ta có th�
   \end{center}
   \label{}
 \end{figure}
-Đi tìm hiểu sâu hơn về các chỉ số các pod của Catalog microservice, ta nhận thấy rằng chí có một vài pod (được đánh dấu đỏ trên hình), là được sử dụng gần hết công suất, thông qua việc chỉ số CPU ultilization gần tối đa. Đây là biểu hiện của việc lượng tải được phân bố không đều vào các pod, từ đó dẫn đến pod thì bị quá tải, pod thì chạy không. Nguyên nhân dẫn đến hành vi này là do môi trường giả lập Kubernetes cluster trên local không cung cấp được load balancer cho Kubernetes cluster, do đó việc chia tải từ Kubernetes service vào các bod diễn ra theo trình tự ngẫu nhiên, dẫn tới hiện tượng như miêu tả trên hình.\\[0.5cm]
+Đi tìm hiểu sâu hơn về các chỉ số các pod của Catalog microservice, ta nhận thấy rằng chỉ có một vài pod (được đánh dấu đỏ trên hình), là được sử dụng gần hết công suất, thông qua việc chỉ số CPU ultilization gần tối đa. Đây là biểu hiện của việc lượng tải được phân bố không đều vào các pod, từ đó dẫn đến pod thì bị quá tải, pod thì chạy với rất ít tải. Nguyên nhân dẫn đến hành vi này là do môi trường giả lập Kubernetes cluster trên local không cung cấp được load balancer cho Kubernetes cluster, do đó việc chia tải từ Kubernetes service vào các pod diễn ra theo trình tự ngẫu nhiên, dẫn tới hiện tượng như miêu tả trên hình.\\[0.5cm]
 \textbf{Biện pháp đề xuất:} Hiện thực cluster trên một môi trường khác có thể cung cấp được load balancer cho Kubernetes service, ví dụ như môi trường cloud.
