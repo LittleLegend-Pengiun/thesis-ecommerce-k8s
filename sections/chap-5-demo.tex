@@ -688,10 +688,26 @@ Sau khi bài kiếm tra kết thúc, ta thu thập được kết quả thông q
   \end{center}
   \label{}
 \end{figure}
+Thông qua hình trên, ta dễ thấy được là ScaledObject đã làm tốt công việc của mình, khi có thể tự động scale lên số pod từ 1 lên 10 khi lượng request tăng, và khi lượng reqest giảm được một thời gian, thì đã scale xuống lại về 1.
 
-
-Đầu tiên ta thử khi chưa có scale object, kết quả là.
 \subsubsection{Kiểm tra tính hiệu quả của việc auto scaling thông qua số request}
-Sau đó, ta thử bài test với việc có scale object, kết quả là
-
+\noindent Sau khi đã chắc chắn rằng ScaledObject có thể giúp ta scale số pod của microservice dựa theo lượng request, thì ta cần kiếm chứng tính hiệu quả của các thiết lập mà ta đã đưa vào hệ thống.\\[0.5cm]
+Đầu tiên, ta tiến hành chạy bài kiểm tra khi dịch vụ chưa được cung cấp HPA, và kiểm tra xem dịch vụ có thể phục vụ đươc bao nhiêu trong tổng số request đã đươc gửi tới hệ thống. Ta được kết quả như hình dưới.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.44]{images/hanh/test-without-hpa.png}
+    \caption{Kết quả sau khi chạy bài kiểm tra với k6 khi dịch vụ chưa được áp dụng HPA}
+  \end{center}
+  \label{}
+\end{figure}
+Theo như hình trên, pod chỉ có thể phục vụ được 32\% số lượng request được gửi tới từ k6, một con số khá khiêm tốn. TUy nhiên, xét việc khi cấu hình thì bản thân pod chứa Catalog microservice đã bị giới hạn tài nguyên khá nhiều, do đó điều này cũng là dễ hiểu.\\[0.5cm]
+Sau đó, ta thử bài test với việc có scale object, ta thu được kết quả như hình.
+\begin{figure}[H]
+  \begin{center}
+    \includegraphics[scale=0.44]{images/hanh/test-with-hpa.png}
+    \caption{Kết quả sau khi chạy bài kiểm tra với k6 khi dịch vụ chưa được áp dụng HPA}
+  \end{center}
+  \label{}
+\end{figure}
+Bất ngờ thay, việc áp dụng HPA cũng không giúp ta cải thiện được chất lượng dịch vụ thêm chút nào. Theo như hình trên, ta vẫn chỉ phục vụ được 32\% số request Vậy nguyên nhân là do đâu?\\[0.5cm]
 Kết luận, k cải thiện dc nhiều do thiếu load balancer.
