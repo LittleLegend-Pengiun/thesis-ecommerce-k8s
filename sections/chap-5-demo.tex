@@ -330,10 +330,10 @@ Sau khi đã scale số pod lên đến mức tối đa là 10, ta terminate bus
 \noindent Việc scale theo CPU và memory không hiệu quả với rest api.\\
 \noindent Mặc dù các số liệu mặc định do Kubernetes cung cấp, chẳng hạn như mức sử dụng CPU và bộ nhớ dựa trên yêu cầu tài nguyên, rất hữu ích trong nhiều tình huống nhưng chúng có thể không đủ cho tất cả các ứng dụng. Mở rộng quy mô dựa trên giới hạn tài nguyên đảm bảo rằng ứng dụng của chúng ta có thể xử lý các khối lượng công việc khác nhau mà không đạt đến mức tài nguyên tối đa được phép. Số liệu tùy chỉnh cho phép chúng ta điều chỉnh hành vi mở rộng quy mô của HPA dựa trên nhu cầu cụ thể của ứng dụng, cho phép tự động điều chỉnh quy mô chính xác và hiệu quả hơn.
 \subsection{Cơ sở lý thuyết}
-\footnote{https://learnk8s.io/autoscaling-apps-kubernetes}
+\textit{Nội dung tiểu mục được tham khảo từ chung một nguồn}\footnote{https://learnk8s.io/autoscaling-apps-kubernetes}\\[0.5cm]
 % \noindent Nói về việc prometheus dùng để thu thập và cung cấp api server cho external metrics. KEDA cung cấp ScaledObject, được build dựa trên HPA để phục vụ cho việc scale dựa trên các metric thu thập từ prometheus.\\
 % \noindent Có thể để các tóm tắt bài viết vào đây.
-Khi xác định tài nguyên cho Horizontal Pod Autoscaler, chúng ta cần phải xác định một metric.
+Khi xác định tài nguyên cho Horizontal Pod Autoscaler, chúng ta cần phải xác định metric mà ta cần theo dõi.
 
 % Nhưng làm cách nào Bộ chia tỷ lệ tự động của Horizontal Pod biết cách lấy được các số liệu này?
 
@@ -363,13 +363,11 @@ Interface của Metrics Registry bao gồm 03 API riêng biệt:
 Các API này được thiết kế để phục vụ các loại metrics khác nhau:
 \begin{itemize}
     \item Resource Metrics API: số liệu sử dụng tài nguyên được xác định trước (CPU và bộ nhớ) của Pod và Node.
-    \item Custom Metrics API: số liệu tùy chỉnh được liên kết với đối tượng Kubernetes.
-    \item External Metrics API: số liệu tùy chỉnh không được liên kết với đối tượng Kubernetes.
+    \item Custom Metrics API: số liệu tùy chỉnh được liên kết với đối tượng nằm bên trong Kubernetes cluster.
+    \item External Metrics API: số liệu tùy chỉnh được liên kết với đối tượng nằm bên ngoài Kubernetes cluster.
 \end{itemize}
-Vì vậy, để autoscale cho một ứng dụng, nhiệm vụ của chúng ta không chỉ là xác định cấu hình Horizontal Pod Autoscaler mà cũng phải hiển thị metrics mong muốn của mình thông qua Metric Registry.
-
-Đối với mỗi Metric API, chúng ta cần có Metric API Server tương ứng và chúng ta cần định cấu hình cho nó để hiển thị một metric cụ thể thông qua Metric API.
-
+Vì vậy, để autoscale cho một ứng dụng, nhiệm vụ của chúng ta không chỉ là xác định cấu hình Horizontal Pod Autoscaler mà cũng phải hiển thị metrics mong muốn của mình thông qua Metric Registry.\\[0.5cm]
+Đối với mỗi Metric API, chúng ta cần có Metric API Server tương ứng và chúng ta cần định cấu hình cho nó để hiển thị một metric cụ thể thông qua Metric API.\\[0.5cm]
 Hơn nữa, chúng ta cần một Metrics Collector để thu thập các metrics mong muốn từ các nguồn (ví dụ: từ Pod của ứng dụng) và cung cấp chúng cho Metric API Server.
 \begin{figure}[H]
   \begin{center}
@@ -386,13 +384,10 @@ $\ast$ \textbf{KEDA} sẽ hoạt động với vai trò như một Metric API Se
 \subsection{Các công nghệ được sử dụng}
 \subsubsection{Prometheus}
 % TODO: Các phần này cần tự tìm thêm các nguồn khác để tìm hiểu
-\textbf{1. Định nghĩa \footnote{https://www.tigera.io/learn/guides/prometheus-monitoring/prometheus-kubernetes}}
-
-Prometheus là một dịch vụ theo dõi và cảnh báo về hệ thống. Prometheus rất thích hợp với những hệ thống Microservices và có các dịch vụ Listening. Một hệ thống theo dõi chủ động như Prometheus sẽ giúp người quản trị phát hiện sớm những dấu hiệu cảnh báo xấu.
-
-Đối với những công việc liên quan đến Queue Job, mối nguy cơ luồng xử lý bị loop hoặc stop rất lớn. Lý do có thể đến từ tài nguyên phần cứng hoặc phần mềm được cài đặt không chính xác. Khi đó việc xem log của dịch vụ đó rất khó hoặc phụ thuộc vào may mắn. Với Prometheus các thông tin luôn được cập nhật và khi xảy ra lỗi, chúng ta vẫn có thể xem lại dữ liệu theo dõi một cách dễ dàng qua API của Prometheus.
-
-\textbf{2. Kiến trúc Prometheus \footnote{https://www.devopsschool.com/blog/what-is-prometheus-and-how-it-works}}
+\textbf{a. Định nghĩa \footnote{https://www.tigera.io/learn/guides/prometheus-monitoring/prometheus-kubernetes}}\\[0.5cm]
+Prometheus là một dịch vụ theo dõi và cảnh báo về hệ thống. Prometheus rất thích hợp với những hệ thống Microservices và có các dịch vụ Listening. Một hệ thống theo dõi chủ động như Prometheus sẽ giúp người quản trị phát hiện sớm những dấu hiệu cảnh báo xấu.\\[0.5cm]
+Đối với những công việc liên quan đến Queue Job, mối nguy cơ luồng xử lý bị loop hoặc stop rất lớn. Lý do có thể đến từ tài nguyên phần cứng hoặc phần mềm được cài đặt không chính xác. Khi đó việc xem log của dịch vụ đó rất khó hoặc phụ thuộc vào may mắn. Với Prometheus các thông tin luôn được cập nhật và khi xảy ra lỗi, chúng ta vẫn có thể xem lại dữ liệu theo dõi một cách dễ dàng qua API của Prometheus.\\[0.5cm]
+\textbf{b. Kiến trúc Prometheus \footnote{https://www.devopsschool.com/blog/what-is-prometheus-and-how-it-works}}
 
 \begin{figure}[H]
   \begin{center}
@@ -400,8 +395,7 @@ Prometheus là một dịch vụ theo dõi và cảnh báo về hệ thống. Pr
     \caption{Kiến trúc Prometheus}
   \end{center}
 \end{figure}
-\textbf{Các thành phần của hệ thống}
-
+\textbf{Các thành phần của hệ thống}\\[0.5cm]
 \indent Có thể chia kiến trúc Prometheus thành 03 thành phần chính sau: 
 \begin{enumerate}
     \item Prometheus Server
@@ -418,9 +412,8 @@ Prometheus là một dịch vụ theo dõi và cảnh báo về hệ thống. Pr
     \item \textbf{AlertManager}: dịch vụ quản lý, xử lý các cảnh báo (alert).
     \item \textbf{TSDB \textit{(cơ sở dữ liệu chuỗi thời gian)}}: Prometheus sử dụng TSDB để lưu trữ tất cả dữ liệu một cách hiệu quả. Theo mặc định, tất cả dữ liệu được lưu trữ cục bộ. Tuy nhiên, để tránh single point of failure, có các tùy chọn tích hợp bộ lưu trữ từ xa cho Prometheus TSDB.
 \end{itemize}
-\textbf{3. Prometheus WorkFlow \footnote{https://prometheus.io/docs/introduction/overview/\#architecture}}
-
-\begin{enumerate}
+\textbf{c. Prometheus WorkFlow \footnote{https://prometheus.io/docs/introduction/overview/\#architecture}}
+\begin{itemize}
     \item \textbf{Thu Thập Metric}
     \begin{itemize}
         \item Prometheus chủ động liên tục lấy dữ liệu từ các mục tiêu bằng cách gửi các yêu cầu HTTP đến các điểm cuối của chúng (thường là /metrics).
@@ -444,16 +437,13 @@ Prometheus là một dịch vụ theo dõi và cảnh báo về hệ thống. Pr
     \begin{itemize}
         \item Grafana (một plugin của Prometheus) thường được sử dụng như một công cụ trực quan để tạo bảng điều khiển cho các metrics của Prometheus. Grafana hỗ trợ Prometheus như một nguồn trực quan hóa dữ liệu bằng biểu đồ và bảng biểu.
     \end{itemize}
-\end{enumerate}
+\end{itemize}
 \subsubsection{KEDA}
 % TODO: Các phần này cần tự tìm thêm các nguồn khác để tìm hiểu
-\textbf{1. Định nghĩa \footnote{https://KEDA.sh/docs/2.12/concepts/}}
-
-KEDA \textit{(Kubernetes-Based Event-Driven Autoscaler)} là một Kubernetes-based Event Driven Autoscaler. Với KEDA, chúng ta có thể điều chỉnh quy mô của bất kỳ container nào trong Kubernetes dựa trên số lượng sự kiện (event) cần được xử lý.
-
-KEDA là một thành phần nhẹ và đơn mục tiêu có thể được thêm vào bất kỳ Kubernetes cluster nào. KEDA hoạt động cùng với các thành phần Kubernetes tiêu chuẩn như Horizontal Pod Autoscaler và có thể mở rộng chức năng mà không cần ghi đè hoặc sao chép. Với KEDA, bạn có thể ánh xạ rõ ràng các ứng dụng bạn muốn sử dụng quy mô theo sự kiện, trong khi các ứng dụng khác vẫn tiếp tục hoạt động. Điều này làm cho KEDA trở thành một lựa chọn linh hoạt và an toàn để chạy cùng với bất kỳ ứng dụng hoặc Kubernetes framework nào khác.
-
-\textbf{2. Kiến trúc \footnote{https://devtron.ai/blog/introduction-to-kubernetes-event-driven-autoscaling-KEDA/}}
+\textbf{a. Định nghĩa \footnote{https://KEDA.sh/docs/2.12/concepts/}}\\[0.5cm]
+KEDA \textit{(Kubernetes-Based Event-Driven Autoscaler)} là một Kubernetes-based Event Driven Autoscaler. Với KEDA, chúng ta có thể điều chỉnh quy mô của bất kỳ container nào trong Kubernetes dựa trên số lượng sự kiện (event) cần được xử lý.\\[0.5cm]
+KEDA là một thành phần nhẹ và đơn mục đích có thể được thêm vào bất kỳ Kubernetes cluster nào. KEDA hoạt động cùng với các thành phần Kubernetes tiêu chuẩn như Horizontal Pod Autoscaler và có thể mở rộng chức năng mà không cần ghi đè hoặc sao chép. Với KEDA, bạn có thể ánh xạ rõ ràng các ứng dụng bạn muốn sử dụng quy mô theo sự kiện, trong khi các ứng dụng khác vẫn tiếp tục hoạt động. Điều này làm cho KEDA trở thành một lựa chọn linh hoạt và an toàn để chạy cùng với bất kỳ ứng dụng hoặc Kubernetes framework nào khác.\\[0.5cm]
+\textbf{b. Kiến trúc \footnote{https://devtron.ai/blog/introduction-to-kubernetes-event-driven-autoscaling-KEDA/}}
  
 \begin{figure}[H]
   \begin{center}
@@ -473,19 +463,17 @@ KEDA là một thành phần nhẹ và đơn mục tiêu có thể được thê
     \item \textbf{Controller}\\
     Controller hoạt động dựa trên các số liệu do bộ điều hợp cung cấp và mang lại trạng thái triển khai mong muốn được chỉ định trong ScaledObject.
 \end{itemize}
-\textbf{Cách thức hoạt động}
-
-KEDA hoạt động bằng cách tương tác với Kubernetes API và sử dụng các adaptors để kết nối và theo dõi các nguồn sự kiện bên ngoài hệ thống Kubernetes. Dưới đây là một mô tả tổng quan về cách KEDA hoạt động:
-
-\begin{enumerate}
+\textbf{c. Cách thức hoạt động}\\[0.5cm]
+KEDA hoạt động bằng cách tương tác với Kubernetes API và sử dụng các adapters để kết nối và theo dõi các nguồn sự kiện bên ngoài hệ thống Kubernetes. Dưới đây là một mô tả tổng quan về cách KEDA hoạt động:
+\begin{itemize}
     \item \textbf{Triển Khai KEDA}
     \begin{itemize}
         \item KEDA được triển khai trên cụm Kubernetes như một Operator hoặc thông qua các tài nguyên Kubernetes tiêu chuẩn.
     \end{itemize}
-    \item \textbf{Sự Kiện và Adaptor}
+    \item \textbf{Sự Kiện và adapter}
     \begin{itemize}
-        \item KEDA sử dụng các adaptors để theo dõi các nguồn sự kiện bên ngoài hệ thống Kubernetes. Các adaptors này có thể là các thành phần được tích hợp sẵn để xử lý các loại sự kiện cụ thể.
-        \item Ví dụ: Nếu bạn muốn mở rộng dựa trên kích thước hàng đợi RabbitMQ, bạn có thể sử dụng adaptor RabbitMQ của KEDA.
+        \item KEDA sử dụng các adapters để theo dõi các nguồn sự kiện bên ngoài hệ thống Kubernetes. Các adapters này có thể là các thành phần được tích hợp sẵn để xử lý các loại sự kiện cụ thể.
+        \item Ví dụ: Nếu bạn muốn mở rộng dựa trên kích thước hàng đợi RabbitMQ, bạn có thể sử dụng adapter RabbitMQ của KEDA.
     \end{itemize}
     \item \textbf{Tích Hợp với Pod Scaler}
     \begin{itemize}
@@ -504,23 +492,17 @@ KEDA hoạt động bằng cách tương tác với Kubernetes API và sử dụ
     \begin{itemize}
         \item KEDA cung cấp một môi trường linh hoạt cho việc xử lý sự kiện và quản lý tài nguyên. Nó có thể mở rộng dựa trên nhiều loại sự kiện và chia sẻ nguồn lực giữa nhiều ứng dụng.
     \end{itemize}
-\end{enumerate}
+\end{itemize}
 Tóm lại, KEDA hoạt động như một thành phần giám sát và quản lý tài nguyên mạnh mẽ trong môi trường Kubernetes. Nó tương tác với các nguồn sự kiện bên ngoài và tự động điều chỉnh số lượng pods của ứng dụng để đảm bảo rằng tài nguyên được triển khai hiệu quả và hiệu suất tốt nhất.
 \subsubsection{K6}
 % TODO: Các phần này cần tự tìm thêm các nguồn khác để tìm hiểu
-\textbf{1. Bài toán đặt ra \footnote{https://techmaster.vn/posts/36882/performance-testing-voi-k6}}
-
-Giả sử chúng ta code 1 API mà khi dùng postman tạo request thì thấy cũng có response. Tuy nhiên, sau khi đưa vào sử dụng thì ngày nào cũng thấy bị log lỗi do request gửi vào liên tục, dẫn đến tình trạng tải cao, thành ra tính năng thì có, nhưng gần như không dùng được, vì vậy để giúp xác định tắc nghẽn trong một hệ thống, thiết lập một đường cơ sở để kiểm thử trong tương lai, hỗ trợ điều chỉnh hiệu suất hiệu quả, xác định sự phù hợp mục tiêu và yêu cầu hiệu suất, và thu thập dữ liệu hoạt động liên quan khác để giúp các bên liên quan đưa ra quyết định liên quan đến chất lượng chung của các ứng dụng đang được kiểm thử thì việc dùng performance testing là một lựa chọn tối ưu.
-
-Performance Testing là một loại kiểm thử nhằm xác định mức độ đáp ứng, băng thông, độ tin cậy và/hoặc khả năng mở rộng của hệ thống dưới một khối lượng làm việc/truy cập nhất định.
-
-Hiện tại có rất nhiều công cụ hỗ trợ kiểm thử hiệu năng như Jmeter, Grinder, LoadComplete, K6, v.v.
-
-\textbf{2. Định nghĩa \footnote{https://anhdevhamhoc.com/view/16-k6-inovative-and-effective-performace-testing-tool}}
-
-K6 là một công cụ mã nguồn mở được đặc biệt thiết kế để thực hiện kiểm tra hiệu suất và khả năng chịu tải các ứng dụng web và API. Do Load Impact phát triển, K6 nhằm mục tiêu đơn giản hóa quá trình kiểm tra hiệu năng và cung cấp kết quả đáng tin cậy, giúp các nhà phát triển và quản trị hệ thống đưa ra các quyết định thông minh về hiệu suất của ứng dụng.
-
-\textbf{3. Ưu điểm của K6}
+\textbf{a. Bài toán đặt ra \footnote{https://techmaster.vn/posts/36882/performance-testing-voi-k6}}\\[0.5cm]
+Giả sử chúng ta code 1 API mà khi dùng postman tạo request thì thấy cũng có response. Tuy nhiên, sau khi đưa vào sử dụng thì ngày nào cũng thấy bị log lỗi do request gửi vào liên tục, dẫn đến tình trạng cao tải, thành ra tính năng thì có, nhưng gần như không dùng được, vì vậy để giúp xác định tắc nghẽn trong một hệ thống, thiết lập một đường cơ sở để kiểm thử trong tương lai, hỗ trợ điều chỉnh hiệu suất hiệu quả, xác định sự phù hợp mục tiêu và yêu cầu hiệu suất, và thu thập dữ liệu hoạt động liên quan khác để giúp các bên liên quan đưa ra quyết định liên quan đến chất lượng chung của các ứng dụng đang được kiểm thử thì việc dùng performance testing là một lựa chọn tối ưu.\\[0.5cm]
+Performance Testing là một loại kiểm thử nhằm xác định mức độ đáp ứng, băng thông, độ tin cậy và/hoặc khả năng mở rộng của hệ thống dưới một khối lượng làm việc/truy cập nhất định.\\[0.5cm]
+Hiện tại có rất nhiều công cụ hỗ trợ kiểm thử hiệu năng như Jmeter, Grinder, LoadComplete, K6, v.v.\\[0.5cm]
+\textbf{b. Định nghĩa \footnote{https://anhdevhamhoc.com/view/16-k6-inovative-and-effective-performace-testing-tool}}\\[0.5cm]
+K6 là một công cụ mã nguồn mở được đặc biệt thiết kế để thực hiện kiểm tra hiệu suất và khả năng chịu tải các ứng dụng web và API. Do Load Impact phát triển, K6 nhằm mục tiêu đơn giản hóa quá trình kiểm tra hiệu năng và cung cấp kết quả đáng tin cậy, giúp các nhà phát triển và quản trị hệ thống đưa ra các quyết định thông minh về hiệu suất của ứng dụng.\\[0.5cm]
+\textbf{c. Ưu điểm của K6}
 \begin{itemize}
     \item \textbf{Sử dụng JavaScript làm ngôn ngữ lập trình}\\
     K6 được xây dựng bằng JavaScript, một ngôn ngữ lập trình phổ biến và dễ tiếp cận. Điều này giảm thiểu thời gian học và cho phép các nhà phát triển sử dụng kiến thức JavaScript hiện có để tạo ra các kịch bản kiểm tra hiệu suất một cách hiệu quả.
@@ -536,7 +518,7 @@ K6 là một công cụ mã nguồn mở được đặc biệt thiết kế đ�
      K6 được thiết kế để xử lý số lượng lớn yêu cầu đồng thời và đáp ứng trong thời gian thực. Điều này giúp các chuyên gia hiệu suất thực hiện kiểm tra trong các điều kiện khắc nghiệt mà vẫn duy trì độ chính xác cao.
 \end{itemize}
 \subsection{Các bước thực hiện}
-\noindent Để có thể scale một service theo request, ta cần hiện thực các dịch vụ sau vào cluster:
+\noindent Sau khi đã tìm hiểu các thành phần công nghê sẽ được sử dụng, ta sẽ cài đặt chúng vào Kubernetes cluster. Để có thể scale một service theo request, ta cần hiện thực các dịch vụ sau vào cluster:
 \begin{itemize}
   \item Prometheus server
   \item Keda runtime.
@@ -587,7 +569,7 @@ subjects:
 
   \end{lstlisting}
   \item \textbf{Bước 2: Tạo Config map để mở rộng cấu hình của Prometheus}\\[0.2cm]
-  Prometheus, theo như ở phần trên, có thể đóng rất nhiều vai trò khác nhau trong một hệ thống. Do đó, việc cần điểu chỉnh cấu hình của nó là điều thường xuyên xảy ra. Thay vì cần phải build lại image của Prometheus mỗi khi cấu hình được điều chỉnh, thì nay ta có thể đem những cấu hình đó ra ngoài dưới dạng 1 file config map, từ đó tiết kiệm thời gian áp dụng thay đổi, thay vì phải build lại image, rồi push image lên hub, cuối cùng là kéo về cluster, thì ta chỉ cần khởi đọng lại prometheus pod là được.\\[0.2cm]
+  Prometheus, theo như ở phần trên, có thể đóng rất nhiều vai trò khác nhau trong một hệ thống. Do đó, việc cần điểu chỉnh cấu hình của nó là điều thường xuyên xảy ra. Thay vì cần phải build lại image của Prometheus mỗi khi cấu hình được điều chỉnh, thì nay ta có thể đem những cấu hình đó ra ngoài dưới dạng 1 file config map, từ đó tiết kiệm thời gian áp dụng thay đổi, thay vì phải build lại image, rồi push image lên hub, cuối cùng là kéo về cluster, thì ta chỉ cần khởi động lại prometheus pod là được.\\[0.2cm]
   Cấu hình Config map của prometheus như sau:
   \begin{lstlisting}[language=yaml]
 apiVersion: v1
@@ -790,7 +772,7 @@ spec:
 
 \end{itemize}
 \subsubsection{Hiện thực Keda runtime}
-\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. May mắn thay, đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|\\[0.2cm]
+\noindent Các ScaledObject của Keda không phải tự nhiên mà có thể vân hành tốt với Kubernetes cluster, mà cần có sư hỗ trợ của keda runtime để có thể vận hành các chức năng cần thiết. Đội ngũ phát triển của Keda đã cung cấp và gói gọn cho chúng ta toàn bộ các cấu hình cần thiết vào trong 1 file cấu hình yaml dài hơn 9700 dòng, mà từ đó ta có thể dễ dàng cài đặt thông qua câu lệnh sau: \lstinline|kubectl apply --server-side -f https://|\lstinline|github.com/kedacore/keda/releases/download/v2.12.1/keda-2.12.1-core.yaml|\\[0.2cm]
 Sau khi quá trình cài đặt hoàn tất, ta có thể kiểm tra các dịch vụ đã được cài vào trong cluster thông qua minikube dashboard, namespace \textbf{keda}.
 \begin{figure}[H]
   \begin{center}
@@ -888,7 +870,7 @@ Thông qua hình trên, ta dễ thấy được là ScaledObject đã làm tốt
 
 \subsubsection{Kiểm tra tính hiệu quả của việc auto scaling thông qua số request}
 \noindent Sau khi đã chắc chắn rằng ScaledObject có thể giúp ta scale số pod của microservice dựa theo lượng request, thì ta cần kiếm chứng tính hiệu quả của các thiết lập mà ta đã đưa vào hệ thống.\\[0.5cm]
-Đầu tiên, ta tiến hành chạy bài kiểm tra khi dịch vụ chưa được cung cấp HPA, và kiểm tra xem dịch vụ có thể phục vụ đươc bao nhiêu trong tổng số request đã đươc gửi tới hệ thống. Ta được kết quả như hình dưới.
+Đầu tiên, ta tiến hành chạy bài kiểm tra khi dịch vụ chưa được cung cấp HPA, và kiểm tra xem dịch vụ có thể phục vụ được bao nhiêu trong tổng số request đã được gửi tới hệ thống. Ta được kết quả như hình dưới.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[scale=0.44]{images/hanh/test-without-hpa.png}
@@ -896,16 +878,16 @@ Thông qua hình trên, ta dễ thấy được là ScaledObject đã làm tốt
   \end{center}
   \label{}
 \end{figure}
-Theo như hình trên, pod chỉ có thể phục vụ được 32\% số lượng request được gửi tới từ k6, một con số khá khiêm tốn. TUy nhiên, xét việc khi cấu hình thì bản thân pod chứa Catalog microservice đã bị giới hạn tài nguyên khá nhiều, do đó điều này cũng là dễ hiểu.\\[0.5cm]
-Sau đó, ta thử bài test với việc có scale object, ta thu được kết quả như hình.
+Theo như hình trên, pod chỉ có thể phục vụ được 32\% số lượng request được gửi tới từ k6, một con số khá khiêm tốn. Tuy nhiên, xét việc khi cấu hình thì bản thân pod chứa Catalog microservice đã bị giới hạn tài nguyên khá nhiều, do đó điều này cũng là dễ hiểu.\\[0.5cm]
+Sau đó, ta thử bài test với việc có ScaledObject, ta thu được kết quả như hình.
 \begin{figure}[H]
   \begin{center}
     \includegraphics[scale=0.44]{images/hanh/test-with-hpa.png}
-    \caption{Kết quả sau khi chạy bài kiểm tra với k6 khi dịch vụ chưa được áp dụng HPA}
+    \caption{Kết quả sau khi chạy bài kiểm tra với k6 khi dịch vụ đã được áp dụng HPA - ScaledObject}
   \end{center}
   \label{}
 \end{figure}
-Bất ngờ thay, việc áp dụng HPA cũng không giúp ta cải thiện được chất lượng dịch vụ thêm chút nào. Theo như hình trên, ta vẫn chỉ phục vụ được 32\% số request Vậy nguyên nhân là do đâu?\\[0.5cm]
+Trong trường hợp này, việc áp dụng HPA cũng không giúp ta có thể phục vụ đươc nhiều request hơn. Theo như hình trên, ta vẫn chỉ phục vụ được 32\% số request. Vậy nguyên nhân là do đâu?\\[0.5cm]
 Để tìm hiểu sâu thêm về vấn đề này, ta theo dõi hoạt động của các pod cho Catalog microservice khi bài kiểm tra đang diễn ra.
 \begin{figure}[H]
   \begin{center}
