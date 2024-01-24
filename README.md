@@ -1,4 +1,4 @@
-# HK231-thesis
+# Thesis-ecommerce-k8s
 
 This project is used to render Latex thesis
 
