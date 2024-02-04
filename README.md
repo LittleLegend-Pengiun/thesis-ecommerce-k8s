@@ -1,4 +1,4 @@
-# Thesis-ecommerce-k8s
+# Thesis of ecommerce and kubernetes
 
 This project is used to render Latex thesis
 
